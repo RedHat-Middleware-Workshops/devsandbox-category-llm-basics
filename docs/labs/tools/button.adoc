@@ -1,0 +1,3 @@
+// :btn: pass:attributes[<code><mark style="background-color: dodgerblue; color: white">&nbsp;{btn-text}&nbsp;</mark>]
+
+my paragraph

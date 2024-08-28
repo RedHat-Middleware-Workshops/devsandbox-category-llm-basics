@@ -1,0 +1,160 @@
+- from:
+    uri: "platform-http:/camel/chat"
+    steps:
+      - log: "got ${body}"
+      - to:
+          uri: direct:runllm
+
+- route:
+    from:
+      uri: direct:runllm
+      steps:
+        - process:
+            ref: prepareAIrequest
+        - doTry:
+            steps:
+              - to:
+                  uri: langchain4j-chat:getLocationInformation?chatOperation=CHAT_MULTIPLE_MESSAGES
+              - log:
+                  message: "response is: ${body}"
+              - doCatch:
+                  exception:
+                    - java.lang.RuntimeException
+                  steps:
+                    - log:
+                        message: got RuntimeException.
+                    - setBody:
+                        simple:
+                          expression: "Sorry, something went wrong, please try again."
+              - doCatch:
+                  exception:
+                    - java.net.ConnectException
+                  steps:
+                    - log:
+                        message: got ConnectException.
+                    - setBody:
+                        simple:
+                          expression: "Sorry, the LLM agent seems unreacheable."
+- route:
+    from:
+      uri: langchain4j-chat:getLocationInformation?description=get wheather forecast
+        of cities around the world&parameter.location=string
+      steps:
+        - log:
+            message: "location is: ${header.location}"
+        - setVariable:
+            name: location
+            simple:
+              expression: "${header.location}"
+        - removeHeaders:
+            pattern: '*'
+        - log:
+            message: "got recomendation request for: ${exchangeProperty.location}"
+        - setHeader:
+            name: CamelHttpMethod
+            simple:
+              expression: GET
+        - doTry:
+            steps:
+              - toD:
+                  uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places?namePrefix=${variable.location}&limit=1&sort=-population"
+              - log:
+                  message: "geodb response: ${body}"
+              - unmarshal:
+                  json:
+                    library: Jackson
+              - setVariable:
+                  name: coordinates
+                  simple:
+                    expression: "latitude=${body[data][0][latitude]}&longitude=${body[data][0][longitude]}"
+              - log:
+                  message: "coordinates: ${variable.coordinates}"
+              - removeHeaders:
+                  pattern: '*'
+              - setHeader:
+                  name: CamelHttpMethod
+                  simple:
+                    expression: GET
+              - toD:
+                  uri: "https://api.open-meteo.com/v1/forecast?${variable.coordinates}&current=temperature_2m&daily=temperature_2m_max&forecast_days=3"
+              - unmarshal:
+                  json:
+                    library: Jackson
+              - setVariable:
+                  name: temperature
+                  simple:
+                    expression: "${body[current][temperature_2m]}"
+              - setVariable:
+                  name: forecast
+                  simple:
+                    expression: "${body[daily][temperature_2m_max]}"
+              - log:
+                  message: "temperature: ${variable.temperature}"
+              - log:
+                  message: "forecast: ${variable.forecast}"
+              - setVariable:
+                  name: response
+                  simple:
+                    expression: "{\"temperature\":\"${body[current][temperature_2m]}\"\
+                      ,\"unit\":\"celsius\",\"forecast\": {\"day1\":\"${body[daily][temperature_2m_max][0]}\"\
+                      ,\"day2\":\"${body[daily][temperature_2m_max][1]}\",\"day3\"\
+                      :\"${body[daily][temperature_2m_max][2]}\"}}"
+              - log:
+                  message: "response: ${variable.response}"
+              - setBody:
+                  simple:
+                    expression: "${variable.response}"
+              - doCatch:
+                  exception:
+                    - java.lang.Exception
+                  steps:
+                    - log:
+                        message: "error message was: ${exception.message}"
+        - log:
+            message: "cc: ${body}"
+
+
+- route:
+    from:
+      uri: langchain4j-chat:getLocationInformation?description=get local tour guide
+        contact details in cities around the world&parameter.location=string
+      steps:
+        - setProperty:
+            name: location
+            simple:
+              expression: "${header.location}"
+        - removeHeaders:
+            pattern: '*'
+        - log:
+            message: "got recomendation request for: ${exchangeProperty.location}"
+        - setHeader:
+            name: CamelHttpMethod
+            simple:
+              expression: GET
+        - doTry:
+            steps:
+              - toD:
+                  uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places?namePrefix=${exchangeProperty.location}&limit=1&sort=-population"
+              - unmarshal:
+                  json:
+                    library: Jackson
+              - setBody:
+                  simple:
+                    expression: "${body.get(data)[0].get(countryCode)}"
+              - log:
+                  message: "countryCode is: ${body}"
+              - process:
+                  ref: getTourGuide
+              - log:
+                  message: "recommended JSON: ${body}"
+              - doCatch:
+                  exception:
+                    - java.lang.Exception
+                  steps:
+                    - log:
+                        message: "error message was: ${exception.message}"
+                    - setBody: 
+                        simple: 
+                          expression: no hotel recomendation was found.
+        - log:
+            message: "cc: ${body}"
