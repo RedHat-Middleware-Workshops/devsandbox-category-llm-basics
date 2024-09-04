@@ -1,0 +1,25 @@
+- route:
+    id: route-1662
+    from:
+      id: from-4274
+      uri: timer:template
+      parameters:
+        period: "1000"
+        repeatCount: "1"
+      steps:
+        - setBody:
+            id: setBody-1620
+            expression:
+              simple:
+                expression: Please give me real time weather information about London.
+        - process:
+            id: process-1523
+            ref: marshalAImessage
+        - to:
+            id: to-4123
+            uri: langchain4j-chat:getInformation
+            parameters:
+              chatOperation: CHAT_MULTIPLE_MESSAGES
+        - log:
+            id: log-6481
+            message: ${body}

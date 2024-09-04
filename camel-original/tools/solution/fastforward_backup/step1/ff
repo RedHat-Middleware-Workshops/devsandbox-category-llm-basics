@@ -1,0 +1,8 @@
+LAB=/projects/llm-basics/camel/tools/lab
+FF=/projects/llm-basics/camel/tools/fastforward
+
+echo "fast forward..."
+# rm -r $LAB/*
+# cp $FF/step2/* .
+echo "step 3 ready"
+"

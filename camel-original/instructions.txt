@@ -1,0 +1,7 @@
+create a YAML file
+open with Kaoto
+Create a new route
+set repeatCount = 1
+add a setBody with:
+    Please give me real time weather information about London.
+    

@@ -1,0 +1,19 @@
+- route:
+    id: myroute
+    from:
+      uri: platform-http:/camel/chat
+      steps:
+        # - setBody:
+        #     expression:
+        #       simple:
+        #         expression: Please give me real time weather information about London.
+        - process:
+            description: AI message
+            ref: createChatMessage
+        - to:
+            description: call LLM
+            uri: langchain4j-chat:getInformation
+            parameters:
+              chatOperation: CHAT_MULTIPLE_MESSAGES
+        - log:
+            message: ${body}

@@ -1,0 +1,8 @@
+LAB=/projects/llm-basics/camel/tools/lab
+FF=/projects/llm-basics/camel/tools/fastforward
+
+echo "restarting lab..."
+rm -r $LAB/*
+cp -r $FF/start/* .
+echo "step 1 ready"
+

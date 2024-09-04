@@ -1,0 +1,24 @@
+# set -x
+
+if (($1 < 0 || $1 > 3)); then
+#   echo valid
+# else
+  echo ABORTED! no step $1 available.
+  exit
+fi
+
+BASE=/projects/llm-basics/camel/tools
+LAB=$BASE/lab
+FF=$BASE/solution/steps
+
+NEXT=$1
+
+# to ensure all hidden files & dirs are deleted (.camel) we need to change directory and return
+cd $LAB
+ls -A | xargs --no-run-if-empty rm -r
+cd $OLDPWD
+
+cp -r $FF/$NEXT/* .
+echo "step $1 ready"
+echo "$1" > $BASE/scripts/current
+

@@ -1,0 +1,6 @@
+BASE=/projects/llm-basics/camel/tools
+CURRENT=`head $BASE/scripts/current`
+
+echo "rewind..."
+echo "step $(($CURRENT)) discarded."
+step "$(($CURRENT-1))"

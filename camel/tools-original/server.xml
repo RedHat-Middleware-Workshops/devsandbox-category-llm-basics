@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<camel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://camel.apache.org/schema/spring"
+        xsi:schemaLocation="
+            http://camel.apache.org/schema/spring
+            https://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+    <!-- HTML server -->
+    <route>
+        <from uri="platform-http:/?matchOnUriPrefix=true"/>
+
+        <setHeader name="resource">
+            <simple>${header.CamelHttpUri}</simple>
+        </setHeader>
+
+        <!-- Default resource to respond with -->
+        <when>
+            <simple>${header.resource} == '/'</simple>
+            <setHeader name="resource">
+                <simple>/index.html</simple>
+            </setHeader>
+        </when>
+
+        <choice>
+            <!-- Ignore some control requests -->
+            <when>
+                <simple>${header.resource} == '/q/dev-ui/json-rpc-ws'</simple>
+                <stop/>
+            </when>
+            <!-- Return resource requested -->
+            <otherwise>
+                <setProperty name="target">
+                    <simple>language:constant:resource:classpath:/web/${header.resource}</simple>
+                </setProperty>
+                <toD uri="${exchangeProperty.target}"/>
+            </otherwise>
+        </choice>
+    </route>
+
+
+</camel>

@@ -1,0 +1,6 @@
+BASE=/projects/llm-basics/camel/tools
+CURRENT=`head $BASE/scripts/current`
+
+echo "fast forward..."
+echo "step $(($CURRENT)) done."
+step "$(($CURRENT+1))"

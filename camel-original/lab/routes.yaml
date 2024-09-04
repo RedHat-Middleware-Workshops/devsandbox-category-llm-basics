@@ -1,0 +1,10 @@
+- from:
+    uri: "platform-http:/camel/chat"
+    steps:
+      - log: "got ${body}"
+      - process:
+          ref: prepareAIrequest
+      - to:
+          uri: langchain4j-chat:getLocationInformation?chatOperation=CHAT_MULTIPLE_MESSAGES
+      - log:
+          message: "response is: ${body}"

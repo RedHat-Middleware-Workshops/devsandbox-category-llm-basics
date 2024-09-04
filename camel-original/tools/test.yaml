@@ -1,0 +1,77 @@
+
+- route:
+    from:
+      uri: timer:test?repeatCount=1
+      steps:
+        - setBody:
+            simple:
+              expression: >-
+                {
+                  "latitude": 40.375,
+                  "longitude": -3.6875,
+                  "generationtime_ms": 0.0380277633666992,
+                  "utc_offset_seconds": 0,
+                  "timezone": "GMT",
+                  "timezone_abbreviation": "GMT",
+                  "elevation": 602,
+                  "current_units": {
+                    "time": "iso8601",
+                    "interval": "seconds",
+                    "temperature_2m": "°C",
+                    "precipitation": "mm"
+                  },
+                  "current": {
+                    "time": "2024-08-30T08:30",
+                    "interval": 900,
+                    "temperature_2m": 22.4,
+                    "precipitation": 0
+                  },
+                  "daily_units": {
+                    "time": "iso8601",
+                    "temperature_2m_max": "°C",
+                    "temperature_2m_min": "°C"
+                  },
+                  "daily": {
+                    "time": [
+                      "2024-08-30",
+                      "2024-08-31",
+                      "2024-09-01"
+                    ],
+                    "temperature_2m_max": [28.4, 28.9, 29.9],
+                    "temperature_2m_min": [19.5, 20.5, 19.7]
+                  }
+                }
+        - unmarshal:
+            json:
+              library: Jackson
+        - log:
+            message: "payload: ${body[daily][time][0]}"
+        - setVariable:
+            name: response
+            simple:
+              expression: >-
+                {
+                  "unit":"celsius",
+                  "temperature": {
+                      "today": "${body[current][temperature_2m]}",
+                      "forecast": {
+                        "${body[daily][time][0]}": {
+                           "min":"${body[daily][temperature_2m_min][0]}",
+                           "max":"${body[daily][temperature_2m_max][0]}"
+                           },
+                        "${body[daily][time][1]}": {
+                           "min":"${body[daily][temperature_2m_min][1]}",
+                           "max":"${body[daily][temperature_2m_max][1]}"
+                           },
+                        "${body[daily][time][2]}": {
+                           "min":"${body[daily][temperature_2m_min][2]}",
+                           "max":"${body[daily][temperature_2m_max][2]}"
+                           }
+                      }
+                  }
+                }
+        - log:
+            message: "response: ${variable.response}"
+
+        - log:
+            message: "cc: ${variable.response}"

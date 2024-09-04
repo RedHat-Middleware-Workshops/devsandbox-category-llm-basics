@@ -28,6 +28,7 @@ public class model {
                 // .modelName("allenporter/xlam:1b")
                 // .modelName("RobinBially/xlam-8k:1b")
                 .baseUrl("http://localhost:8000/v1/")
+                // .baseUrl("http://ollama-svc:8000/v1/")
                 // .responseFormat("json_object")
                 .temperature(0.0)
                 .timeout(ofSeconds(180))
@@ -47,15 +48,73 @@ public class model {
               String payload = exchange.getMessage().getBody(String.class);
               List<ChatMessage> messages = new ArrayList<>();
 
+// You have access to the following tools:
+
+// - getWheatherForecastOfCitiesAroundTheWorld
+// - getLocalTourGuideContactDetailsInCitiesAroundTheWorld
+
               messages.add(new SystemMessage("""
-                      When saluted you introduce yourself as an assistant that specialises in providing travelling information.
-                      You have access to real-time data using the functions provided.
-                      Answer all the questions by calling all the functions available.
-                      Use short answers to respond with concise information.
-                      You are helping customers trying to query about location information.
-                      Make sure the tag 'tool_call' is well formed in JSON when calling functions.
+Introduce yourself as a helpful travel assistant.
+
+You have access to a collection of tools.
+
+To use a tool, respond with a JSON object with the following structure:
+
+"content": null,
+"tool_calls": [
+  {
+    "type": "function",
+    "function": {
+      "name": <name of the called tool>,
+      "arguments": <parameters for the tool matching the above JSON schema>
+    }
+  }
+]
+
+Respond with short answers.
                       """));
 
+
+//               messages.add(new SystemMessage("""
+// You have access to the following tools:
+
+// - getWheatherForecastOfCitiesAroundTheWorld
+// - getLocalTourGuideContactDetailsInCitiesAroundTheWorld
+
+// To use a tool, respond with a JSON object with the following structure:
+// "tool_calls": [
+//   {
+//     "type": "function",
+//     "function": {
+//       "name": <name of the first called tool>,
+//       "arguments": <parameters for the tool matching the above JSON schema>
+//     }
+//   },
+//   {
+//     "type": "function",
+//     "function": {
+//       "name": <name of the second called tool>,
+//       "arguments": <parameters for the tool matching the above JSON schema>
+//     }
+//   }
+// ]
+//                       """));
+
+
+// {{
+//   "tool": <name of the called tool>,
+//   "tool_input": <parameters for the tool matching the above JSON schema>
+// }}
+
+
+
+              // messages.add(new SystemMessage("""
+              //         You are a helpful assistant.
+              //         Only respond with information you obtain from calling functions.
+              //         Don't call just one function, call all of them.
+
+              //         Only use well formed JSON when calling functions. Don't use the XML tag <tool_call>.
+              //         """));
 
 //               messages.add(new SystemMessage("""
 

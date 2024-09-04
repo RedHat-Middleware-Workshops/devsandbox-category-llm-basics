@@ -76,7 +76,8 @@
                   simple:
                     expression: GET
               - toD:
-                  uri: "https://api.open-meteo.com/v1/forecast?${variable.coordinates}&current=temperature_2m&daily=temperature_2m_max&forecast_days=3"
+                  # uri: "https://api.open-meteo.com/v1/forecast?${variable.coordinates}&current=temperature_2m&daily=temperature_2m_max&forecast_days=3"
+                  uri: "https://api.open-meteo.com/v1/forecast?${variable.coordinates}&current=temperature_2m,precipitation&daily=temperature_2m_max,temperature_2m_min&forecast_days=3"
               - unmarshal:
                   json:
                     library: Jackson
@@ -95,10 +96,28 @@
               - setVariable:
                   name: response
                   simple:
-                    expression: "{\"temperature\":\"${body[current][temperature_2m]}\"\
-                      ,\"unit\":\"celsius\",\"forecast\": {\"day1\":\"${body[daily][temperature_2m_max][0]}\"\
-                      ,\"day2\":\"${body[daily][temperature_2m_max][1]}\",\"day3\"\
-                      :\"${body[daily][temperature_2m_max][2]}\"}}"
+                    # expression: "{\"temperature\":\"${body[current][temperature_2m]}\"\
+                    #   ,\"unit\":\"celsius\",\"forecast\": {\"day1\":\"${body[daily][temperature_2m_max][0]}\"\
+                    #   ,\"day2\":\"${body[daily][temperature_2m_max][1]}\",\"day3\"\
+                    #   :\"${body[daily][temperature_2m_max][2]}\"}}"
+                    expression: >-
+                      {
+                        "unit":"celsius",
+                        "temperature": {
+                            "today": {
+                              "${body[daily][time][0]}": "${body[current][temperature_2m]}"
+                            },
+                            "forecast": {
+                              "${body[daily][time][1]}": {
+                                "maximum":"${body[daily][temperature_2m_max][1]}"
+                                },
+                              "${body[daily][time][2]}": {
+                                "maximum":"${body[daily][temperature_2m_max][2]}"
+                                }
+                            }
+                        }
+                      }
+
               - log:
                   message: "response: ${variable.response}"
               - setBody:
