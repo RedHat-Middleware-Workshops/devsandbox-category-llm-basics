@@ -1,2 +1,9 @@
 export PATH=$PATH:/projects/llm-basics/camel/tools/scripts
-cd /projects/llm-basics/camel/tools/lab
+
+LAB=/projects/llm-basics/camel/tools/lab
+
+if [ ! -d "$LAB" ]; then
+  mkdir $LAB
+fi
+
+cd $LAB

@@ -101,10 +101,10 @@ The lab has a collection of handy scripts you'll need to use when instructed, su
 
 === Enable auto-save
 
-. Toggle auto-save off
+. Toggle auto-save on (✓)
 +
-You'll be making live code changes which _Camel_ can pick up in real time. +
-Toggle (✓) auto-save in your editor, as illustrated below, to automatically trigger hot-reloads.
+You'll be making live code changes which _Camel_ can pick up in real time. When the file is saved Camel hot-reloads the changes. +
+To speed up hot-reloads, toggle (✓) auto-save in your editor, as illustrated below:
 +
 image::images/11-vscode-autosave.png[align="left", width=30%]
 +
@@ -151,7 +151,7 @@ Copy and paste in your terminal the following command:
 
 [source, subs=]
 ----
-source $LLM_SCRIPTS/setup<br>
+source $LLM_TOOLS/scripts/setup<br>
 ----
 
 {blank}
@@ -427,12 +427,12 @@ image::images/10-kaoto-full-route.png[width=60%, align=left]
 
 {blank}
 
-Browse the Enterprise Integration Explorer if you want to know more about the activities involved in the process above:
+[TIP]
+====
+The _Enterprise Integration Explorer_ is a tool to deep dive into the components and patterns _Apache Camel_ implements.
 
-Click on the links below to list the activities:
-
-* link:{eip-explorer-url}/#/?q=platform-http,langchain4j-chat,log[Show Components,window="_blank"]
-* link:{eip-explorer-url}/#/patterns?q=custom-logic[Show Patterns,window="_blank"]
+Click link:{eip-explorer-url}/#/?q=platform-http,langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/#/patterns?q=custom-logic[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+====
 
 {empty} +
 
