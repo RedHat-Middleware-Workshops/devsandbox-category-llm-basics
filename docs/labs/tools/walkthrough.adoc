@@ -8,6 +8,8 @@
 
 :sp-article-url: https://developers.redhat.com/articles/2024/05/24/implement-ai-driven-edge-core-data-pipelines
 
+:eip-explorer-url: https://ibek.github.io/integration-explorer-web
+
 // :btn-text: my text
 // :btn: pass:attributes[<code><mark style="background-color: dodgerblue; color: white">&nbsp;{btn-text}&nbsp;</mark>]
 
@@ -48,7 +50,7 @@ You'll train and deploy a customised model, and front it with an (_Apache Camel_
 
 The mission of this tutorial is to give you the chance to enjoy a free to use environment, fully browser-based (no installs required in your machine), so that you can start playing immediately with very exciting technologies.
 
-In this occasion, it is all about Large Language Models, and how Apache Camel brings a ton of new and very cool functionality allowing you to create data flows and integrations to implement LLM-based services.
+In this occasion, it is all about Large Language Models, and how _Apache Camel_ brings a ton of new and very cool functionality allowing you to create data flows and integrations to implement LLM-based services.
 
 {empty} +
 
@@ -56,7 +58,7 @@ In this occasion, it is all about Large Language Models, and how Apache Camel br
 
 Although the Developer Sandbox offers a great opportunity to try out technologies, its limited resources, particularly CPU/GPU, are really a big constraint when it comes to showcase AI scenarios.
 
-This tutorial managed to include a tiny LLM with tool support (function calling) gifting you the chance to try out very interesting interactions with the model. You will deploy the LLM and you will create processing flows using Apache Camel connected to the LLM. 
+This tutorial managed to include a tiny LLM with tool support (function calling) gifting you the chance to try out very interesting interactions with the model. You will deploy the LLM and you will create processing flows using _Apache Camel_ connected to the LLM. 
 
 The caveat is that you will probably encounter moments where the LLM deviates from the expected behaviour due to the tight resource constraints in the environment. LLMs are very CPU/GPU demanding, and their accuracy badly suffers when restricted.
 
@@ -72,12 +74,12 @@ In any case, we trust you will really enjoy the experience no matter what. This 
 
 This hands-on lab will help you to:
 
-- Discover new functionality in Camel to implement **AI** use cases.
+- Discover new functionality in _Camel_ to implement **AI** use cases.
 - Better understand LLMs and how to leverage the use of **tools**.
-- Try out the **Kaoto** UI to graphically create Camel routes.
-- Experience how **Camel JBang** accelerates your prototyping phase.
-- Learn how to use brand new features in Camel JBang like:
-** its brand new **kubernetes plugin** to deploy Camel in OpenShift.
+- Try out the **_Kaoto_** UI to graphically create _Camel_ routes.
+- Experience how **_Camel JBang_** accelerates your prototyping phase.
+- Learn how to use brand new features in _Camel_ _JBang_ like:
+** its brand new **kubernetes plugin** to deploy _Camel_ in Op_enShift.
 ** its **HTML server** to easily test, package and deploy pages.
 
 {empty} +
@@ -93,7 +95,7 @@ The lab has a collection of handy scripts you'll need to use when instructed, su
 - *ff* (fast-forward to the next step)
 - *rw* (rewind to the previous step)
 - *step* (jump to step)
-- *chat* (curl-based script to interact with Camel)
+- *chat* (curl-based script to interact with _Camel_)
 
 {empty} +
 
@@ -196,13 +198,48 @@ NOTE: The command will reset the lab to its start configuration.
 
 {empty} +
 
-=== Get started
+=== Your files
 
-We provide a Java class with the base initialisation you need to get started.
+After setup, your initial source files, under the `lab` directory are:
 
-There are two key parts to understand.
+++++
+<style>
+.indent2 {padding-left: 2rem;}
+</style>
+++++
 
-- The first is the configuration to connect to the LLM to interact with:
+--
+[.indent2]
+📁 llm-basics/camel/tools/lab +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>⚙</b></mark>] applications.properties +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>J</b></mark>] *model.java*
+--
+
+{blank}
+
+Feel free to inspect the files in your editor. +
+
+{empty} +
+
+==== Apache Camel and Langchain4j
+
+_Apache Camel_ integrates with LLMs by providing a number of connectors (called components) that leverage the power of link:https://docs.langchain4j.dev/[_LangChain4j_,window="_blank"].
+
+image::images/12-camel-langchain4j.png[width=30%]
+
+{blank}
+
+_Camel_ routes (integration processes) are typically defined in one of the following DSLs (_Domain Specific Language_): YAML, XML or Java.
+
+You use the DSL alone to define the end to end integration process. DSLs have all the versatility and richness you need to perform all the data manipulations and endpoint connectivity you need. 
+
+Connectors in _Apache Camel_ are used directly from the DSL, but some, like the _LangChain4j_-based ones, may require initialisation code in Java. Ideally you'd want no code at all, yet it provides the developer full control.
+
+The java file we provide (`model.java`) contains the _LangChain4j_-based code needed to enable LLM interaction:
+
+. The *ChatLanguageModel* object
++
+This is the java object that configures connectivity and model parameters. Below you have an extract from the source file showing its definition:
 +
 ----
 ChatLanguageModel model = OpenAiChatModel.builder()
@@ -216,42 +253,47 @@ ChatLanguageModel model = OpenAiChatModel.builder()
           .build();
 ----
 +
-{blank}
+{empty} +
 
-- The second is the prompt we define to instruct the LLM how to respond.
+. The *ChatMessage* object
++
+Every time the application interacts with the LLM, the query (and related metadata) is encapsulated in a _ChatMessage_ object.
++
+Because creating the object requires a specific use of the _LangChain4j_ API, we wrap it in a _Camel Processor_ (java code).
++
+The snippet below shows you how `model.java` defines the _Camel_ processor containing the _LangChain4j_ code.
 +
 ----
-String systemMessage = """
-          Introduce yourself as a helpful travel assistant.
-
-          %s
-
-          Respond with short answers.
-          """;
-
-String tools = """
-          When asked to provide real time data (information), respond with:
-
-          - I'm sorry, I don't have access to real time information.
-
-          Do not improvise answers for any real time related questions.
-          """;
+    @BindToRegistry
+    public static Processor createChatMessage(){
+        ...
+        List<ChatMessage> messages = new ArrayList<>();
+        ...
+    }
 ----
++
+{blank}
++
+In the definition above `createChatMessage` represents the name of the _Processor_. +
+From a _Camel_ route we just need to reference the processor to execute it.
++
+NOTE: Later in the lab, the tutorial explains in more detail how the _ChatMessage_ object is created.
 
 {empty} +
 
-At this point, the code does not include any Camel process definition yet. Your first task is to define a very simple Camel route.
+Notice your entire source code (for now) only consists of a single file (`model.java`). +
+At this stage no _Camel_ route definitions exists. Your task in the following section is to create one to enable user/LLM interactions integrated with _Apache Camel_.
 
 {empty} +
 
 === Create your Camel route using Kaoto.
 
-Kaoto is a graphical UI that will help you to build Camel routes using an intuitive user interface helping you to learn about Camel.
+_Kaoto_ is a graphical UI that will help you to build _Camel_ routes using an intuitive user interface helping you to learn about _Camel_.
 
 [TIP]
 .⏩ *Fast-Forward* 
 ====
-Only if you want to skip (automate) the creation process, execute in your terminal the command below:
+Only if you want to skip (automate) the _Kaoto_ creation process, execute in your terminal the command below:
 
 . Run the fast-forward command:
 +
@@ -259,11 +301,15 @@ Only if you want to skip (automate) the creation process, execute in your termin
 ----
 ff<br>
 ----
++
+{blank}
 
-. Then <<test-first-route,click here to jump into the next section>>.
+. Then <<test-first-route,click here to bypass the Kaoto instructions and jump to the next section>>.
 ====
 
 {empty} +
+
+If you're happy to continue and learn how to use Kaoto, follow the instructions below:
 
 . First, create the source file.
 +
@@ -329,8 +375,6 @@ Follow the actions below illustrated:
 image::images/06-kaoto-open-routes.png[width=100%]
 
 ======
-+
-{empty} +
 
 . Configure an HTTP listener
 +
@@ -379,7 +423,16 @@ Make sure you configure the parameters below as indicated:
 You're done. +
 You should end up with a flow similar to:
 
-image::images/10-kaoto-full-route.png[width=40%, align=center]
+image::images/10-kaoto-full-route.png[width=60%, align=left]
+
+{blank}
+
+Browse the Enterprise Integration Explorer if you want to know more about the activities involved in the process above:
+
+Click on the links below to list the activities:
+
+* link:{eip-explorer-url}/#/?q=platform-http,langchain4j-chat,log[Show Components,window="_blank"]
+* link:{eip-explorer-url}/#/patterns?q=custom-logic[Show Patterns,window="_blank"]
 
 {empty} +
 
@@ -388,11 +441,11 @@ image::images/10-kaoto-full-route.png[width=40%, align=center]
 
 === Talk to your LLM.
 
-Your `lab` folder contains now a Camel route in `routes.yaml` able to listen to HTTP requests.
+Your `lab` folder includes now the file `routes.yaml` that contains a _Camel_ route able to listen to HTTP requests.
 
 [NOTE]
 ====
-If the route is not already running, use Camel JBang to start it:
+If the route is not already running, use _Camel JBang_ to start it:
 
 [source, subs=]
 ----
@@ -401,9 +454,9 @@ camel run *<br>
 
 ====
 
-{blank}
+{empty} +
 
-Split your terminal by clicking the button as per the image below:
+Next, split your terminal by clicking the button as per the image below:
 
 image::images/01-split-terminal.png[align="left", width=30%]
 
