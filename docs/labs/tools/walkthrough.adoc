@@ -136,7 +136,7 @@ image::images/05-working-dir.png[width=50%]
 ====
 The lab has a collection of handy scripts you'll need to use when instructed, such as:
 
-- *restart*
+- *start* / *restart*
 - *ff* (fast-forward to the next step)
 - *rw* (rewind to the previous step)
 - *step* (jump to step)
@@ -171,17 +171,17 @@ Copy and paste in your terminal the following command:
 
 [source, subs=]
 ----
-source $LLM_TOOLS/scripts/setup<br>
+source setup<br>
 ----
 
 {blank}
 
 The command above:
 
-- Includes the lab scripts on your PATH
-- Switches to your `lab` directory from where you will work.
+- Creates a `lab` directory (your working directory)
+- Switches to your `lab` directory.
 +
-NOTE: You'll see your `lab` folder is empty when your start the tutorial the first time.
+NOTE: You'll see `lab` empty when your start the tutorial the first time.
 
 {empty} +
 
@@ -196,35 +196,45 @@ Review the instructions above and ensure you run the `setup` script.
 
 
 [time=10]
-[id="step-1"]
-== Step 1. Basic LLM interaction
-
-
-=== Setup
-
-[IMPORTANT]
-====
-Setup your lab by running the following command:
-
-[source, subs=]
-----
-restart<br>
-----
-
-NOTE: The command will reset the lab to its start configuration.
-====
-
-{empty} +
-
-=== Your files
-
-After setup, your initial source files, under the `lab` directory are:
+[id="basic-llm-interaction"]
+== Basic LLM interaction
 
 ++++
 <style>
 .indent2 {padding-left: 2rem;}
 </style>
 ++++
+
+=== Start the lab
+
+At first, your `lab` directory is empty:
+
+--
+[.indent2]
+📁 llm-basics/camel/tools/lab +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>] [empty]
+--
+
+{blank}
+
+// [IMPORTANT]
+// ====
+Setup your lab by running the following command:
+
+[source, subs=]
+----
+start<br>
+----
+
+NOTE: The command will reset the lab to its start configuration.
+// ====
+
+{empty} +
+
+=== Your files
+
+Now you should find, under the `lab` directory, find your initial source files:
+
 
 --
 [.indent2]
