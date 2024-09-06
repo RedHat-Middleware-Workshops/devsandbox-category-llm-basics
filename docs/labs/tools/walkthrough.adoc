@@ -84,6 +84,8 @@ Even though waiting times (in LLM responses) are always kept within reasonable m
 
 In any case, we trust you will really enjoy the experience no matter what. This is a unique chance and we've put a lot of effort in it for your delight.
 
+image::images/14-intro-pacman.png[align=center, width=30%]
+
 {empty} +
 
 [type=verification]

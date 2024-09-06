@@ -27,11 +27,14 @@ fi
 NEXT=$1
 
 # to ensure all hidden files & dirs are deleted (.camel) we need to change directory and return
+if [ ! -d "$LAB" ]; then
+  mkdir $LAB
+fi
 cd $LAB
 ls -A | xargs --no-run-if-empty rm -r
 cd $OLDPWD
 
-cp -r $FF/$NEXT/* .
+cp -r $FF/$NEXT/* $LAB
 echo "step $1 ready (Title: `grep $1 $FF/titles.txt | cut -d' ' -f 2-`)"
 echo "$1" > $BASE/scripts/current
 
