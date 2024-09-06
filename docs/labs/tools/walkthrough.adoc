@@ -50,7 +50,23 @@ You'll train and deploy a customised model, and front it with an (_Apache Camel_
 
 The mission of this tutorial is to give you the chance to enjoy a free to use environment, fully browser-based (no installs required in your machine), so that you can start playing immediately with very exciting technologies.
 
-In this occasion, it is all about Large Language Models, and how _Apache Camel_ brings a ton of new and very cool functionality allowing you to create data flows and integrations to implement LLM-based services.
+In this occasion, it is all about Large Language Models, and how _Apache Camel_ brings a ton of new and very cool functionality allowing you to create data flows and integrations to implement LLM-based services with tools support.
+
+image::images/13-intro-lab.png[align=center,width=60%]
+
+{empty} +
+
+=== Takeaways
+
+This hands-on lab will help you to:
+
+- Discover new functionality in _Camel_ to implement **AI** use cases.
+- Better understand LLMs and how to leverage the use of **tools**.
+- Try out the **_Kaoto_** UI to graphically create _Camel_ routes.
+- Experience how **_Camel JBang_** accelerates the prototyping phase.
+- Learn how to use brand new features in _Camel_ _JBang_ like:
+** its **kubernetes plugin** to deploy _Camel_ in _OpenShift_.
+** its **HTML server** to easily test, package and deploy pages.
 
 {empty} +
 
@@ -70,34 +86,19 @@ In any case, we trust you will really enjoy the experience no matter what. This 
 
 {empty} +
 
-=== What is in it?
+[type=verification]
+Did you read and understand the disclaimers?
 
-This hands-on lab will help you to:
+[type=verificationSuccess]
+Enjoy the tutorial!
 
-- Discover new functionality in _Camel_ to implement **AI** use cases.
-- Better understand LLMs and how to leverage the use of **tools**.
-- Try out the **_Kaoto_** UI to graphically create _Camel_ routes.
-- Experience how **_Camel JBang_** accelerates your prototyping phase.
-- Learn how to use brand new features in _Camel_ _JBang_ like:
-** its brand new **kubernetes plugin** to deploy _Camel_ in Op_enShift.
-** its **HTML server** to easily test, package and deploy pages.
-
-{empty} +
+[type=verificationFail]
+It's recommended to understand the resource limitations of the sandbox.
 
 
 [time=10]
 [id="setup"]
 == Preparation steps
-
-The lab has a collection of handy scripts you'll need to use when instructed, such as:
-
-- *restart*
-- *ff* (fast-forward to the next step)
-- *rw* (rewind to the previous step)
-- *step* (jump to step)
-- *chat* (curl-based script to interact with _Camel_)
-
-{empty} +
 
 === Enable auto-save
 
@@ -110,13 +111,46 @@ image::images/11-vscode-autosave.png[align="left", width=30%]
 +
 WARNING: The auto-save option in the menu does not always show when it's active/inactive. If you see in your editor's file tab a permanent white dot `⭘` when you make changes, it means auto-save is OFF.
 
+{empty} +
+
+=== Open a terminal
+
+From DevSpaces, open a terminal following the steps illustrated below:
+
+image::images/04-open-terminal.png[width=40%]
+
+{blank}
+
+You will be prompted at the top of the window to select the working directory. +
+Select:
+
+- `llm-basics [.small]#/projects#`
++
+image::images/05-working-dir.png[width=50%]
+
+{empty} +
+
+[NOTE]
+====
+The lab has a collection of handy scripts you'll need to use when instructed, such as:
+
+- *restart*
+- *ff* (fast-forward to the next step)
+- *rw* (rewind to the previous step)
+- *step* (jump to step)
+- *chat* (curl-based script to interact with _Camel_)
+
+{blank}
+
+Follow the instructions below to enable the scripts and setup the lab.
+====
 
 {empty} +
 
 === Copy/Paste commands
 
-You'll find command actions all along the lab. +
-Perform the two steps illustrated below to complete command executions:
+You'll use command actions all along the lab. +
+To execute commands, perform the steps described below, as illustrated:
 
 image::images/03-copy-actions.png[width=60%]
 
@@ -127,25 +161,9 @@ image::images/03-copy-actions.png[width=60%]
 - on Linux: kbd:[Ctrl+v] and press kbd:[Enter] 
 - on Mac: kbd:[⌘+v] and press kbd:[Enter]
 
-
 {empty} +
 
 === Setup the lab
-
-From DevSpaces, open a terminal following the steps illustrated below:
-
-image::images/04-open-terminal.png[width=50%]
-
-{blank}
-
-You will be prompted at the top of the window to select the working directory. +
-Select:
-
-- `llm-basics [.small]#/projects#`
-+
-image::images/05-working-dir.png[width=40%]
-
-{empty} +
 
 Copy and paste in your terminal the following command:
 
@@ -163,9 +181,7 @@ The command above:
 +
 NOTE: You'll see your `lab` folder is empty when your start the tutorial the first time.
 
-
 {empty} +
-
 
 [type=verification]
 Is your terminal open and located in your `lab` directory?
@@ -217,6 +233,7 @@ pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>J
 
 {blank}
 
+Make sure the files are visible in your file explorer in the left panel of _VSCode_. +
 Feel free to inspect the files in your editor. +
 
 {empty} +
@@ -231,11 +248,12 @@ image::images/12-camel-langchain4j.png[width=30%]
 
 _Camel_ routes (integration processes) are typically defined in one of the following DSLs (_Domain Specific Language_): YAML, XML or Java.
 
-You use the DSL alone to define the end to end integration process. DSLs have all the versatility and richness you need to perform all the data manipulations and endpoint connectivity you need. 
+You use the DSL alone to define the end to end integration process. DSLs have all the versatility and richness you need to perform all the data manipulations and endpoint connectivity resolution. 
 
 Connectors in _Apache Camel_ are used directly from the DSL, but some, like the _LangChain4j_-based ones, may require initialisation code in Java. Ideally you'd want no code at all, yet it provides the developer full control.
 
-The java file we provide (`model.java`) contains the _LangChain4j_-based code needed to enable LLM interaction:
+The java file we provide (`model.java`) contains the _LangChain4j_-based code needed to enable LLM interaction. +
+Two key _LangChain4j_ objects are key:
 
 . The *ChatLanguageModel* object
 +
@@ -274,15 +292,21 @@ The snippet below shows you how `model.java` defines the _Camel_ processor conta
 +
 {blank}
 +
-In the definition above `createChatMessage` represents the name of the _Processor_. +
-From a _Camel_ route we just need to reference the processor to execute it.
+In the definition above, `createChatMessage` represents the name of the _Processor_. +
+From a _Camel_ route, you just need to reference the processor to execute it.
 +
 NOTE: Later in the lab, the tutorial explains in more detail how the _ChatMessage_ object is created.
 
 {empty} +
 
-Notice your entire source code (for now) only consists of a single file (`model.java`). +
-At this stage no _Camel_ route definitions exists. Your task in the following section is to create one to enable user/LLM interactions integrated with _Apache Camel_.
+Notice the following two facts:
+
+* Your entire source code (for now) only consists of a single file (`model.java`). +
+* At this stage no _Camel_ route definitions exists.
+
+{blank}
+
+Your task in the following section is to create a _Camel_ route that enables user/LLM interaction.
 
 {empty} +
 
@@ -304,7 +328,7 @@ ff<br>
 +
 {blank}
 
-. Then <<test-first-route,click here to bypass the Kaoto instructions and jump to the next section>>.
+. Then <<test-first-route,click here to bypass the Kaoto instructions and jump to the next section "*_Talk to your LLM_*">>.
 ====
 
 {empty} +
@@ -441,7 +465,7 @@ Click link:{eip-explorer-url}/#/?q=platform-http,langchain4j-chat,log[*Component
 
 === Talk to your LLM.
 
-Your `lab` folder includes now the file `routes.yaml` that contains a _Camel_ route able to listen to HTTP requests.
+Your `lab` folder now includes the file `routes.yaml` that contains a _Camel_ route able to listen to HTTP requests.
 
 [NOTE]
 ====
@@ -477,7 +501,7 @@ You can run the same test with:
 
 [source, subs=]
 ----
-source $LLM_SCRIPTS/setup
+source $LLM_TOOLS/scripts/setup
 chat hello<br>
 ----
 ====
@@ -530,7 +554,7 @@ I'm sorry, but as an AI language model, I am unable to provide real-time weather
 ...
 ----
 
-TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
+TIP: If the LLM answered with an hallucination, try varying the request slightly and see if the result improves.
 
 {empty} +
 
@@ -559,7 +583,6 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 [id="first-llm-tool"]
 == Implement with Camel an LLM tool
 
-
 === Setup
 
 [IMPORTANT]
@@ -576,29 +599,29 @@ NOTE: The command will reset the lab at this particular stage.
 
 {empty} +
 
-=== Get started
-
-Let's now use Camel to equip our LLM with the ability to obtain real time data.
+=== What are LLM tools?
 
 Certain LLMs (not all) have been trained to support *Tools*. Tools are external functions the LLM can invoke in order to obtain the information it needs to complete the answer to the user.
 
 NOTE: Our super tiny LLM can actually support tools!
 
-When an LLM has been fine-tuned to support tools, we can ask questions to the LLM and additionally indicate:
+When an LLM has been fine-tuned to support tools, we can ask questions to the LLM, as usual, and additionally indicate:
 
 - _"By the way, here you have some tools you can use to complete your answer."_
 
 {blank}
 
-The Apache Camel langchain4j component makes it very easy to create tools the LLM can consume. 
+The _Apache Camel_ langchain4j component makes it very easy to create tools the LLM can consume. 
 
 {empty} +
 
-### Dummy weather information
+### First iteration
 
-To start with, let's create a Camel route that will provide a dummy response containing weather information.
+The end goal is to use _Camel_ to equip the LLM with the ability to obtain real time data.
 
-This first iteration is obviously not providing real time data but helps you validate the mechanism by which the LLM retrieves the information it needs to complete the answer.
+First, you'll start prototyping the LLM tool by creating a _Camel_ route that will provide dummy weather information.
+
+Although this first iteration doesn't fetch real time data, it will help you validate the mechanism by which the LLM retrieves the information and it will give you a better understanding on how _Camel_ and the LLM interact.
 
 [TIP]
 .⏩ *Fast-Forward* 
@@ -612,7 +635,7 @@ ff<br>
 
 {blank}
 
-Then <<test-first-tool,click here to jump into the next section>>.
+Then <<test-first-tool,click here to jump into the next section "*_Test the tool_*">>.
 ====
 
 PENDING INSTRUCTIONS TO CREATE FLOW
@@ -621,7 +644,7 @@ PENDING INSTRUCTIONS TO CREATE FLOW
 
 ### Test the tool
 
-To test the tool all we need to do is to talk to the LLM and ask the same question as in the earlier section, except we expect the LLM to interact with Camel to invoke the function.
+To test the tool all we need to do is to talk to the LLM and ask the same question as in the earlier section, except we expect the LLM to interact with Camel by invoking the function.
 
 [NOTE]
 --
@@ -656,7 +679,7 @@ TIP: If the LLM provided an AI hallucination, try varying the request slightly a
 
 A dummy response is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time data.
 
-When the LLM calls the tool, we will use in our Camel route the following free services:
+When the LLM calls the tool, we will use in our _Camel_ route the following free services:
 
 * link:https://open-meteo.com[​Free Weather API,window="_blank", , id="rhd-source-article"]
 
@@ -664,13 +687,13 @@ When the LLM calls the tool, we will use in our Camel route the following free s
 
 {blank}
 
-The first API alone provides the weather information we need, however it expects the geo-location in the form of `latitude`/`longitude` inputs.
+The first API alone provides the weather information we need, however it expects geo-location data in the form of `latitude`/`longitude` inputs.
 
-NOTE: Our Camel tool defines the `location` parameter under the assumption users provide well known city names, like: Paris, London, Madrid, etc. 
+NOTE: Our _Camel_ tool defines the `location` parameter under the assumption users provide well known city names, like: Paris, London, Madrid, etc. 
 
 The second API (GeoDB) allows us to convert the name of cities to their latitude/longitude coordinates.
 
-To speed up the implementation process, fast-forward as indicated below to auto-generate the Camel route process.
+To speed up the implementation process, fast-forward as indicated below to auto-generate the _Camel_ route process.
 
 [IMPORTANT]
 .⏩ *Fast-Forward* 

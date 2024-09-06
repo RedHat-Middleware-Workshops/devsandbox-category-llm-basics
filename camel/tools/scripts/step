@@ -1,15 +1,28 @@
 # set -x
 
-if (($1 < 0 || $1 > 3)); then
+BASE=/projects/llm-basics/camel/tools
+LAB=$BASE/lab
+FF=$BASE/solution/steps
+
+if [ ! "$1" ]; then
+  STEP=$(< $BASE/scripts/current)
+  echo "Current step: $STEP (Title: `grep $STEP $FF/titles.txt | cut -d' ' -f 2-`)"
+  exit
+fi
+
+# Get first and last step IDs
+cd $FF
+FIRST=`ls -d */ | cut -f1 -d'/' | head -n 1`
+LAST=`ls -d */ | cut -f1 -d'/' | tail -n 1`
+cd $OLDPWD
+
+# if (($1 < 0 || $1 > 3)); then
+if (($1 < $FIRST || $1 > $LAST)); then
 #   echo valid
 # else
   echo ABORTED! no step $1 available.
   exit
 fi
-
-BASE=/projects/llm-basics/camel/tools
-LAB=$BASE/lab
-FF=$BASE/solution/steps
 
 NEXT=$1
 
@@ -19,6 +32,6 @@ ls -A | xargs --no-run-if-empty rm -r
 cd $OLDPWD
 
 cp -r $FF/$NEXT/* .
-echo "step $1 ready"
+echo "step $1 ready (Title: `grep $1 $FF/titles.txt | cut -d' ' -f 2-`)"
 echo "$1" > $BASE/scripts/current
 

@@ -1,0 +1,5 @@
+0 Start: Basic LLM interaction
+1 Talk to your LLM
+2 Implement with Camel an LLM tool
+3 Test the tool
+4 Live weather information
