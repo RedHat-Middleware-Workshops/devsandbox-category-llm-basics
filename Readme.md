@@ -19,7 +19,7 @@ To launch this tutorial, you only need 2 steps:
 1. If you haven't already done so, click the link below to provision the tutorial:
 
     <sub>(right-click & open in new tab)</sub> \
-    [Provision Tutorial in the Developer Sandbox](https://workspaces.openshift.com/#https://github.com/RedHat-Middleware-Workshops/devsandbox-catalog-ai-labs.git)
+    [Provision Tutorial in the Developer Sandbox](https://workspaces.openshift.com/#https://github.com/RedHat-Middleware-Workshops/devsandbox-catalog-demo.git)
     <!-- <a target="_blank" href="https://workspaces.openshift.com/#https://github.com/RedHat-Middleware-Workshops/devsandbox-catalog-ai-labs.git">Provision Tutorial in the Developer Sandbox</a> -->
 
 2. <sub>(In VS Code, open `Readme.md` in preview mode, if not showing automatically)</sub>
