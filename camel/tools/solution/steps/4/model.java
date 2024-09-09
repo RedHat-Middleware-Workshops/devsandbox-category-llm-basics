@@ -27,7 +27,7 @@ public class model {
                 // .modelName("llama3.1:latest")
                 .modelName("sam4096/qwen2tools:0.5b")
                 // .modelName("sam4096/qwen2tools:1.5b")
-                .baseUrl("http://ollama-svc:8000/v1/")
+                .baseUrl("http://llm:8000/v1/")
                 .temperature(0.0)
                 .timeout(ofSeconds(180))
                 .logRequests(true)
