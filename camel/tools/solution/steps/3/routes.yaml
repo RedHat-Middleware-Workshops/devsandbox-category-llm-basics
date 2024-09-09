@@ -1,5 +1,5 @@
 - route:
-    id: myroute
+    id: main
     from:
       uri: platform-http:/camel/chat
       steps:
@@ -13,20 +13,3 @@
               chatOperation: CHAT_MULTIPLE_MESSAGES
         - log:
             message: ${body}
-- route:
-    from:
-      uri: langchain4j-chat:getInformation?description=get wheather forecast
-        of cities around the world&parameter.location=string
-      steps:
-        - setBody:
-            expression:
-              simple:
-                expression: |-
-                  {
-                    "weather":{
-                      "location":"${header.location}",
-                      "temperature": "35 degrees celcius"
-                    }
-                  }
-        - log:
-            message: "response is: ${body}"

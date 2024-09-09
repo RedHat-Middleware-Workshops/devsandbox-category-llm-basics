@@ -1,12 +1,8 @@
 - route:
-    id: myroute
+    id: main
     from:
       uri: platform-http:/camel/chat
       steps:
-        # - setBody:
-        #     expression:
-        #       simple:
-        #         expression: Please give me real time weather information about London.
         - process:
             description: AI message
             ref: createChatMessage

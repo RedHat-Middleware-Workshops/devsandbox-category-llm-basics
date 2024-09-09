@@ -62,22 +62,22 @@ public class model {
                   Do not improvise answers for any real time related questions.
                   """;
 
-              tools = """
-                      You have access to a collection of tools.
+              // tools = """
+              //         You have access to a collection of tools.
 
-                      To use a tool, respond with a JSON object with the following structure:
+              //         To use a tool, respond with a JSON object with the following structure:
 
-                      "content": null,
-                      "tool_calls": [
-                        {
-                          "type": "function",
-                          "function": {
-                            "name": <name of the called tool>,
-                            "arguments": <parameters for the tool matching the above JSON schema>
-                          }
-                        }
-                      ]
-                      """;
+              //         "content": null,
+              //         "tool_calls": [
+              //           {
+              //             "type": "function",
+              //             "function": {
+              //               "name": <name of the called tool>,
+              //               "arguments": <parameters for the tool matching the above JSON schema>
+              //             }
+              //           }
+              //         ]
+              //         """;
 
               messages.add(new SystemMessage(systemMessage.formatted(tools)));
               // messages.add(new SystemMessage(systemMessage));

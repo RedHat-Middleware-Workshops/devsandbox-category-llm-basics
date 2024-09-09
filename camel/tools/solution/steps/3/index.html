@@ -1,0 +1,83 @@
+<!--index.html file-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Camel AI ChatRoom</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://raw.githubusercontent.com/apache/camel-website/main/static/favicon.ico">
+</head>
+  <body>
+    <div class="container" id="chat">
+      <h1 class="logo">Camel Agent</h1>
+        <div class="messageArea" id="messageArea"></div>
+        <form class="form" id="form">
+            <div class="input-container">
+                <input class="input" type="text" placeholder="Type message to LLM" id="message" autofocus>
+                <button class="button">Send</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        let idcounter = 0;
+
+        let form = document.getElementById('form');
+        let message = document.getElementById('message');
+        let messageArea = document.getElementById('messageArea');
+        let chatDiv = document.getElementById('chat');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (message.value) {
+
+                let name = document.createElement('p');
+                name.classList.add('message');
+                name.innerHTML = 
+                    `<p><span class="username">You: </span>${message.value}</p>
+                     <div id="llmresponse${idcounter}">
+                     <div style="margin-left:20px" class="dot-pulse"></div></div>`;
+                messageArea.appendChild(name);
+
+                messageArea.scrollTop = messageArea.scrollHeight;
+                    
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", window.origin+"/camel/chat");
+                const body = JSON.stringify({
+                  userId: 1,
+                  title: "Fix my bugs",
+                  completed: false
+                });
+                xhr.onload = () => {
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+
+                    name = document.getElementById('llmresponse'+idcounter);
+                    name.classList.add('message');
+                    name.innerHTML = `<p><span class="username">LLM: </span>${xhr.responseText.replace(/(?:\r\n|\r|\n)/g, '<br>')}</>`;
+                    messageArea.appendChild(name);
+                    idcounter++;
+                    
+                    messageArea.scrollTop = messageArea.scrollHeight;
+
+                  } else {
+                    console.log(`Error: ${xhr.status}`);
+
+                    name = document.getElementById('llmresponse'+idcounter);
+                    name.classList.add('message');
+                    name.innerHTML = `<p><span class="username">LLM: </span>Ups, something went wrong. Please try again.</>`;
+                    messageArea.appendChild(name);
+                    idcounter++;
+
+                    messageArea.scrollTop = messageArea.scrollHeight;
+                  }
+                };
+                xhr.send(message.value);
+
+                message.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+- route:
+    id: main
+    from:
+      uri: platform-http:/camel/chat
+      steps:
+        - process:
+            description: AI message
+            ref: createChatMessage
+        - to:
+            description: call LLM
+            uri: langchain4j-chat:getInformation
+            parameters:
+              chatOperation: CHAT_MULTIPLE_MESSAGES
+        - log:
+            message: ${body}
+- route:
+    id: weather tool
+    from:
+      uri: langchain4j-chat:getInformation?description=get wheather forecast
+        of cities around the world&parameter.location=string
+      steps:
+        - setBody:
+            expression:
+              simple:
+                expression: |-
+                  {
+                    "weather":{
+                      "location":"${header.location}",
+                      "temperature": "35 degrees celcius"
+                    }
+                  }
+        - log:
+            message: "response is: ${body}"

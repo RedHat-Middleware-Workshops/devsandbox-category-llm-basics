@@ -1,5 +1,7 @@
 0 Start: Basic LLM interaction
 1 Talk to your LLM
-2 Implement with Camel an LLM tool
-3 Test the tool
-4 Live weather information
+2 Add a Chat UI
+3 Try the Chat UI
+4 Create in Camel an LLM tool
+5 Test the tool
+6 Live weather information

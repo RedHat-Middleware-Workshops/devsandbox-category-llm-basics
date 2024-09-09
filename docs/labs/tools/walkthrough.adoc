@@ -8,7 +8,7 @@
 
 :sp-article-url: https://developers.redhat.com/articles/2024/05/24/implement-ai-driven-edge-core-data-pipelines
 
-:eip-explorer-url: https://ibek.github.io/integration-explorer-web
+:eip-explorer-url: https://ibek.github.io/integration-explorer-web/#
 
 // :btn-text: my text
 // :btn: pass:attributes[<code><mark style="background-color: dodgerblue; color: white">&nbsp;{btn-text}&nbsp;</mark>]
@@ -21,10 +21,7 @@ endif::[]
 
 // Explore, build, test and deploy a Camel X demo application using the Developer Sandbox and OpenShift Dev Spaces.
 
-Build, deploy & test your model with OpenShift AI, and integrate with Apache Camel using OpenShift Dev Spaces in the Developer Sandbox.
-
-
-Start your AI journey by learning the very basics of creating, deploying, and invoking a model.
+Gain familiarity with LLM tools by learning how to easily create them with Apache Camel. In this lab, you'll create an agent that uses live feeds to assist clients. 
 
 This hands-on lab is based on the following article in _Red Hat Developers_:
 
@@ -44,7 +41,7 @@ You'll train and deploy a customised model, and front it with an (_Apache Camel_
 {empty} +
 
 
-[time=10]
+[time=1]
 [id="intro"]
 == Introduction
 
@@ -98,7 +95,7 @@ Enjoy the tutorial!
 It's recommended to understand the resource limitations of the sandbox.
 
 
-[time=10]
+[time=1]
 [id="setup"]
 == Preparation steps
 
@@ -129,23 +126,6 @@ Select:
 - `llm-basics [.small]#/projects#`
 +
 image::images/05-working-dir.png[width=50%]
-
-{empty} +
-
-[NOTE]
-====
-The lab has a collection of handy scripts you'll need to use when instructed, such as:
-
-- *start* / *restart*
-- *ff* (fast-forward to the next step)
-- *rw* (rewind to the previous step)
-- *step* (jump to step)
-- *chat* (curl-based script to interact with _Camel_)
-
-{blank}
-
-Follow the instructions below to enable the scripts and setup the lab.
-====
 
 {empty} +
 
@@ -217,23 +197,37 @@ pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></m
 
 {blank}
 
-// [IMPORTANT]
-// ====
-Setup your lab by running the following command:
+[IMPORTANT]
+====
+Issue the command below to officially start your lab:
 
 [source, subs=]
 ----
 start<br>
 ----
 
-NOTE: The command will reset the lab to its start configuration.
-// ====
+NOTE: The command will initialise the lab with a couple of files.
+====
+
+
+// {empty} +
+
+[NOTE]
+====
+The lab has a collection of handy scripts you'll need to use when instructed, such as:
+
+- *start* / *restart*
+- *ff* (fast-forward to the next step)
+- *rw* (rewind to the previous step)
+- *step* (jump to step)
+- *chat* (curl-based script to interact with _Camel_)
+====
 
 {empty} +
 
 === Your files
 
-Now you should find, under the `lab` directory, find your initial source files:
+After initialisation, under the `lab` directory, you'll find the following source files:
 
 
 --
@@ -340,7 +334,7 @@ ff<br>
 +
 {blank}
 
-. Then <<test-first-route,click here to bypass the Kaoto instructions and jump to the next section "*_Talk to your LLM_*">>.
+. Then <<talk-to-llm,click here to bypass the Kaoto instructions and jump to the next section "*_Talk to your LLM_*">>.
 ====
 
 {empty} +
@@ -459,7 +453,7 @@ Make sure you configure the parameters below as indicated:
 You're done. +
 You should end up with a flow similar to:
 
-image::images/10-kaoto-full-route.png[width=60%, align=left]
+image::images/10-kaoto-full-route.png[width=50%, align=left]
 
 {blank}
 
@@ -467,13 +461,13 @@ image::images/10-kaoto-full-route.png[width=60%, align=left]
 ====
 The _Enterprise Integration Explorer_ is a tool to deep dive into the components and patterns _Apache Camel_ implements.
 
-Click link:{eip-explorer-url}/#/?q=platform-http,langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/#/patterns?q=custom-logic[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+Click link:{eip-explorer-url}/?q=platform-http,langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=custom-logic[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
 ====
 
 {empty} +
 
 // we need to set the anchor before the title, otherwise it doesn't work
-[[test-first-route]] {empty} +
+[[talk-to-llm]] {empty} +
 
 === Talk to your LLM.
 
@@ -513,7 +507,6 @@ You can run the same test with:
 
 [source, subs=]
 ----
-source $LLM_TOOLS/scripts/setup
 chat hello<br>
 ----
 ====
@@ -554,7 +547,7 @@ Try out what happens when you ask the LLM (via Camel) to provide real time infor
 Try the following:
 [source, subs=]
 ----
-chat Please provide me with real time weather information about London.<br>
+chat Please provide real time weather information about London.<br>
 ----
 
 {blank}
@@ -569,7 +562,6 @@ I'm sorry, but as an AI language model, I am unable to provide real-time weather
 TIP: If the LLM answered with an hallucination, try varying the request slightly and see if the result improves.
 
 {empty} +
-
 
 [type=verification]
 Did your LLM offer assistance when greeted?
@@ -592,8 +584,8 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
 [time=10]
-[id="first-llm-tool"]
-== Implement with Camel an LLM tool
+[id="html-serving"]
+== Add a Chat UI
 
 === Setup
 
@@ -603,7 +595,180 @@ Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following co
 
 [source, subs=]
 ----
-step 1<br>
+step 2<br>
+----
+
+NOTE: The command will reset the lab at this particular stage.
+====
+
+=== Camel JBang is your weapon of choice
+
+You're in the prototyping phase, you're creating code that you are rapidly changing and experimenting with. This is the phase were you're exploring how far you can go building powerful functionality.
+
+_Camel JBang_ was built with prototyping in mind. In this lab, You already enjoyed the sublime simplicity of running Camel routes without having to scaffold a project skeleton or worry about library dependencies.
+
+Think for a moment the abilities _Camel JBang_ empowers the developer with. To begin with, starting from an empty folder, you can:
+
+pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>]-> Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file in a flash, and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
+
+
+
+
+// For starters, from an empty folder, in a flash you can: +
+
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>]-> Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
+
+Think about it... +
+Can you say the same for other programming languages and frameworks?
+
+_Camel JBang_ comes packed with a ton of functionality you can use: it's Developer's paradise!
+
+{empty} +
+
+=== Create a Chat UI
+
+One cool feature _Camel JBang_ has recently added to its repertoire is the ability to serve HTML content to equip your Camel process with web pages. 
+
+Let's benefit from the new feature to add a bit of dynamic HTML code to create an UI interface that allow users to talk to the LLM.
+
+The mechanism is simple (in Camel JBang fashion), you just add your HTML content along with the rest of source files.
+
+Don't panic, we're not asking you to build an HTML interface, just fast-forward the lab and the HTML example will be added to your working folder:
+
+[IMPORTANT]
+.⏩ *Fast-Forward* 
+====
+Execute in your terminal the command below:
+
+[source, subs=]
+----
+ff<br>
+----
+====
+
+After doing so, a couple of parameters are added to you `aplication.properties` (to activate the web server), and a couple of files (web page) are added to your lab working directory:
+{empty} +
+
+--
+[.indent2]
+📁 llm-basics/camel/tools/lab +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] model.java +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] routes.yaml +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
+--
+
+{empty} +
+
+=== Try the Chat UI
+
+Give it a try, launch _Camel JBang_ as usual with:
+
+[source, subs=]
+----
+camel run *<br>
+----
+
+{blank}
+
+_Dev Spaces_ will prompt you to open the page, follow the actions illustrated below:
+
+image::images/18-chat-ui.png[width=70%, align=center]
+
+{blank}
+
+Go ahead and type a chat line, for example:
+
+[source, subs=]
+----
+How are you today?<br>
+----
+{blank}
+
+You should get a response similar to:
+
+- *LLM:* I am doing well, thank you! How about you?
+
+{empty} +
+
+=== Explore more Camel JBang features
+
+To quickly illustrate another useful feature, Camel JBang includes a web based _Developer Console_.
+
+Activate the _Developer Console_ using the flag `--console` as per the command below:
+
+[source, subs=]
+----
+camel run * --console<br>
+----
+
+{blank}
+
+You'll be prompted again to open the port `8080` in a new browser tab. +
+Do so and, in your browser's address bar, change the URL's path to the following one:
+
+- `/q/dev`
+
+{blank}
+
+You'll find a ton of information you can access. +
+Try for example:
+
+- pass:[<u style="color:blue">top</u>: Display the top routes]
+
+{blank}
+
+It should show you something similar to:
+
+----
+Top Routes:
+
+    Route Id: main
+    From: platform-http:///camel/chat
+    Source: file:routes.yaml:4
+    Total: 3
+    Failed: 0
+    Inflight: 0
+    Mean Time: 4s569ms
+    Max Time: 8s632ms
+    Min Time: 2s227ms
+    Last Time: 2s849ms
+    Delta Time: 622ms
+    Total Time: 13s708ms
+----
+
+{empty} +
+
+The above examples are cool features (out of many) _Camel JBang_ includes. +
+Feel free to explore more by reading its link:https://camel.apache.org/manual/camel-jbang.html[​documentation,window="_blank", , id="rhd-source-article"] page.  
+
+{empty} +
+
+
+[type=verification]
+Did you get a response from your LLM in your Chat UI?
+
+[type=verificationSuccess]
+Excellent!
+
+[type=verificationFail]
+Please review the steps of this chapter and try again. You can always use the commands `rw` (rewind) followed by `ff` (fast-forward) to reset the lab stage.
+
+
+[time=10]
+[id="first-llm-tool"]
+== Create in Camel an LLM tool
+
+=== Setup
+
+[IMPORTANT]
+====
+Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following command:
+
+[source, subs=]
+----
+step 4<br>
 ----
 
 NOTE: The command will reset the lab at this particular stage.
@@ -651,6 +816,24 @@ Then <<test-first-tool,click here to jump into the next section "*_Test the tool
 ====
 
 PENDING INSTRUCTIONS TO CREATE FLOW
+
+
+You're done. +
+You should end up with a flow similar to:
+
+image::images/15-kaoto-tool-weather.png[width=40%, align=left]
+
+{blank}
+
+// [TIP]
+// ====
+TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+// ====
+
+{empty} +
+
+// we need to set the anchor before the title, otherwise it doesn't work
+
 
 [[test-first-tool]] {empty} +
 
@@ -705,7 +888,15 @@ NOTE: Our _Camel_ tool defines the `location` parameter under the assumption use
 
 The second API (GeoDB) allows us to convert the name of cities to their latitude/longitude coordinates.
 
-To speed up the implementation process, fast-forward as indicated below to auto-generate the _Camel_ route process.
+The sequence diagram below describes the flow where the LLM calls the tool, live weather data is obtained, formatted and delivered to the LLM:
+
+image::images/17-seq-weather-guide.png[align="center", width=40%]
+
+{blank}
+
+To accelerate the completion of the processing logic, Fast-Forward as indicated below (the _Camel_ route will be auto-generated).
+
+NOTE: Feel free to complete the process using the _Kaoto_ UI if that's what you prefer. 
 
 [IMPORTANT]
 .⏩ *Fast-Forward* 
@@ -719,6 +910,20 @@ ff<br>
 ====
 
 {empty} +
+
+If you refresh Kaoto, you should end up with a flow similar to:
+
+image::images/16-kaoto-tool-weather-live.png[width=100%, align=center]
+
+{blank}
+
+// [TIP]
+// ====
+TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,http,https,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter,message-translator[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+// ====
+
+{empty} +
+
 
 EXPLAIN THE FINAL JSON RESPONSE Camel maps
 
