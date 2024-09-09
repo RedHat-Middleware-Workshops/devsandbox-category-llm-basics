@@ -8,16 +8,19 @@
             ref: createChatMessage
         - to:
             description: call LLM
-            uri: langchain4j-chat:getInformation
+            uri: langchain4j-tools:myllm
             parameters:
-              chatOperation: CHAT_MULTIPLE_MESSAGES
+              tags: all
         - log:
             message: ${body}
 - route:
     id: weather tool
     from:
-      uri: langchain4j-chat:getInformation?description=get wheather forecast
-        of cities around the world&parameter.location=string
+      uri: langchain4j-tools:weather
+      parameters:
+        tags: all
+        description: get wheather forecast of cities around the world
+        parameter.location: string
       steps:
         - setBody:
             expression:
