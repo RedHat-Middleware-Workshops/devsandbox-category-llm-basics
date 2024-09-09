@@ -175,6 +175,43 @@ Is your terminal open and located in your `lab` directory?
 Review the instructions above and ensure you run the `setup` script.
 
 
+[time=2]
+[id="deploy-llm"]
+== Deploy the LLM
+
+Copy and paste in your terminal the following command:
+
+[source, subs=]
+----
+oc apply -f /projects/llm-basics/deploy/tools/llm-server.yaml<br>
+----
+
+{blank}
+
+You should see the following output:
+
+----
+persistentvolumeclaim/llm-storage created
+deployment.apps/llm-server created
+service/llm created
+----
+
+{blank}
+
+Wait for the LLM Server to be up and running.
+
+{empty} +
+
+[type=verification]
+Is your LLM server running?
+
+[type=verificationSuccess]
+👍 jump to the next section!
+
+[type=verificationFail]
+Review the instructions and try again.
+
+
 [time=10]
 [id="basic-llm-interaction"]
 == Basic LLM interaction
