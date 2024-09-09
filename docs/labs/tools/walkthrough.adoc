@@ -140,7 +140,7 @@ image::images/03-copy-actions.png[width=60%]
 
 . Click the button _Copy to clipboard_
 . Paste the command in the terminal:
-- on Linux: kbd:[Ctrl+v] and press kbd:[Enter] 
+- on Linux: kbd:[Ctrl+Shift+v] and press kbd:[Enter] 
 - on Mac: kbd:[⌘+v] and press kbd:[Enter]
 
 {empty} +
@@ -162,6 +162,16 @@ The command above:
 - Switches to your `lab` directory.
 +
 NOTE: You'll see `lab` empty when your start the tutorial the first time.
+
+{empty} +
+
+=== Tips for a better learning
+
+If you have a wide monitor, or can organise your browser tabs in a multi-monitor configuration, it is mostly recommended to position your _DevSpaces_ view and your lab instructions side by side, as per the image below:
+
+image::images/19-better-learning.png[width=80%, align=center]
+
+
 
 {empty} +
 
