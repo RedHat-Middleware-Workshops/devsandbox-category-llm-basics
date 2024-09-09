@@ -5,3 +5,4 @@
 4 Create in Camel an LLM tool
 5 Test the tool
 6 Live weather information
+7 Multiple tools

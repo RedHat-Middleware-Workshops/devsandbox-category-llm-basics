@@ -306,7 +306,7 @@ This is the java object that configures connectivity and model parameters. Below
 ChatLanguageModel model = OpenAiChatModel.builder()
           .apiKey("EMPTY")
           .modelName("sam4096/qwen2tools:0.5b")
-          .baseUrl("http://ollama-svc:8000/v1/")
+          .baseUrl("http://llm:8000/v1/")
           .temperature(0.0)
           .timeout(ofSeconds(180))
           .logRequests(true)
@@ -642,7 +642,7 @@ NOTE: The command will reset the lab at this particular stage.
 
 You're in the prototyping phase, you're creating code that you are rapidly changing and experimenting with. This is the phase were you're exploring how far you can go building powerful functionality.
 
-_Camel JBang_ was built with prototyping in mind. In this lab, You already enjoyed the sublime simplicity of running Camel routes without having to scaffold a project skeleton or worry about library dependencies.
+_Camel JBang_ was built with prototyping in mind. In this lab, you already enjoyed the sublime simplicity of running Camel routes without having to scaffold a project skeleton or worry about library dependencies.
 
 Think for a moment the abilities _Camel JBang_ empowers the developer with. To begin with, starting from an empty folder, you can:
 
@@ -780,6 +780,29 @@ Top Routes:
 The above examples are cool features (out of many) _Camel JBang_ includes. +
 Feel free to explore more by reading its link:https://camel.apache.org/manual/camel-jbang.html[​documentation,window="_blank", , id="rhd-source-article"] page.  
 
+// {empty} +
+
+[TIP]
+====
+
+You can always invoke _Camel JBang_'s help command, from the terminal, to discover all options and flags available:
+
+[source, subs=]
+----
+camel --help<br>
+----
+
+{blank}
+
+You also have more granular help per-command. For example, try the following:
+
+[source, subs=]
+----
+camel get --help<br>
+----
+====
+
+
 {empty} +
 
 
@@ -825,7 +848,7 @@ When an LLM has been fine-tuned to support tools, we can ask questions to the LL
 
 {blank}
 
-The _Apache Camel_ langchain4j component makes it very easy to create tools the LLM can consume. 
+In _Apache Camel_, the link:https://camel.apache.org/components/next/langchain4j-tools-component.html[LangChain4j Tools,window="_blank", , id="rhd-source-article"] component makes it very easy to create tools the LLM can consume. 
 
 {empty} +
 
@@ -1034,8 +1057,8 @@ This time you should see the LLM utilizing the Tool (Camel) response to compose 
 
 
 [time=10]
-[id="step-3"]
-== Step 3. Multiple LLM tools in parallel
+[id="multiple-llm-tools"]
+== Multiple LLM tools in parallel
 
 Multiple tools can be offered at once to the LLM. This greatly opens up the possibility to define more interesting use cases.
 
@@ -1075,55 +1098,18 @@ fsdfsdf
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-, except this time we will rely on a Mock library (Mocker)
-less on free online APIs given the nature of this specific tool 
-
-Let's create another tool that combined with the first one already implemented allows the system to behave as a sort of travel agent.
-
-
-
-Our aim in this section of the tutorial is to offer richer capabilities that 
-In this section of the tutorial, we will combine the previous weather tool with a new one that allows to offer a more complete user experience around a travel use case.
-
-Let's now use Camel to equip our LLM with the ability to obtain real time data.
-
-Certain LLMs (not all) have been trained to support *Tools*. Tools are external functions the LLM can invoke in order to obtain the information it needs to complete the answer to the user.
-
-NOTE: Our super tiny LLM can actually support tools!
-
-When an LLM has been fine-tuned to support tools, we can ask questions to the LLM and additionally indicate:
-
-- _"By the way, here you have some tools you can use to complete your answer."_
-
-{blank}
-
-The Apache Camel langchain4j component makes it very easy to create tools the LLM can consume. 
-
 {empty} +
 
-### Dummy weather information
+### Test it
 
-To start with, let's create a Camel route that will provide a dummy response containing weather information.
+// To start with, let's create a Camel route that will provide a dummy response containing weather information.
 
-This first iteration is obviously not providing real time data but helps you validate the mechanism by which the LLM retrieves the information it needs to complete the answer.
+// This first iteration is obviously not providing real time data but helps you validate the mechanism by which the LLM retrieves the information it needs to complete the answer.
 
 [TIP]
 .⏩ *Fast-Forward* 
 ====
-To skip (fast-forward) this section, execute in your terminal the commands below:
+// To skip (fast-forward) this section, execute in your terminal the commands below:
 
 [source, subs=]
 ----
@@ -1132,8 +1118,31 @@ ff<br>
 
 {blank}
 
-Then <<test-first-tool,click here to jump into the next section>>.
+// Then <<test-first-tool,click here to jump into the next section>>.
 ====
+
+{empty} +
+
+To test both tools, use:
+
+[source, subs=]
+----
+chat I am planning to fly to Paris, what is the weather forecast and please give me the phone number of a good local tour guide you recommend<br>
+----
+
+{blank}
+
+You should see an output similar to:
+
+----
+The weather forecast for Paris on September 9th is showing a maximum
+temperature of 17.6°C and the forecast for September 10th shows a 
+maximum temperature of 16.9°C. The local tour guide Jeanne Dupont can
+be reached at phone number +33 771525384.
+----
+
+
+TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
 
 PENDING INSTRUCTIONS TO CREATE FLOW
 
