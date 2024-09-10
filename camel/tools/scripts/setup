@@ -1,4 +1,9 @@
+CATALOG=https://raw.githubusercontent.com/KaotoIO/catalogs/4.8.0-SNAPSHOT/catalogs/index.json
+CWCONFIG=/projects/.code-workspace
 LAB=/projects/llm-basics/camel/tools/lab
+
+# Configure Kaoto's catalogue version
+echo "$(jq '.settings += {"kaoto.catalog.url": "'"$CATALOG"'"}' $CWCONFIG)" > $CWCONFIG
 
 if [ ! -d "$LAB" ]; then
   mkdir $LAB
