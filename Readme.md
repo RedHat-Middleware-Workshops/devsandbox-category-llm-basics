@@ -27,7 +27,7 @@ To launch this tutorial, you only need 2 steps:
 
     Once provisioned, from VS Code in DevSpaces, unfold the `ENDPOINTS` group in the left panel, and open the `Tutorial` documentation to get started, as per the actions in the picture below:
 
-    ![](docs/labs/basics/images/29-ai-open-tutorial.png)
+    ![](docs/labs/tools/images/00-open-tutorial.png)
     *Mouse actions in VS Code to open the tutorial.*
 
 <br/>
