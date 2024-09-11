@@ -3,164 +3,138 @@
   --container-height: 400px;
 }
 
-
 body {
-    background-color: #90EE90;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  font-family: 'Red Hat Display', sans-serif;
+  background-color: #f5f5f5;
+  color: #3c3f42;
+  margin: 0;
+  padding: 0;
 }
 
-.container {
-    margin: 50px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    resize: both;
-    overflow:auto;
-    height: var(--container-height);
-    min-height: var(--container-height);
-    min-width: 250px;
-    width: 500px;
-}
-
-.logo {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #008000;
-}
-
-.form {
+/* Center the card in the bullseye layout */
+.pf-v5-l-bullseye {
+  height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
 
-.input-container {
+/* Style the card */
+.pf-v5-c-card {
+  width: 450px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #d2d2d2;
+
+  resize: both;
+  overflow:auto;
+  height: var(--container-height);
+  min-height: var(--container-height);
+  min-width: 280px;
+  width: 500px; 
+}
+
+.pf-v5-c-card__title {
+  background-color: #3c3f42;
+  color: white;
+  padding: 16px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Message area styling */
+#messageArea {
+  padding: 16px;
+  height: 300px;
+  /* overflow-y: auto; */
+  background-color: #fafafa;
+  border-bottom: 1px solid #d2d2d2;
+
+  height: calc(100% - 105px);
+  min-height: calc(var(--container-height) - 175px);
+  overflow-y: scroll;
+}
+
+/* Input group styling */
+.pf-v5-c-input-group {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  padding: 16px;
 }
 
-.input,.button {
-    margin: 20px auto;
-    /*border: 1px solid #ccc;*/
-    border-radius: 5px;
-    padding: 10px;
-    padding-right: 10px;
-    margin-bottom: 10px;
-
-    /*vertical-align: middle;*/
-    width: 80%;
+.pf-v5-c-form-control {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d2d2d2;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.button {
-    background-color: #008000;
-    color: white;
-    border: none;
-    margin-left: 10px;
-    width: 20%;
-/*    border-radius: 5px;
-    padding: 10px;
-    width: 20%;
-    cursor: pointer;
-    margin: 20px;
-*/
-    /*vertical-align: middle;*/
+.pf-v5-c-card__body {
+  height: calc(100% - 70px);
 }
 
-.messageArea {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    height: calc(100% - 160px);
-    min-height: calc(var(--container-height) - 160px);
-    overflow-y: scroll;
+.pf-v5-c-button.pf-m-primary {
+  margin-left: 8px;
+  background-color: #cc0000;
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.message {
-    margin-bottom: 5px;
+/* Chat message styles */
+.pf-v5-c-chat__message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-.username {
-    font-weight: bold;
-    color: #008000;
+.pf-m-right {
+  background-color: #0066cc;
+  color: white;
+  text-align: right;
 }
 
-/**
- * ==============================================
- * Dot Pulse
- * ==============================================
- */
- .dot-pulse {
-    position: relative;
-    /* padding: 10px; */
-    left: -9999px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #008000;
-    color: #008000;
-    box-shadow: 9999px 0 0 -5px;
-    animation: dot-pulse 1.5s infinite linear;
-    animation-delay: 0.25s;
+.pf-m-left {
+  background-color: #ededed;
+  color: #3c3f42;
+}
+
+.pf-v5-c-chat__message-text strong {
+  font-weight: 600;
+}
+
+/* Scrollbar styling for message area */
+#messageArea::-webkit-scrollbar {
+  width: 8px;
+}
+
+#messageArea::-webkit-scrollbar-thumb {
+  background-color: #d2d2d2;
+  border-radius: 4px;
+}
+
+/* Dot Pulse Loader */
+.dot-pulse {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #cc0000;
+  animation: dotPulse 1.5s infinite linear;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
   }
-  .dot-pulse::before, .dot-pulse::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #008000;
-    color: #008000;
+  50% {
+    transform: scale(1.5);
   }
-  .dot-pulse::before {
-    box-shadow: 9984px 0 0 -5px;
-    animation: dot-pulse-before 1.5s infinite linear;
-    animation-delay: 0s;
-  }
-  .dot-pulse::after {
-    box-shadow: 10014px 0 0 -5px;
-    animation: dot-pulse-after 1.5s infinite linear;
-    animation-delay: 0.5s;
-  }
-  
-  @keyframes dot-pulse-before {
-    0% {
-      box-shadow: 9984px 0 0 -5px;
-    }
-    30% {
-      box-shadow: 9984px 0 0 2px;
-    }
-    60%, 100% {
-      box-shadow: 9984px 0 0 -5px;
-    }
-  }
-  @keyframes dot-pulse {
-    0% {
-      box-shadow: 9999px 0 0 -5px;
-    }
-    30% {
-      box-shadow: 9999px 0 0 2px;
-    }
-    60%, 100% {
-      box-shadow: 9999px 0 0 -5px;
-    }
-  }
-  @keyframes dot-pulse-after {
-    0% {
-      box-shadow: 10014px 0 0 -5px;
-    }
-    30% {
-      box-shadow: 10014px 0 0 2px;
-    }
-    60%, 100% {
-      box-shadow: 10014px 0 0 -5px;
-    }
-  }
+}
