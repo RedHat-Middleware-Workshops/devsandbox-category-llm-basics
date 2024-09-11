@@ -7,42 +7,21 @@
         description: get local tour guide contact details in cities around the world
         parameter.location: string
       steps:
-        - setProperty:
+        - setVariable:
             name: location
             simple:
               expression: "${header.location}"
         - removeHeaders:
             pattern: '*'
-        - log:
-            message: "got recomendation request for: ${exchangeProperty.location}"
-        - setHeader:
-            name: CamelHttpMethod
+        - toD:
+            uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places?httpMethod=GET&namePrefix=${variable.location}&limit=1&sort=-population"
+        - unmarshal:
+            json:
+              library: Jackson
+        - setBody:
             simple:
-              expression: GET
-        - doTry:
-            steps:
-              - toD:
-                  uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places?namePrefix=${exchangeProperty.location}&limit=1&sort=-population"
-              - unmarshal:
-                  json:
-                    library: Jackson
-              - setBody:
-                  simple:
-                    expression: "${body.get(data)[0].get(countryCode)}"
-              - log:
-                  message: "countryCode is: ${body}"
-              - process:
-                  ref: getTourGuide
-              - log:
-                  message: "recommended JSON: ${body}"
-              - doCatch:
-                  exception:
-                    - java.lang.Exception
-                  steps:
-                    - log:
-                        message: "error message was: ${exception.message}"
-                    - setBody: 
-                        simple: 
-                          expression: no hotel recomendation was found.
+              expression: "${body.get(data)[0].get(countryCode)}"
+        - process:
+            ref: getTourGuide
         - log:
             message: "cc: ${body}"

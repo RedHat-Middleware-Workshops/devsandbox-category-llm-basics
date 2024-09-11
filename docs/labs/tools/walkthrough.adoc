@@ -1115,7 +1115,13 @@ Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following co
 step 7<br>
 ----
 
-NOTE: The command will reset the lab at this particular stage.
+[NOTE]
+======
+The command above will:
+
+- Reset the lab at this particular stage.
+- Disable the _Weather_ tool (empty file), to work in isolation on the new one.
+======
 ====
 
 // {empty} +
@@ -1168,15 +1174,98 @@ All in all, the recommendation tool implemented as a Camel route will follow the
 
 image::images/02-seq-tool-tour-guide.png[align="center", width=30%]
 
+{empty} +
+
+To accelerate the creation of the new tool, Fast-Forward as indicated below (the necessary sources will be auto-generated).
+
+[IMPORTANT]
+.⏩ *Fast-Forward* 
+====
+Execute in your terminal the command below:
+
+[source, subs=]
+----
+ff<br>
+----
+====
+
 {blank}
 
-fsdfsdf
+After executing the fast-forward action, you'll find two new files, listed below:
 
+// {empty} +
 
+++++
+<style>
+.indent2 {padding-left: 2rem;}
+</style>
+++++
+
+--
+[.indent2]
+📁 llm-basics/camel/tools/lab +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] *route-tool-guide.yaml* +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] *processors.java* +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
+--
+
+{blank}
 
 {empty} +
 
-### Test it
+If you open in Kaoto the newly created tool, you should find a _Camel_ route as the one shown below:
+
+image::images/20-kaoto-tool-guide.png[width=80%, align=center]
+
+{blank}
+
+// [TIP]
+// ====
+TIP: Click link:{eip-explorer-url}/?q=langchain4j-tools,http,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter,custom-logic[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+// ====
+
+{blank}
+
+The new file `processors.java` defines the _Camel Processor_ referenced by the `process` action you see in the _Kaoto_ diagram above. It includes the custom code, using the _JavaFaker_ library as explained earlier, to generate realistic, localised, contact information of a simulated tour guide the system recommends to the user.
+
+{empty} +
+
+### Try the new recommendation tool
+
+Give it a go, follow the steps below:.
+
+
+. Launch _Camel JBang_ as usual with:
++
+[source, subs=]
+----
+camel run *<br>
+----
++
+{blank}
+
+. Go ahead and type a chat line, for example:
++
+[source, subs=]
+----
+chat I plan to visit Paris soon, please recommend a good local tour guide to show me around along with their phone contact.<br>
+----
+
+{empty} +
+
+You should get a response similar to:
+
+- *LLM:* I recommend the following local tour guide to show you around Paris:
++
+"Pierre Lemaire" from the city of Paris, France. He can be reached via phone number +33 727134666.
+
+{empty} +
+
+{empty} +
+
+{empty} +
 
 // To start with, let's create a Camel route that will provide a dummy response containing weather information.
 
