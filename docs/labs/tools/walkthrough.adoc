@@ -208,7 +208,43 @@ service/llm created
 
 {blank}
 
-Wait for the LLM Server to be up and running.
+Wait for the LLM Server to be available. +
+You can verify in various ways if you're LLM server is running. One way, for example, is calling the server's API. Try the `curl` command below:
+
+[source, subs=]
+----
+curl http://llm:8000/api/tags | jq<br>
+----
+
+{blank}
+
+Your server will be ready when you get a response with details of the model deployed.
+
+----
+{
+  "models": [
+    {
+      "name": "sam4096/qwen2tools:0.5b",
+      "model": "sam4096/qwen2tools:0.5b",
+      "modified_at": "2024-09-10T17:05:29.965922378Z",
+      "size": 352165374,
+      "digest": "ff120c9ea730cd6b7f772ae9ff9127357bf8d8fb7625df601b81e79810a68083",
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen2",
+        "families": [
+          "qwen2"
+        ],
+        "parameter_size": "494.03M",
+        "quantization_level": "Q4_0"
+      }
+    }
+  ]
+}
+----
+
+NOTE: In the details above, you'll notice this is 0.5B model, which is extremely small. Expect from the model to be very unpredictable. However it'll be very helpful in this tutorial to help you understand the mechanics of LLMs and the functionality the lab showcases.
 
 {empty} +
 
@@ -827,7 +863,7 @@ Please review the steps of this chapter and try again. You can always use the co
 
 
 [time=10]
-[id="first-llm-tool"]
+[id="llm-tool-weather"]
 == Create in Camel an LLM tool
 
 === Setup
@@ -862,11 +898,11 @@ In _Apache Camel_, the link:https://camel.apache.org/components/next/langchain4j
 
 {empty} +
 
-### First iteration
+### First iteration of a Weather Tool
 
 The end goal is to use _Camel_ to equip the LLM with the ability to obtain real time data.
 
-First, you'll start prototyping the LLM tool by creating a _Camel_ route that will provide dummy weather information.
+To start with, the LLM tool prototype you will create, with a _Camel_ route, will just generate dummy weather information.
 
 Although this first iteration doesn't fetch real time data, it will help you validate the mechanism by which the LLM retrieves the information and it will give you a better understanding on how _Camel_ and the LLM interact.
 
@@ -1064,23 +1100,49 @@ This time you should see the LLM utilizing the Tool (Camel) response to compose 
 
 
 
-
-
 [time=10]
-[id="multiple-llm-tools"]
-== Multiple LLM tools in parallel
+[id="llm-tool-tour-guide"]
+== Craft a second LLM tool
 
-Multiple tools can be offered at once to the LLM. This greatly opens up the possibility to define more interesting use cases.
+=== Setup
 
-When requests are submitted to the LLM, along are included all the tools the LLM can use. The LLM is free to use none, one or multiple tools in parallel to fetch all the relevant information it needs. The LLM decides on its own when to use them.
+[IMPORTANT]
+====
+Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following command:
 
-{empty} +
+[source, subs=]
+----
+step 4<br>
+----
 
-=== Use Camel to create a second tool
+NOTE: The command will reset the lab at this particular stage.
+====
 
-Our aim in this part of the tutorial is to create a sort of travel agent that helps users obtain location information for travelling purposes.
+// {empty} +
 
-We will combine the following tools:
+// === The Tour Guide Recommendation tool
+
+// You're going to define a second tool that will complement the first one. The aim is to combine both tools to enable the system (agent) the ability to provide travelling information. Users interested in visiting tourist destinations will be able to ask for weather forecasts and be recommended a personal tour guide they can hire.  
+
+
+
+
+// [time=10]
+// [id="multiple-llm-tools"]
+
+=== Simultaneous LLM tools
+
+Multiple tools can be simultaneously given to the LLM. This greatly opens up the possibility to define more interesting use cases.
+
+When requests are submitted to the LLM, along are included all the tools the LLM can use. The LLM is free to use none, one or multiple tools in parallel to fetch all the relevant information it needs. The LLM alone decides when to use them.
+
+// {empty} +
+
+// === Use Camel to create a second tool
+
+In this stage of the tutorial you will create a basic travel agent that helps users obtain travelling information for a particular touristic destination.
+
+The aim is to combine the following tools:
 
 - *Weather* tool: +
   Already implemented (previous sections). Based on a `location` input parameter, the tool provides real time weather forecasts.
@@ -1088,15 +1150,19 @@ We will combine the following tools:
 - *Tour guide recommendation* tool: +
   Based on a `location` input parameter, the tool returns the contact details of a recommended local tour guide. 
   
-{blank}
+// {blank}
 
-We will follow the same creation approach as for the weather tool by creating a Camel route that implements the logic to compose a JSON response for the LLM.
+{empty} +
 
-There are no public APIs out there that can easily fit into our use case. We will use instead _JavaFaker_, a Java library that will help simulate the information. 
+=== Creation process
 
-What's interesting about link:https://github.com/DiUS/java-faker?tab=readme-ov-file#java-faker[_JavaFaker_,window="_blank"] is that it supports a fairly extended list of link:https://github.com/DiUS/java-faker#supported-locales[locales,window="_blank"] that allows us to create more realistic data depending on the location provided by the LLM.
+You will follow the same creation approach as for the weather tool by creating a _Camel_ route that implements the logic to compose a JSON response for the LLM.
 
-We need however to map the `location` parameter the LLM provides into a locale we can use with _JavaFaker_. To resolve the conversion we will rely on the same GeoDB API used in the Weather tool from the previous chapter.
+There are no public APIs available aligning well with the lab's use case. You will use instead _JavaFaker_, a Java library that will help simulate the scenario. 
+
+What's interesting about link:https://github.com/DiUS/java-faker?tab=readme-ov-file#java-faker[_JavaFaker_,window="_blank"] is that it supports a fairly extended list of link:https://github.com/DiUS/java-faker#supported-locales[locales,window="_blank"] that allows creating realistic data depending on the location provided by the LLM.
+
+You'll need however to map the `location` parameter the LLM provides into a locale you can use with _JavaFaker_. To resolve the conversion you will rely on the same GeoDB API used in the Weather tool from the previous chapter.
 
 All in all, the recommendation tool implemented as a Camel route will follow the sequence of calls illustrated below:
 
