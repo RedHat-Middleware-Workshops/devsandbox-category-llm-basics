@@ -1112,7 +1112,7 @@ Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following co
 
 [source, subs=]
 ----
-step 4<br>
+step 7<br>
 ----
 
 NOTE: The command will reset the lab at this particular stage.
