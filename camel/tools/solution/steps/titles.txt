@@ -3,6 +3,8 @@
 2 Add a Chat UI
 3 Try the Chat UI
 4 Create in Camel an LLM tool
-5 Test the tool
+5 Test the weather tool
 6 Live weather information
-7 Multiple tools
+7 Create second LLM tool
+8 Test the tour guide tool
+9 Compose the tools

@@ -1,0 +1,48 @@
+- route:
+    id: tour guide tool
+    from:
+      uri: langchain4j-tools:tour-guide
+      parameters:
+        tags: all
+        description: get local tour guide contact details in cities around the world
+        parameter.location: string
+      steps:
+        - setProperty:
+            name: location
+            simple:
+              expression: "${header.location}"
+        - removeHeaders:
+            pattern: '*'
+        - log:
+            message: "got recomendation request for: ${exchangeProperty.location}"
+        - setHeader:
+            name: CamelHttpMethod
+            simple:
+              expression: GET
+        - doTry:
+            steps:
+              - toD:
+                  uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places?namePrefix=${exchangeProperty.location}&limit=1&sort=-population"
+              - unmarshal:
+                  json:
+                    library: Jackson
+              - setBody:
+                  simple:
+                    expression: "${body.get(data)[0].get(countryCode)}"
+              - log:
+                  message: "countryCode is: ${body}"
+              - process:
+                  ref: getTourGuide
+              - log:
+                  message: "recommended JSON: ${body}"
+              - doCatch:
+                  exception:
+                    - java.lang.Exception
+                  steps:
+                    - log:
+                        message: "error message was: ${exception.message}"
+                    - setBody: 
+                        simple: 
+                          expression: no hotel recomendation was found.
+        - log:
+            message: "cc: ${body}"
