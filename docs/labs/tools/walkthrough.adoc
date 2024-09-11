@@ -1234,7 +1234,7 @@ The new file `processors.java` defines the _Camel Processor_ referenced by the `
 
 ### Try the new recommendation tool
 
-Give it a go, follow the steps below:.
+Give it a go, follow the steps below:
 
 
 . Launch _Camel JBang_ as usual with:
@@ -1246,26 +1246,59 @@ camel run *<br>
 +
 {blank}
 
-. Go ahead and type a chat line, for example:
+. Talk to the LLM using the _Chat UI_, or `chat` command, by issuing the following query:
 +
 [source, subs=]
 ----
-chat I plan to visit Paris soon, please recommend a good local tour guide to show me around along with their phone contact.<br>
+I plan to visit Paris soon, please recommend a good local tour guide to show me around along with their phone contact.<br>
 ----
 
 {empty} +
 
 You should get a response similar to:
 
-- *LLM:* I recommend the following local tour guide to show you around Paris:
-+
-"Pierre Lemaire" from the city of Paris, France. He can be reached via phone number +33 727134666.
+// - *LLM:* I recommend the following local tour guide to show you around Paris:
+// +
+// "Pierre Lemaire" from the city of Paris, France. He can be reached via phone number +33 727134666.
+
+// {empty} +
+
+image::images/21-tool-guide-llm-response.png[width=50%, align=center]
+
+{blank}
+
+In the interaction above, it's fascinating to observe how the LLM has formulated the response, considering the actual data _Camel_ returned to the LLM, as per the log extract below:
+
+----
+{
+  "tourGuide": {
+    "firstName": "Noémie",
+    "lastName": "Roussel",
+    "contact": {
+      "phone": "07 28 30 31 56"
+    }
+  }
+}
+----
+
+NOTE: the extract above has been pretty-printed fore easy readability.
+
+{blank}
+
+In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something we were expecting due to the limitations of the tiny model we're running.
+
+TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
+
 
 {empty} +
 
 {empty} +
 
 {empty} +
+
+{empty} +
+
+
 
 // To start with, let's create a Camel route that will provide a dummy response containing weather information.
 
