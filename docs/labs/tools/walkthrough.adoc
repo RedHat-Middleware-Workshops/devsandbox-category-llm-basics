@@ -260,7 +260,7 @@ Is your LLM server running?
 Review the instructions and try again.
 
 
-[time=10]
+[time=5]
 [id="basic-llm-interaction"]
 == Basic LLM interaction
 
@@ -343,7 +343,7 @@ You use the DSL alone to define the end to end integration process. DSLs have al
 
 Connectors in _Apache Camel_ are used directly from the DSL, but some, like the _LangChain4j_-based ones, may require initialisation code in Java. Ideally you'd want no code at all, yet it provides the developer full control.
 
-The java file we provide (`model.java`) contains the _LangChain4j_-based code needed to enable LLM interaction. +
+The java file provided (`model.java`) contains the _LangChain4j_-based code needed to enable LLM interaction. +
 Two key _LangChain4j_ objects are key:
 
 . The *ChatLanguageModel* object
@@ -368,7 +368,7 @@ ChatLanguageModel model = OpenAiChatModel.builder()
 +
 Every time the application interacts with the LLM, the query (and related metadata) is encapsulated in a _ChatMessage_ object.
 +
-Because creating the object requires a specific use of the _LangChain4j_ API, we wrap it in a _Camel Processor_ (java code).
+Because creating the object requires a specific use of the _LangChain4j_ API, you want to wrap it in a _Camel Processor_ (java code).
 +
 The snippet below shows you how `model.java` defines the _Camel_ processor containing the _LangChain4j_ code.
 +
@@ -614,7 +614,7 @@ The above interaction should return a welcoming message from the LLM.
 
 Your LLM is currently disconnected from any live service and it can't provide real time information about the world.
 
-We have configured the LLM to ensure the user is informed bout it. The snippet below, extracted from the `model.java` source file, shows you how this is done:
+The code is configured to instruct the LLM to ensure the user is informed about it. The snippet below, extracted from the `model.java` source file, shows you how this is done:
 
 ----
 String tools = """
@@ -668,7 +668,7 @@ You've completed the basic processing flow to connect Camel to the LLM.
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=10]
+[time=5]
 [id="html-serving"]
 == Add a Chat UI
 
@@ -718,7 +718,7 @@ Let's benefit from the new feature to add a bit of dynamic HTML code to create a
 
 The mechanism is simple (in Camel JBang fashion), you just add your HTML content along with the rest of source files.
 
-Don't panic, we're not asking you to build an HTML interface, just fast-forward the lab and the HTML example will be added to your working folder:
+Don't panic, you're not being asked to build an HTML interface, just fast-forward the lab and the HTML example will be added to your working folder:
 
 [IMPORTANT]
 .⏩ *Fast-Forward* 
@@ -890,7 +890,7 @@ Certain LLMs (not all) have been trained to support *Tools*. Tools are external 
 
 NOTE: Our super tiny LLM can actually support tools!
 
-When an LLM has been fine-tuned to support tools, we can ask questions to the LLM, as usual, and additionally indicate:
+When an LLM has been fine-tuned to support tools, you can ask questions to the LLM, as usual, and additionally indicate:
 
 - _"By the way, here you have some tools you can use to complete your answer."_
 
@@ -1000,7 +1000,7 @@ image::images/22-tool-weather-offline.png[width=50%, align=center]
 
 TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
 
-Although we know _"35 degrees Celsius"_ is the correct answer, you could validate the LLM's response (in the _Chat UI_) by correlating the information with the actual Camel tool result. 
+Although you know _"35 degrees Celsius"_ is the correct answer, you could validate the LLM's response (in the _Chat UI_) by correlating the information with the actual Camel tool result. 
 
 The JSON data shown below is an extract, from the logs in the terminal, showing the content Camel sent back to the LLM, which aligns with the answer displayed in the Chat UI:
 
@@ -1044,7 +1044,7 @@ Please review the steps of this chapter and try again.
 
 [time=5]
 [id="llm-tool-weather-live"]
-== Live weather information
+== Connect the tool to real time feeds
 
 === Setup
 
@@ -1065,9 +1065,9 @@ NOTE: The command will reset the lab at this particular stage.
 
 ### Live weather information
 
-A dummy response is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time data.
+Hardcoding dummy responses, as done in the previous chapter, is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time data.
 
-When the LLM calls the tool, we will use in our _Camel_ route the following free services:
+This time, when the LLM calls the tool, you will use in your _Camel_ route the following free services:
 
 * link:https://open-meteo.com[​Free Weather API,window="_blank", , id="rhd-source-article"]
 
@@ -1075,13 +1075,13 @@ When the LLM calls the tool, we will use in our _Camel_ route the following free
 
 {blank}
 
-The first API alone provides the weather information we need, however it expects geo-location data in the form of `latitude`/`longitude` inputs.
+The first API alone provides the weather information you need, however it expects geo-location data in the form of `latitude`/`longitude` inputs.
 
-NOTE: Our _Camel_ tool defines the `location` parameter under the assumption users provide well known city names, like: Paris, London, Madrid, etc. 
+NOTE: Your _Camel_ tool defines the `location` parameter under the assumption users provide well known city names, like: Paris, London, Madrid, etc. 
 
-The second API (GeoDB) allows us to convert the name of cities to their latitude/longitude coordinates.
+The second API (GeoDB) allows you to convert the name of cities to their latitude/longitude coordinates.
 
-The sequence diagram below describes the flow where the LLM calls the tool, live weather data is obtained, formatted and delivered to the LLM:
+The sequence diagram below describes the flow where the LLM calls the tool, live weather data is obtained, then formatted and delivered to the LLM:
 
 image::images/17-seq-weather-guide.png[align="center", width=40%]
 
@@ -1115,11 +1115,16 @@ image::images/16-kaoto-tool-weather-live.png[width=100%, align=center]
 TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,http,https,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter,message-translator[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
 // ====
 
-{empty} +
+Feel free to explore each one of the activities and their configuration. You can also open the file in _VScode_ in its raw YAML format.
 
+There are two key actions interesting to highlight:
 
-EXPLAIN THE FINAL JSON RESPONSE Camel maps
-
+. Setting a `coordinates` variable
++
+The first _GeoDB_ call gives you back, in JSON format, the latitude and longitude. You use Camel's '_Simple_' language to define an expression that extracts the coordinates and formats them into query parameters to inject in the next API call.
++
+The code extract below shows you hot it's defined in YAML: 
++
 ----
   - setVariable:
       name: coordinates
@@ -1127,7 +1132,15 @@ EXPLAIN THE FINAL JSON RESPONSE Camel maps
         expression: "latitude=${body[data][0][latitude]}&longitude=${body[data][0][longitude]}"
 
 ----
++
+{blank}
 
+. Composition of the tool's JSON response
++
+Another highlight is how the response is constructed, also defined using the '_Simple_' language. It gathers from the _Weather API_'s response all the necessary bits and formats a JSON response the LLM will parse.
++
+The extract below in YAML shows you how it is done:
++
 ----
   expression: >-
     {
@@ -1212,7 +1225,7 @@ NOTE: the extract above has been pretty-printed fore easy readability.
 
 {blank}
 
-In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something we were expecting due to the limitations of the tiny model we're running.
+In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something you would expect given the limitations of the tiny model you're running.
 
 TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
 
@@ -1449,7 +1462,7 @@ NOTE: the extract above has been pretty-printed fore easy readability.
 
 {blank}
 
-In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something we were expecting due to the limitations of the tiny model we're running.
+In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something you would expect given the limitations of the tiny model you're running.
 
 TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
 
@@ -1512,7 +1525,7 @@ PENDING INSTRUCTIONS TO CREATE FLOW
 
 ### Test the tool
 
-To test the tool all we need to do is to talk to the LLM and ask the same question as in the earlier section, except we expect the LLM to interact with Camel to invoke the function.
+To test the tool all you need to do is to talk to the LLM and ask the same question as in the earlier section, except expecting the LLM to interact with Camel to invoke the function.
 
 [NOTE]
 --
@@ -1547,15 +1560,15 @@ TIP: If the LLM provided an AI hallucination, try varying the request slightly a
 
 A dummy response is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time data.
 
-When the LLM calls the tool, we will use in our Camel route the following free services:
+This time, when the LLM calls the tool, you will use in your _Camel_ route the following free services:
 
 * link:https://open-meteo.com[​Free Weather API,window="_blank", , id="rhd-source-article"]
 
 * link:http://geodb-cities-api.wirefreethought.com/[GeoDB Cities API,window="_blank", , id="rhd-source-article"]
 
-While the first API provides the weather information we need, it expects the geo-location in the form of `latitude`/`longitude` inputs.
+While the first API provides the weather information you need, it expects the geo-location in the form of `latitude`/`longitude` inputs.
 
-NOTE: Our Camel tool defines the `location` parameter under the assumption users provide well known city names, for example, Paris, London, Madrid, etc. 
+NOTE: Your _Camel_ tool defines the `location` parameter under the assumption users provide well known city names, for example, Paris, London, Madrid, etc. 
 
 The second API (GeoDB) allows us to convert the name of cities to their latitude/longitude coordinates.
 
