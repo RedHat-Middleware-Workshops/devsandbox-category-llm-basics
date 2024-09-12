@@ -1135,7 +1135,7 @@ The code extract below shows you hot it's defined in YAML:
 +
 {blank}
 
-. Composition of the tool's JSON response
+. The tool's JSON response
 +
 Another highlight is how the response is constructed, also defined using the '_Simple_' language. It gathers from the _Weather API_'s response all the necessary bits and formats a JSON response the LLM will parse.
 +
