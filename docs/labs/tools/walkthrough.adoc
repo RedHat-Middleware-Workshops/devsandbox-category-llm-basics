@@ -60,12 +60,14 @@ image::images/13-intro-lab.png[align=center,width=60%]
 This hands-on lab will help you to:
 
 - Discover new functionality in _Camel_ to implement **AI** use cases.
-- Better understand LLMs and how to leverage the use of **tools**.
+- Better understand LLMs and how to leverage the use of **_Tools_**.
 - Try out the **_Kaoto_** UI to graphically create _Camel_ routes.
-- Experience how **_Camel JBang_** accelerates the prototyping phase.
+- Accelerate the prototyping phase with **_Camel JBang_**.
 - Learn how to use brand new features in _Camel_ _JBang_ like:
 ** its **kubernetes plugin** to deploy _Camel_ in _OpenShift_.
 ** its **HTML server** to easily test, package and deploy pages.
+- Browse and learn _Camel_ components and patterns with the new _**Enterprise Integration Explorer.**_  
+- Get familiar with **_Dev Spaces_** and the _Developer Sandbox_.
 
 {empty} +
 
@@ -866,7 +868,7 @@ Please review the steps of this chapter and try again. You can always use the co
 
 [time=5]
 [id="llm-tool-weather"]
-== Create in Camel an LLM tool
+== Create first LLM tool (v1 offline)
 
 === Setup
 
@@ -902,9 +904,9 @@ In _Apache Camel_, the link:https://camel.apache.org/components/next/langchain4j
 
 ### First iteration of a Weather Tool
 
-The end goal is to use _Camel_ to equip the LLM with the ability to obtain real time data.
+The end goal is to use _Camel_ to enable the LLM the ability to obtain real time data. The LLM alone can't do it, unless assisted.
 
-However, to simplify the creation process, you will inject dummy weather data by hardcoding values in a _Camel_ route you will create. The JSON data below illustrates such a response:
+To simplify the creation process, first, you will inject dummy weather data by hardcoding values in a _Camel_ route you will create. The JSON data below illustrates such a response:
 
 [subs="quotes"]
 ----
@@ -1044,7 +1046,7 @@ Please review the steps of this chapter and try again.
 
 [time=5]
 [id="llm-tool-weather-live"]
-== Connect the tool to real time feeds
+== Finish first LLM tool (v2 online)
 
 === Setup
 
@@ -1065,7 +1067,7 @@ NOTE: The command will reset the lab at this particular stage.
 
 ### Live weather information
 
-Hardcoding dummy responses, as done in the previous chapter, is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time data.
+Hardcoding dummy responses, as done in the previous chapter, is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time feeds.
 
 This time, when the LLM calls the tool, you will use in your _Camel_ route the following free services:
 
@@ -1252,7 +1254,7 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 
 [time=5]
 [id="llm-tool-tour-guide"]
-== Craft a second LLM tool
+== Create second LLM tool
 
 === Setup
 
@@ -1441,7 +1443,7 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 
 [time=10]
 [id="llm-all-tools"]
-== Run both tools
+== Run the LLM using both tools
 
 === Setup
 

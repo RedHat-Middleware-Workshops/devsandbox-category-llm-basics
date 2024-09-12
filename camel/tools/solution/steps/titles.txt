@@ -2,10 +2,10 @@
 1 Talk to your LLM
 2 Add a Chat UI
 3 Try the Chat UI
-4 Create in Camel an LLM tool
+4 Create first LLM tool (v1 offline)
 5 Test the weather tool
-6 Live weather information
+6 Finish first LLM tool (v2 online)
 7 Create second LLM tool
 8 Test the tour guide tool
-9 Run both tools
+9 Run the LLM using both tools
 10 Export to Quarkus
