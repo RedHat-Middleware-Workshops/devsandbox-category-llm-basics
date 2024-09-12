@@ -6,9 +6,14 @@ import org.apache.camel.Processor;
 
 import com.github.javafaker.Faker;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+
+@ApplicationScoped
 public class processors {
 
-    @BindToRegistry
+    // @BindToRegistry
+    @Named("getTourGuide")
     public static Processor getTourGuide(){
 
         return new Processor() {

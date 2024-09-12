@@ -734,7 +734,7 @@ ff<br>
 ====
 
 After doing so, a couple of parameters are added to you `aplication.properties` (to activate the web server), and a couple of files (web page) are added to your lab working directory:
-{empty} +
+//{empty} +
 
 --
 [.indent2]
@@ -1376,7 +1376,6 @@ The new file `processors.java` defines the _Camel Processor_ referenced by the `
 
 Give it a go, follow the steps below:
 
-
 . Launch _Camel JBang_ as usual with:
 +
 [source, subs=]
@@ -1453,7 +1452,7 @@ Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following co
 
 [source, subs=]
 ----
-step 7<br>
+step 9<br>
 ----
 
 [NOTE]
@@ -1461,237 +1460,122 @@ step 7<br>
 The command above will:
 
 - Reset the lab at this particular stage.
-- Disable the _Weather_ tool (empty file), to work in isolation on the new one.
+- Enable both tools.
 ======
 ====
 
 {empty} +
 
-{empty} +
+=== Review your sources
 
+This step represents the final milestone in your path to implement the functionality of a complete _Travel Agent_.
 
+Inspecting your `lab` folder you will observe all the _Camel_ routes are fully defined in the following YAML files:
 
-// To start with, let's create a Camel route that will provide a dummy response containing weather information.
-
-// This first iteration is obviously not providing real time data but helps you validate the mechanism by which the LLM retrieves the information it needs to complete the answer.
-
-[TIP]
-.⏩ *Fast-Forward* 
-====
-// To skip (fast-forward) this section, execute in your terminal the commands below:
-
-[source, subs=]
-----
-ff<br>
-----
-
-{blank}
-
-// Then <<test-first-tool,click here to jump into the next section>>.
-====
-
-{empty} +
-
-To test both tools, use:
-
-[source, subs=]
-----
-chat I am planning to fly to Paris, what is the weather forecast and please give me the phone number of a good local tour guide you recommend<br>
-----
-
-{blank}
-
-You should see an output similar to:
-
-----
-The weather forecast for Paris on September 9th is showing a maximum
-temperature of 17.6°C and the forecast for September 10th shows a 
-maximum temperature of 16.9°C. The local tour guide Jeanne Dupont can
-be reached at phone number +33 771525384.
-----
-
-
-TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
-
-PENDING INSTRUCTIONS TO CREATE FLOW
-
-[[test-first-tool]] {empty} +
-
-### Test the tool
-
-To test the tool all you need to do is to talk to the LLM and ask the same question as in the earlier section, except expecting the LLM to interact with Camel to invoke the function.
-
-[NOTE]
 --
-Be patient waiting for LLM responses due to:
-
-* Low CPU power in the sandbox environment.
-* Increase in Camel/LLM exchanges resolving tool interactions. 
+[.indent2]
+📁 llm-basics/camel/tools/lab +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] model.java +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-main.yaml* +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-tool-guide.yaml* +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-tool-weather.yaml* +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
 --
 
-{blank}
+{empty} +
 
-Chat to your LLM by issuing the following chat command:
+=== Run the tools
 
+Follow the steps below:
+
+. Launch _Camel JBang_ with:
++
 [source, subs=]
 ----
-chat Hi, please let me know the current temperature in London<br>
+camel run *<br>
 ----
-
++
 {blank}
 
-After a few seconds, you should obtain a response similar to:
-
+. Talk to the LLM using the _Chat UI_, or `chat` command, by issuing the following query:
++
+[source, subs=]
 ----
-The current temperature in London is 35 degrees Celsius.
+I am planning to fly to Paris, what is the weather forecast and please give me the phone number of a good local tour guide you recommend
 ----
-
-TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
 
 {empty} +
 
-### Live weather information
+You should get a response similar to:
 
-A dummy response is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time data.
+image::images/25-tool-all-response.png[width=50%, align=center]
 
-This time, when the LLM calls the tool, you will use in your _Camel_ route the following free services:
+{blank}
 
-* link:https://open-meteo.com[​Free Weather API,window="_blank", , id="rhd-source-article"]
+Again, the LLM response from above seems reasonably accurate which is very impressive. Below you'll find the original responses from _Camel_ extracted from the terminal logs:
 
-* link:http://geodb-cities-api.wirefreethought.com/[GeoDB Cities API,window="_blank", , id="rhd-source-article"]
-
-While the first API provides the weather information you need, it expects the geo-location in the form of `latitude`/`longitude` inputs.
-
-NOTE: Your _Camel_ tool defines the `location` parameter under the assumption users provide well known city names, for example, Paris, London, Madrid, etc. 
-
-The second API (GeoDB) allows us to convert the name of cities to their latitude/longitude coordinates.
-
-To speed up the implementation process, fast-forward as indicated below to auto-generate the Camel route process.
-
-[IMPORTANT]
-.⏩ *Fast-Forward* 
-====
-Execute in your terminal the command below:
-
-[source, subs=]
+|====
+|*Weather Tool*|*Tour Guide Tool*
+a| 
 ----
-ff<br>
-----
-====
-
-{empty} +
-
-EXPLAIN THE FINAL JSON RESPONSE Camel maps
-
-----
-  - setVariable:
-      name: coordinates
-      simple:
-        expression: "latitude=${body[data][0][latitude]}&longitude=${body[data][0][longitude]}"
-
-----
-
-----
-  expression: >-
-    {
-      "unit":"celsius",
-      "temperature": {
-          "today": {
-            "${body[daily][time][0]}": "${body[current][temperature_2m]}"
-          },
-          "forecast": {
-            "${body[daily][time][1]}": {
-              "maximum":"${body[daily][temperature_2m_max][1]}"
-              },
-            "${body[daily][time][2]}": {
-              "maximum":"${body[daily][temperature_2m_max][2]}"
-              }
-          }
+{
+  "unit": "celsius",
+  "temperature": {
+    "today": {
+      "2024-09-12": "10.4"
+    },
+    "forecast": {
+      "2024-09-13": {
+        "maximum": "17.8"
+      },
+      "2024-09-14": {
+        "maximum": "18.2"
       }
     }
+  }
+}
 ----
+a|
+[subs=]
+----
+{
+  "tourGuide": {
+    "firstName": "Maëlys",
+    "lastName": "Gauthier",
+    "contact": {
+      "phone": "+33 6 47 65 33 04"
+    }
+  }
+}
+</br>
+</br>
+</br>
+</br>
+----
+|====
 
-{empty} +
 
-### Test the Camel route
-
-Talk to your LLM to try out the new code.
-
-[NOTE]
---
-Be patient waiting for LLM responses due to:
-
-* Low CPU power in the sandbox environment.
-* Increase in Camel/LLM exchanges resolving tool interactions. 
---
+NOTE: the extracts above have been pretty-printed fore easy readability.
 
 {blank}
 
-Chat to your LLM by issuing the following chat command:
+In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something you would expect given the limitations of the tiny model you're running.
 
-[source, subs=]
-----
-chat Hi, please let me know the current temperature in Paris<br>
-----
-
-{blank}
-
-After a few seconds, This time you should obtain a response similar to:
-
-----
-The current temperature in Paris is around 19.5°C and the forecast for today shows a maximum of 21.8°C, while tomorrow's forecast suggests a maximum of 18.7°C.
-----
-
-TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
-
-This time you should see the LLM utilizing the Tool (Camel) response to compose a human-readable answer.
+TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
 
 {empty} +
 
+[type=verification]
+Did your LLM successfully respond combining the data from both tools?
 
-[time=2]
-[id="section-one"]
-== Create an OpenShift AI workbench
+[type=verificationSuccess]
+Magnificent!
 
+[type=verificationFail]
+The LLM may have hallucinated. Please try again modifying slightly your request.
 
-This application only needs 2 files:
-
-- A Price Catalogue containing product information
-+
-📁 `camel/price-catalogue.json`
-
-- The process definition (_Camel_ route)
-+
-📁 `camel/price.yaml`
-
-{empty} +
-
-The first resource you can look at is the _Price Catalogue_ containing price tags for different types of tea (the products). When a detection is obtained from the model, the application will query the catalogue to find its price tag.
-
-Open in your editor the following file:
-
-* camel -> `**price-catalogue.json**` 
-+
-{blank}
-+
-Inside, you'll find the product data relevant for our test:
-+
-[,json]
-----
-[   ...
-    {
-      "item": "tea-green",
-      "label": "Green Tea",
-      "price": 2.99
-    },
-    ...
-]
-----
-
-{empty} +
-
-
-{empty} +
 
 [time=1]
 [id="section-learn"]
