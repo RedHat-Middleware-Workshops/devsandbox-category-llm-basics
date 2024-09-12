@@ -25,7 +25,9 @@ Gain familiarity with LLM tools by learning how to easily create them with Apach
 
 This hands-on lab is based on the following article in _Red Hat Developers_:
 
-* link:{article-url}[​​Try OpenShift AI and integrate with Apache Camel,window="_blank", , id="rhd-source-article"]
+* link:{article-url}[​​Try OpenShift AI and integrate with Apache Camel,window="_blank", , id="rhd-source-article"] +
+PENDING TO UPDATE LINK
+
 
 {empty} +
 
@@ -534,7 +536,7 @@ Make sure you configure the parameters below as indicated:
 {empty} +
 
 You're done. +
-You should end up with a flow similar to:
+You should end up with a process definition similar to:
 
 image::images/10-kaoto-full-route.png[width=50%, align=left]
 
@@ -596,7 +598,7 @@ chat hello<br>
 
 {blank}
 
-After you run the test above, you should see in the logs back and forth interactions between Camel and the LLM, with a final response in the lines of:
+After you run the test above, you should see in the logs interactions back and forth between Camel and the LLM, with a final response in the lines of:
 
 ----
 Hello! How can I assist you today?
@@ -604,7 +606,7 @@ Hello! How can I assist you today?
 
 {empty} +
 
-The above interaction gives us a welcoming message from the LLM.
+The above interaction should return a welcoming message from the LLM.
 
 {empty} +
 
@@ -627,7 +629,7 @@ String tools = """
 WARNING: Because our LLM is super small, its behaviour might divert from the above instruction and improvise a response that appears realistic. Responses that are incorrect or misleading, and are presented as facts are known as *hallucinations*.
 
 Try out what happens when you ask the LLM (via Camel) to provide real time information. +
-Try the following:
+Try the following command from your terminal:
 [source, subs=]
 ----
 chat Please provide real time weather information about London.<br>
@@ -635,7 +637,7 @@ chat Please provide real time weather information about London.<br>
 
 {blank}
 
-If the LLM is loyal to our instructions, it should respond with something similar to the following:
+If the LLM is loyal to its instructions, it should respond with something similar to the following:
 
 ----
 I'm sorry, but as an AI language model, I am unable to provide real-time weather information about London due to the current limitations of my capabilities.
@@ -823,7 +825,7 @@ Top Routes:
 
 {empty} +
 
-The above examples are cool features (out of many) _Camel JBang_ includes. +
+The examples from above show cool features (out of many) _Camel JBang_ includes. +
 Feel free to explore more by reading its link:https://camel.apache.org/manual/camel-jbang.html[​documentation,window="_blank", , id="rhd-source-article"] page.  
 
 // {empty} +
@@ -862,7 +864,7 @@ Excellent!
 Please review the steps of this chapter and try again. You can always use the commands `rw` (rewind) followed by `ff` (fast-forward) to reset the lab stage.
 
 
-[time=10]
+[time=5]
 [id="llm-tool-weather"]
 == Create in Camel an LLM tool
 
@@ -902,9 +904,22 @@ In _Apache Camel_, the link:https://camel.apache.org/components/next/langchain4j
 
 The end goal is to use _Camel_ to equip the LLM with the ability to obtain real time data.
 
-To start with, the LLM tool prototype you will create, with a _Camel_ route, will just generate dummy weather information.
+However, to simplify the creation process, you will inject dummy weather data by hardcoding values in a _Camel_ route you will create. The JSON data below illustrates such a response:
 
-Although this first iteration doesn't fetch real time data, it will help you validate the mechanism by which the LLM retrieves the information and it will give you a better understanding on how _Camel_ and the LLM interact.
+[subs="quotes"]
+----
+{
+  "weather":{
+    "temperature": "*35 degrees celsius*"
+  }
+}
+----
+
+NOTE: In this first iteration the static value `35 degrees celsius` will be hardcoded and returned to the LLM.
+
+{blank}
+
+Although this first version won't fetch real time data, it will help you validate the mechanism by which the LLM retrieves the information and it will give you a better understanding on how _Camel_ and the LLM interact.
 
 [TIP]
 .⏩ *Fast-Forward* 
@@ -918,7 +933,7 @@ ff<br>
 
 {blank}
 
-Then <<test-first-tool,click here to jump into the next section "*_Test the tool_*">>.
+Then <<test-first-tool,click here to jump into the next section "*_Test the weather tool_*">>.
 ====
 
 PENDING INSTRUCTIONS TO CREATE FLOW
@@ -943,9 +958,9 @@ TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,log[*Components*,window="
 
 [[test-first-tool]] {empty} +
 
-### Test the tool
+### Test the weather tool
 
-To test the tool all we need to do is to talk to the LLM and ask the same question as in the earlier section, except we expect the LLM to interact with Camel by invoking the function.
+To test the tool, all you need to do is to talk to the LLM and ask the same question as in the earlier section, except expecting the LLM to callback the function (tool), implemented in _Camel_ as a route.
 
 [NOTE]
 --
@@ -957,24 +972,96 @@ Be patient waiting for LLM responses due to:
 
 {blank}
 
-Chat to your LLM by issuing the following chat command:
+Follow the steps below:
 
+. Launch _Camel JBang_ as usual with:
++
 [source, subs=]
 ----
-chat Hi, please let me know the current temperature in London<br>
+camel run *<br>
+----
++
+{blank}
+
+. Talk to the LLM using the _Chat UI_, or `chat` command, by issuing the following query:
++
+[source, subs=]
+----
+Hi, please let me know the current temperature in London
 ----
 
-{blank}
+{empty} +
 
 After a few seconds, you should obtain a response similar to:
 
-----
-The current temperature in London is 35 degrees Celsius.
-----
+image::images/22-tool-weather-offline.png[width=50%, align=center]
+
+{blank}
 
 TIP: If the LLM provided an AI hallucination, try varying the request slightly and see if the result improves.
 
+Although we know _"35 degrees Celsius"_ is the correct answer, you could validate the LLM's response (in the _Chat UI_) by correlating the information with the actual Camel tool result. 
+
+The JSON data shown below is an extract, from the logs in the terminal, showing the content Camel sent back to the LLM, which aligns with the answer displayed in the Chat UI:
+
+----
+{
+  "weather": {
+    "location": "London",
+    "temperature": "35 degrees celsius"
+  }
+}
+----
+NOTE: the JSON structure above has been pretty-printed for better readability.
+
+// By digging into the execution logs from the terminal, you could obtain the tool's answer given back to the LLM.
+
 {empty} +
+
+### Visual representation of Tool calling
+
+From your first tool test above you can deduce what's going on between Camel and the LLM. If you inspect carefully your terminal logs you'll identify all the exchanges between both parties.
+
+The sequence diagram below describes the interactions involved when the LLM uses a tool:
+
+image::images/23-seq-tool-calling.png[align="center", width=50%]
+
+{empty} +
+
+
+{empty} +
+
+
+[type=verification]
+Did you see the LLM calling the tool and answering as expected?
+
+[type=verificationSuccess]
+Excellent!
+
+[type=verificationFail]
+Please review the steps of this chapter and try again.
+
+
+[time=5]
+[id="llm-tool-weather-live"]
+== Live weather information
+
+=== Setup
+
+[IMPORTANT]
+====
+Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following command:
+
+[source, subs=]
+----
+step 5<br>
+----
+
+NOTE: The command will reset the lab at this particular stage.
+====
+
+{empty} +
+
 
 ### Live weather information
 
@@ -1062,6 +1149,83 @@ EXPLAIN THE FINAL JSON RESPONSE Camel maps
 ----
 
 {empty} +
+
+
+
+
+### Give the weather tool a spin
+
+Talk to your LLM to try out the new code.
+
+[NOTE]
+--
+Be patient waiting for LLM responses due to:
+
+* Low CPU power in the sandbox environment.
+* Increase in Camel/LLM exchanges resolving tool interactions. 
+--
+
+{blank}
+
+Follow the steps below:
+
+. Launch _Camel JBang_ as usual with:
++
+[source, subs=]
+----
+camel run *<br>
+----
++
+{blank}
+
+. Talk to the LLM using the _Chat UI_, or `chat` command, by issuing the following query:
++
+[source, subs=]
+----
+Hi, please let me know the current temperature in Paris
+----
+
+{empty} +
+
+You should get a response similar to:
+
+IMAGE HERE
+// image::images/21-tool-guide-llm-response.png[width=50%, align=center]
+
+{blank}
+
+In the interaction above, it's fascinating to observe how the LLM has formulated the response, considering the actual data _Camel_ returned to the LLM, as per the log extract below:
+
+----
+{
+  "tourGuide": {
+    "firstName": "Noémie",
+    "lastName": "Roussel",
+    "contact": {
+      "phone": "07 28 30 31 56"
+    }
+  }
+}
+----
+
+NOTE: the extract above has been pretty-printed fore easy readability.
+
+{blank}
+
+In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something we were expecting due to the limitations of the tiny model we're running.
+
+TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
+
+
+{empty} +
+
+{empty} +
+
+{empty} +
+
+{empty} +
+
+
 
 ### Test the Camel route
 

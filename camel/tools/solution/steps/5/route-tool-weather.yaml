@@ -14,7 +14,7 @@
                   {
                     "weather":{
                       "location":"${header.location}",
-                      "temperature": "35 degrees celcius"
+                      "temperature": "35 degrees celsius"
                     }
                   }
         - log:
