@@ -670,7 +670,7 @@ You've completed the basic processing flow to connect Camel to the LLM.
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=5]
+[time=3]
 [id="html-serving"]
 == Add a Chat UI
 
@@ -866,7 +866,7 @@ Excellent!
 Please review the steps of this chapter and try again. You can always use the commands `rw` (rewind) followed by `ff` (fast-forward) to reset the lab stage.
 
 
-[time=5]
+[time=3]
 [id="llm-tool-weather"]
 == Create first LLM tool (v1 offline)
 
@@ -1044,7 +1044,7 @@ Excellent!
 Please review the steps of this chapter and try again.
 
 
-[time=5]
+[time=3]
 [id="llm-tool-weather-live"]
 == Finish first LLM tool (v2 online)
 
@@ -1252,7 +1252,7 @@ Fabulous!
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=5]
+[time=3]
 [id="llm-tool-tour-guide"]
 == Create second LLM tool
 
@@ -1440,7 +1440,7 @@ Very well done!
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=10]
+[time=3]
 [id="llm-all-tools"]
 == Run the LLM using both tools
 
@@ -1564,6 +1564,24 @@ NOTE: the extracts above have been pretty-printed fore easy readability.
 In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something you would expect given the limitations of the tiny model you're running.
 
 TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
+
+{empty} +
+
+[type=verification]
+Did your LLM successfully respond combining the data from both tools?
+
+[type=verificationSuccess]
+Magnificent!
+
+[type=verificationFail]
+The LLM may have hallucinated. Please try again modifying slightly your request.
+
+
+[time=1]
+[id="deploy-camel"]
+== From concept to OpenShift
+
+CHAPTER PENDING
 
 {empty} +
 
