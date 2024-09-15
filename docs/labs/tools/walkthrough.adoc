@@ -26,34 +26,32 @@ Gain familiarity with LLM tools by learning how to easily create them with Apach
 This hands-on lab is based on the following article in _Red Hat Developers_:
 
 * link:{article-url}[​​Try OpenShift AI and integrate with Apache Camel,window="_blank", , id="rhd-source-article"] +
-PENDING TO UPDATE LINK
-
-
-{empty} +
-
-
-For illustration purposes, the picture below shows what the end-to-end processing flow you will build, piece by piece.
-
-image::images/00-intro-end2end.png[align="center", width=60%]
+PENDING TO UPDATE LINK AND TITLE
 
 {blank}
 
-You'll train and deploy a customised model, and front it with an (_Apache Camel_) AI-enabled service, serving pricing information for products.
+The picture below illustrates the journey the lab will take you on, starting from a base concept and entering a prototyping loop, iterating and refining the concept. The lab shows you how to work in rapid cycles, adding and testing new elements, an UI, (LLM) tools, connectivity (APIs). When the prototype is validated and ready, the tooling will help you to effortlessly export, package, containerise and deploy the application on _OpenShift_.
+
+
+image::images/26-intro-concept-to-openshift.png[align="center", width=90%]
+
+{blank}
+
+Above all, the lab intends to introduce you to the capabilities of _Apache Camel_, the most popular open-source integration framework, as a vehicle to easily create LLM-powered applications.
 
 {empty} +
-
 
 [time=1]
 [id="intro"]
 == Introduction
 
-The mission of this tutorial is to give you the chance to enjoy a free to use environment, fully browser-based (no installs required in your machine), so that you can start playing immediately with very exciting technologies.
+This tutorial gifts you the opportunity to enjoy a free to use environment, fully browser-based (no installs required in your machine), so that you can start playing immediately with very exciting technologies.
 
 In this occasion, it is all about Large Language Models, and how _Apache Camel_ brings a ton of new and very cool functionality allowing you to create data flows and integrations to implement LLM-based services with tools support.
 
 image::images/13-intro-lab.png[align=center,width=60%]
 
-{empty} +
+// {empty} +
 
 === Takeaways
 
@@ -73,7 +71,7 @@ This hands-on lab will help you to:
 
 === Disclaimers
 
-Although the Developer Sandbox offers a great opportunity to try out technologies, its limited resources, particularly CPU/GPU, are really a big constraint when it comes to showcase AI scenarios.
+Although the Developer Sandbox opens for you the door to try out technologies, its limited resources, particularly CPU/GPU, are really a big constraint when it comes to showcase AI scenarios.
 
 This tutorial managed to include a tiny LLM with tool support (function calling) gifting you the chance to try out very interesting interactions with the model. You will deploy the LLM and you will create processing flows using _Apache Camel_ connected to the LLM. 
 
