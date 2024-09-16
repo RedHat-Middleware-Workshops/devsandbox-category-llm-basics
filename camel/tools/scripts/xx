@@ -1,0 +1,40 @@
+echo "Using Camel JBang to export into a Quarkus application..."
+camel export * \
+--runtime=quarkus \
+--gav=org.demo:agent:1.0.0 \
+--dep=io.quarkiverse.langchain4j:quarkus-langchain4j-core:0.17.2,io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.17.2 \
+--ignore-loading-error
+
+echo "Export completed."
+echo "[custom] Removing 'lazy=true' parameter..."
+sed -i 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
+
+# We look for a unique occurrence (to match start/end)
+echo "[custom] Adding Quarkus OpenShift dependency..."
+sed -i '/<\/dependencyManagement>/,/camel-quarkus-core/c\
+    <\/dependencyManagement>\
+    \
+    <dependencies>\
+        <dependency>\
+            <groupId>io.quarkus<\/groupId>\
+            <artifactId>quarkus-openshift<\/artifactId>\
+        <\/dependency>\
+        <dependency>\
+            <groupId>org.apache.camel.quarkus<\/groupId>\
+            <artifactId>camel-quarkus-core<\/artifactId>' \
+pom.xml
+
+echo "[custom] Excluding snakeyaml artifact (breaks compilation)..."
+sed -i 's/<version>1.0.2<\/version>/<version>1.0.2<\/version> \
+            <exclusions> \
+                <exclusion> \
+                    <groupId>org.yaml<\/groupId> \
+                    <artifactId>snakeyaml<\/artifactId> \
+                <\/exclusion> \
+            <\/exclusions>/g' \
+pom.xml
+
+echo "[custom] Cleaning unnecessary root files and folders."
+rm -r .camel* *.java *.yaml application.properties style.css index.html
+
+echo "all done."

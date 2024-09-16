@@ -144,8 +144,12 @@ image::images/03-copy-actions.png[width=60%]
 . Paste the command in the terminal:
 - on Linux: kbd:[Ctrl+Shift+v] and press kbd:[Enter] 
 - on Mac: kbd:[⌘+v] and press kbd:[Enter]
++
+--
+WARNING: It's been reported that these key-combos not always work. Your machine may not respond to the above descriptions. Please try other key or mouse click alternatives, for example, right-click, or middle-click.
+--
 
-{empty} +
+{blank}
 
 === Setup the lab
 
@@ -433,7 +437,7 @@ Run the following command:
 
 [source, subs=]
 ----
-camel init routes.yaml<br>
+camel init route-main.yaml<br>
 ----
 
 {blank}
@@ -470,7 +474,7 @@ Now you'll start making updates in the route and Camel will react to the changes
 Follow the actions below illustrated:
 
 . Right click on the source code file:
-- lab -> `**routes.yaml**` 
+- lab -> `**route-main.yaml**` 
 +
 {blank}
 
@@ -556,7 +560,7 @@ Click link:{eip-explorer-url}/?q=platform-http,langchain4j-chat,log[*Components*
 
 === Talk to your LLM.
 
-Your `lab` folder now includes the file `routes.yaml` that contains a _Camel_ route able to listen to HTTP requests.
+Your `lab` folder now includes the file `route-main.yaml` that contains a _Camel_ route able to listen to HTTP requests.
 
 [NOTE]
 ====
@@ -811,7 +815,7 @@ Top Routes:
 
     Route Id: main
     From: platform-http:///camel/chat
-    Source: file:routes.yaml:4
+    Source: file:route-main.yaml:4
     Total: 3
     Failed: 0
     Inflight: 0
@@ -1024,7 +1028,7 @@ From your first tool test above you can deduce what's going on between Camel and
 
 The sequence diagram below describes the interactions involved when the LLM uses a tool:
 
-image::images/23-seq-tool-calling.png[align="center", width=50%]
+image::images/23-seq-tool-calling.png[align="center", width=60%]
 
 {empty} +
 
@@ -1083,7 +1087,7 @@ The second API (GeoDB) allows you to convert the name of cities to their latitud
 
 The sequence diagram below describes the flow where the LLM calls the tool, live weather data is obtained, then formatted and delivered to the LLM:
 
-image::images/17-seq-weather-guide.png[align="center", width=40%]
+image::images/17-seq-weather-guide.png[align="center", width=60%]
 
 {blank}
 
@@ -1310,7 +1314,7 @@ You'll need however to map the `location` parameter the LLM provides into a loca
 
 All in all, the recommendation tool implemented as a Camel route will follow the sequence of calls illustrated below:
 
-image::images/02-seq-tool-tour-guide.png[align="center", width=30%]
+image::images/02-seq-tool-tour-guide.png[align="center", width=40%]
 
 {empty} +
 
@@ -1577,9 +1581,66 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 
 [time=1]
 [id="deploy-camel"]
-== From concept to OpenShift
+== From Concept to OpenShift
 
-CHAPTER PENDING
+
+=== Setup
+
+[IMPORTANT]
+====
+Stop Camel with kbd:[Ctrl+c] and setup the lab stage by running the following command:
+
+[source, subs=]
+----
+step 10<br>
+----
+
+NOTE: The command will reset the lab at this particular stage.
+====
+
+In this final stage of the tutorial you will take your prototype, create a project out of it, and deploy it OpenShift.
+
+You will see how the tooling,(Camel JBang), makes this process very smooth having not to worry about the packaging and deployment processes.
+
+NOTE: Camel JBang is continuously being improved and perfected. There are currently a number of raised tickets to make the whole experience seamless. In the meantime you'll have to perform a number of manual steps while waiting for the release of the enhancements in Camel JBang.
+
+{empty} +
+
+=== Export step
+
+All this time Camel JBang allowed you to work on your prototype with strictly the source files that were necessary.
+
+Now, as a pre-condition to deploy on OpenShift you'll need to structure the files into a Maven project in order to packaged and containerise the solution.
+
+Execute in your terminal the following command to convert your Camel JBang prototype into a Quarkus project:
+
+
+[source, subs=]
+----
+camel export * \
+--runtime=quarkus \
+--gav=org.demo:agent:1.0.0 \
+--dep=io.quarkiverse.langchain4j:quarkus-langchain4j-core:0.17.2,io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.17.2 \
+--ignore-loading-error<br>
+----
+
+NOTE: The export command above require a couple of explicit needed dependencies to run LangChain4j using the Quarkus libraries.
+
+{blank}
+
+Then, run the following command to eliminate a parameter that Quarkus does not understand:
+
+[source, subs=]
+----
+sed -i 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
+----
+
+NOTE: This is a temporary workaround needed to eliminate a parameter Quarkus does not understand on its current release. This will be unnecessary in subsequent Quarkus releases.
+
+
+
+
+
 
 {empty} +
 
@@ -1655,6 +1716,10 @@ And from the terminal, execute:
 {empty} +
 
 === Delete OpenShift AI components
+
+----
+oc get svc,deployment,build,bc,is,route  -o name | grep agent | xargs oc delete
+----
 
 Switch to your _OpenShift AI_ browser tab.
 
