@@ -1598,44 +1598,50 @@ step 10<br>
 NOTE: The command will reset the lab at this particular stage.
 ====
 
-In this final stage of the tutorial you will take your prototype, create a project out of it, and deploy it OpenShift.
+=== Export action
 
-You will see how the tooling,(Camel JBang), makes this process very smooth having not to worry about the packaging and deployment processes.
+_Camel JBang_ is unique in that it hides all the complexity of a standard _Java_ project. You work directly with the sources that are relevant to you. This simplicity boosts productivity and rapid iteration. 
 
-NOTE: Camel JBang is continuously being improved and perfected. There are currently a number of raised tickets to make the whole experience seamless. In the meantime you'll have to perform a number of manual steps while waiting for the release of the enhancements in Camel JBang.
+At this stage we consider the prototyping phase closed. Now, you will create a _Camel Quarkus_ project out of it, and deploy it on OpenShift.
 
-{empty} +
+You will see how the tooling, (_Camel JBang_ and _Quarkus_), makes this process very smooth having not to worry about the packaging and deployment process.
 
-=== Export step
+NOTE: _Camel JBang_ is continuously being improved and perfected. There are currently a number of raised tickets to make the whole experience seamless. In the meantime you'll have to perform a number of manual steps while waiting for the release of the enhancements in _Camel JBang_.
 
-All this time Camel JBang allowed you to work on your prototype with strictly the source files that were necessary.
+// {empty} +
 
-Now, as a pre-condition to deploy on OpenShift you'll need to structure the files into a Maven project in order to packaged and containerise the solution.
-
-Execute in your terminal the following command to convert your Camel JBang prototype into a Quarkus project:
-
+The lab includes an `xx` (export) script to accelerate the conversion from a _Camel JBang_ prototype into a _Camel Quarkus_ project. +
+Execute the command below to trigger the export (into Camel Quarkus):
 
 [source, subs=]
 ----
-camel export * \
---runtime=quarkus \
---gav=org.demo:agent:1.0.0 \
---dep=io.quarkiverse.langchain4j:quarkus-langchain4j-core:0.17.2,io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.17.2 \
---ignore-loading-error<br>
+xx<br>
 ----
 
-NOTE: The export command above require a couple of explicit needed dependencies to run LangChain4j using the Quarkus libraries.
+NOTE: Feel free to open the script and inspect the transformation instructions inside.
 
 {blank}
 
-Then, run the following command to eliminate a parameter that Quarkus does not understand:
+The summary of actions performed by the script is the following:
 
-[source, subs=]
+- Executes the `camel export *` command (with added flags)
+- Removes the `lazy=true` parameter from the `@BindToRegistry` annotation
++
+NOTE: This is a workaround while waiting for the next release of Quarkus to be available.
++
+- Add the `quarkus-openshift` dependency in the `pom.xml` file.
+- Add an exclusion tag, in the _JavaFaker_ dependency, that creates a compilation conflict.
+- Cleans the root from the Camel JBang sources (now packaged inside the Maven project).
+
+Executing the export script should result in a terminal output similar to:
+
 ----
-sed -i 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
 ----
 
-NOTE: This is a temporary workaround needed to eliminate a parameter Quarkus does not understand on its current release. This will be unnecessary in subsequent Quarkus releases.
+{empty} +
+
+=== Test Camel Quarkus
+
 
 
 
