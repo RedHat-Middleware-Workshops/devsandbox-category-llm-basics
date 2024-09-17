@@ -323,7 +323,7 @@ After initialisation, under the `lab` directory, you'll find the following sourc
 [.indent2]
 📁 llm-basics/camel/tools/lab +
 pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>⚙</b></mark>] applications.properties +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>J</b></mark>] *model.java*
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>J</b></mark>] *bindings.java*
 --
 
 {blank}
@@ -347,7 +347,7 @@ You use the DSL alone to define the end to end integration process. DSLs have al
 
 Connectors in _Apache Camel_ are used directly from the DSL, but some, like the _LangChain4j_-based ones, may require initialisation code in Java. Ideally you'd want no code at all, yet it provides the developer full control.
 
-The java file provided (`model.java`) contains the _LangChain4j_-based code needed to enable LLM interaction. +
+The java file provided (`bindings.java`) contains the _LangChain4j_-based code needed to enable LLM interaction. +
 Two key _LangChain4j_ objects are key:
 
 . The *ChatLanguageModel* object
@@ -374,7 +374,7 @@ Every time the application interacts with the LLM, the query (and related metada
 +
 Because creating the object requires a specific use of the _LangChain4j_ API, you want to wrap it in a _Camel Processor_ (java code).
 +
-The snippet below shows you how `model.java` defines the _Camel_ processor containing the _LangChain4j_ code.
+The snippet below shows you how `bindings.java` defines the _Camel_ processor containing the _LangChain4j_ code.
 +
 ----
     @BindToRegistry
@@ -396,7 +396,7 @@ NOTE: Later in the lab, the tutorial explains in more detail how the _ChatMessag
 
 Notice the following two facts:
 
-* Your entire source code (for now) only consists of a single file (`model.java`). +
+* Your entire source code (for now) only consists of a single file (`bindings.java`). +
 * At this stage no _Camel_ route definitions exists.
 
 {blank}
@@ -618,7 +618,7 @@ The above interaction should return a welcoming message from the LLM.
 
 Your LLM is currently disconnected from any live service and it can't provide real time information about the world.
 
-The code is configured to instruct the LLM to ensure the user is informed about it. The snippet below, extracted from the `model.java` source file, shows you how this is done:
+The code is configured to instruct the LLM to ensure the user is informed about it. The snippet below, extracted from the `bindings.java` source file, shows you how this is done:
 
 ----
 String tools = """
@@ -1622,26 +1622,120 @@ NOTE: Feel free to open the script and inspect the transformation instructions i
 
 {blank}
 
-The summary of actions performed by the script is the following:
+// The summary of actions performed by the script is the following:
 
-- Executes the `camel export *` command (with added flags)
-- Removes the `lazy=true` parameter from the `@BindToRegistry` annotation
-+
-NOTE: This is a workaround while waiting for the next release of Quarkus to be available.
-+
-- Add the `quarkus-openshift` dependency in the `pom.xml` file.
-- Add an exclusion tag, in the _JavaFaker_ dependency, that creates a compilation conflict.
-- Cleans the root from the Camel JBang sources (now packaged inside the Maven project).
+// - Executes the `camel export *` command (with added flags)
+// - Removes the `lazy=true` parameter from the `@BindToRegistry` annotation
+// +
+// NOTE: This is a workaround while waiting for the next release of Quarkus to be available.
+// +
+// - Add the `quarkus-openshift` dependency in the `pom.xml` file.
+// - Add an exclusion tag, in the _JavaFaker_ dependency, that creates a compilation conflict.
+// - Cleans the root from the Camel JBang sources (now packaged inside the Maven project).
+
+{blank}
 
 Executing the export script should result in a terminal output similar to:
 
 ----
+Using Camel JBang to export into a Quarkus application...
+Generating fresh run data
+Exporting as Quarkus project to: .
+Export completed.
+[custom] Removing 'lazy=true' parameter...
+[custom] Adding Quarkus OpenShift dependency...
+[custom] Excluding (Snakeyaml) artifact (compilation conflict)...
+[custom] Cleaning root files and folders.
+all done.
 ----
+
+{blank}
+
+The table below shows the before and after. The export took the Camel JBang flat-based structure into a Maven-based structure:
+
+++++
+<style>
+.indent2 {padding-left: 2rem;}
+</style>
+++++
+
+// pass:[<b style="text-align: center"><b>Camel JBang</b>] 
+
+// [cols="25h,~,~"]
+// [cols="50h,30h,~"]
+[cols="~,^30h,^~"]
+|====
+| *Camel JBang* | <- from .... to -> | *Camel Quarkus*
+a| 
+--
+{blank}
+
+📁 llm-basics/camel/tools/lab +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>] applications.properties +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] bindings.java +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] index.html +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-main.yaml +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-tool-guide.yaml +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-tool-weather.yaml +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>#&nbsp;</i></b></mark>] style.css
+--
+| 
+a|
+--
+📁 llm-basics/camel/tools/lab +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;📁&nbsp;</b></mark>] .mvn +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;📁&nbsp;</b></mark>] src +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;↟&nbsp;</b></mark>] mvnw +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: blue"><b>&nbsp;❖</b></mark>] mvnw.cmd +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;↟&nbsp;</b></mark>] pom.xml +
 
 {empty} +
 
-=== Test Camel Quarkus
+--
+|====
 
+{empty} +
+
+=== Run locally
+
+If all worked as planned, you should have a _Camel Quarkus_ project ready to roll.
+
+NOTE: You don't need to run the application locally, jump to the next section (Deployment) if you prefer save some time. But it's nice to run the application and check all is in its place.
+
+Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,window="_blank"] from your terminal with the following command:
+
+[source, subs=]
+----
+./mvnw quarkus:dev<br>
+----
+
+Maven will start downloading all of its dependencies and start the application.
+
+
+=== Deployment on OpenShift
+
+Stop _Camel Quarkus_ with kbd:[Ctrl+c] and run the following command to deploy the application on _OpenShift_:
+
+[source, subs=]
+----
+./mvnw package -Dquarkus.kubernetes.deploy=true<br>
+----
+
+NOTE: The command will reset the lab at this particular stage.
+====
+
+If all worked as planned, you should have a _Camel Quarkus_ project ready to roll.
+
+NOTE: You don't need to run the application locally, jump to the next section (Deployment) if you prefer save some time. But it's nice to run the application and check all is in its place.
+
+Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,window="_blank"] from your terminal with the following command:
+
+[source, subs=]
+----
+./mvnw quarkus:dev<br>
+----
+
+Maven will start downloading all of its dependencies and start the application.
 
 
 

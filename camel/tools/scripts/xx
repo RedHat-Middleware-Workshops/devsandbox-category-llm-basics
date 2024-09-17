@@ -24,7 +24,7 @@ sed -i '/<\/dependencyManagement>/,/camel-quarkus-core/c\
             <artifactId>camel-quarkus-core<\/artifactId>' \
 pom.xml
 
-echo "[custom] Excluding snakeyaml artifact (breaks compilation)..."
+echo "[custom] Excluding (Snakeyaml) artifact (compilation conflict)..."
 sed -i 's/<version>1.0.2<\/version>/<version>1.0.2<\/version> \
             <exclusions> \
                 <exclusion> \
@@ -34,7 +34,7 @@ sed -i 's/<version>1.0.2<\/version>/<version>1.0.2<\/version> \
             <\/exclusions>/g' \
 pom.xml
 
-echo "[custom] Cleaning unnecessary root files and folders."
+echo "[custom] Cleaning root files and folders."
 rm -r .camel* *.java *.yaml application.properties style.css index.html
 
 echo "all done."
