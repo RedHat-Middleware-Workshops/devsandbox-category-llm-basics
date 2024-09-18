@@ -1,4 +1,4 @@
-CATALOG=https://raw.githubusercontent.com/KaotoIO/catalogs/4.8.0-SNAPSHOT/catalogs/index.json
+CATALOG=https://raw.githubusercontent.com/KaotoIO/catalogs/4.8.0/catalogs/index.json
 CWCONFIG=/projects/.code-workspace
 LAB=/projects/llm-basics/camel/tools/lab
 

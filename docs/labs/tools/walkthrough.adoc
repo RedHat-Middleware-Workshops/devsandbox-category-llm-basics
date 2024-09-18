@@ -10,6 +10,26 @@
 
 :eip-explorer-url: https://ibek.github.io/integration-explorer-web/#
 
+// WORKS
+:style-kbd: kbd { \
+  color: black; \
+  background-color: lightgrey; \
+  border: 1px solid black; \
+  box-shadow: 0px 1px black; \
+  font-size: .85em; \
+  line-height: .85em; \
+  display: inline-block; \
+  font-weight: 600; \
+  letter-spacing: .05em; \
+  padding: 3px 5px; \
+  white-space: nowrap; \
+  border-radius:5px; \
+} \
+
+:style-preview: pre{background-color: black; color: white}
+
+:style-all: pass:a[<style>{style-kbd}{style-preview}</style>]
+
 // :btn-text: my text
 // :btn: pass:attributes[<code><mark style="background-color: dodgerblue; color: white">&nbsp;{btn-text}&nbsp;</mark>]
 
@@ -18,8 +38,6 @@ endif::[]
 
 [id='lab-intro']
 = LLM tools
-
-// Explore, build, test and deploy a Camel X demo application using the Developer Sandbox and OpenShift Dev Spaces.
 
 Gain familiarity with LLM tools by learning how to easily create them with Apache Camel. In this lab, you'll create an agent that uses live feeds to assist clients. 
 
@@ -32,6 +50,7 @@ PENDING TO UPDATE LINK AND TITLE
 
 The picture below illustrates the journey the lab will take you on, starting from a base concept and entering a prototyping loop, iterating and refining the concept. The lab shows you how to work in rapid cycles, adding and testing new elements, an UI, (LLM) tools, connectivity (APIs). When the prototype is validated and ready, the tooling will help you to effortlessly export, package, containerise and deploy the application on _OpenShift_.
 
+{blank}
 
 image::images/26-intro-concept-to-openshift.png[align="center", width=90%]
 
@@ -61,10 +80,12 @@ This hands-on lab will help you to:
 - Better understand LLMs and how to leverage the use of **_Tools_**.
 - Try out the **_Kaoto_** UI to graphically create _Camel_ routes.
 - Accelerate the prototyping phase with **_Camel JBang_**.
-- Learn how to use brand new features in _Camel_ _JBang_ like:
-** its **kubernetes plugin** to deploy _Camel_ in _OpenShift_.
-** its **HTML server** to easily test, package and deploy pages.
-- Browse and learn _Camel_ components and patterns with the new _**Enterprise Integration Explorer.**_  
+- Play with _Camel JBang_'s new **HTML server** to easily test, package and deploy pages.
+// - Learn how to use brand new features in _Camel_ _JBang_ like:
+// ** its **kubernetes plugin** to deploy _Camel_ in _OpenShift_.
+// ** its **HTML server** to easily test, package and deploy pages.
+- Browse and learn _Camel_ components and patterns with the new _**Enterprise Integration Explorer.**_.
+- Transform your prototype into a *_Camel Quarkus_* project and deploy it on _OpenShift_.
 - Get familiar with **_Dev Spaces_** and the _Developer Sandbox_.
 
 {empty} +
@@ -100,6 +121,7 @@ It's recommended to understand the resource limitations of the sandbox.
 [time=1]
 [id="setup"]
 == Preparation steps
+{style-all}
 
 === Enable auto-save
 
@@ -139,6 +161,9 @@ To execute commands, perform the steps described below, as illustrated:
 image::images/03-copy-actions.png[width=60%]
 
 {blank}
+
+//styling for keyboad keys
+// pass:a[<style>{style-kbd}</style>]
 
 . Click the button _Copy to clipboard_
 . Paste the command in the terminal:
@@ -194,6 +219,7 @@ Review the instructions above and ensure you run the `setup` script.
 [time=2]
 [id="deploy-llm"]
 == Deploy the LLM
+{style-all}
 
 Copy and paste in your terminal the following command:
 
@@ -267,6 +293,7 @@ Review the instructions and try again.
 [time=5]
 [id="basic-llm-interaction"]
 == Basic LLM interaction
+{style-all}
 
 ++++
 <style>
@@ -675,6 +702,7 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 [time=3]
 [id="html-serving"]
 == Add a Chat UI
+{style-all}
 
 === Setup
 
@@ -871,6 +899,7 @@ Please review the steps of this chapter and try again. You can always use the co
 [time=3]
 [id="llm-tool-weather"]
 == Create first LLM tool (v1 offline)
+{style-all}
 
 === Setup
 
@@ -1049,6 +1078,7 @@ Please review the steps of this chapter and try again.
 [time=3]
 [id="llm-tool-weather-live"]
 == Finish first LLM tool (v2 online)
+{style-all}
 
 === Setup
 
@@ -1257,6 +1287,7 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 [time=3]
 [id="llm-tool-tour-guide"]
 == Create second LLM tool
+{style-all}
 
 === Setup
 
@@ -1445,6 +1476,7 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 [time=3]
 [id="llm-all-tools"]
 == Run the LLM using both tools
+{style-all}
 
 === Setup
 
@@ -1582,7 +1614,7 @@ The LLM may have hallucinated. Please try again modifying slightly your request.
 [time=1]
 [id="deploy-camel"]
 == From Concept to OpenShift
-
+{style-all}
 
 === Setup
 
@@ -1721,42 +1753,43 @@ Stop _Camel Quarkus_ with kbd:[Ctrl+c] and run the following command to deploy t
 ./mvnw package -Dquarkus.kubernetes.deploy=true<br>
 ----
 
-NOTE: The command will reset the lab at this particular stage.
-====
+Maven will download some more dependencies and initiate the deployment process. By the end of the exection your terminal should show a build success, as follows:
 
-If all worked as planned, you should have a _Camel Quarkus_ project ready to roll.
+// ++++
+// <style>
+// pre{background-color: black; color: white}
+// </style>
+// ++++
 
-NOTE: You don't need to run the application locally, jump to the next section (Deployment) if you prefer save some time. But it's nice to run the application and check all is in its place.
-
-Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,window="_blank"] from your terminal with the following command:
-
-[source, subs=]
+// [.bcolor]
+// [.listingblock]
 ----
-./mvnw quarkus:dev<br>
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:27 min
+[INFO] Finished at: 2024-09-17T18:27:00Z
+[INFO] ------------------------------------------------------------------------
 ----
-
-Maven will start downloading all of its dependencies and start the application.
-
-
-
 
 
 
 {empty} +
 
 [type=verification]
-Did your LLM successfully respond combining the data from both tools?
+Did your Camel Quarkus application successfully deploy on OpenShift?
 
 [type=verificationSuccess]
-Magnificent!
+Very good!
 
 [type=verificationFail]
-The LLM may have hallucinated. Please try again modifying slightly your request.
+You can reset the chapter and repeat the instructions. Scroll to the top of the page and follow again the same instructions.
 
 
 [time=1]
 [id="section-learn"]
 == Take the solution further ahead
+{style-all}
 
 {empty} +
 
@@ -1791,8 +1824,8 @@ When you're done playing in the _Developer Sandbox_, we recommend deleting all t
 
 These are in summary the components to delete:
 
- - Deployed applications and components (_TensorFlow Server_, _Minio_, _Camel_)
- - OpenShift AI workbench and cluster storage.
+ - Deployed LLM server
+ - Deployed Camel Quarkus application.
  - DevSpaces workspace.
 
 {empty} +
@@ -1815,37 +1848,28 @@ And from the terminal, execute:
 
 {empty} +
 
-=== Delete OpenShift AI components
-
-----
-oc get svc,deployment,build,bc,is,route  -o name | grep agent | xargs oc delete
-----
-
-Switch to your _OpenShift AI_ browser tab.
-
-image::images/26-ai-at-openshiftai.png[width=20%]
-
-{blank}
-
-And follow the steps indicated below:
-
-. Click *_Data Science Projects_*, from the left menu.
-. Select your project (namespace).
-. Click the tab *_Workbenches_*.
-. Click the 3-dots button (as shown below)
-. Click *_Delete workbench_*.
-. Click the tab *_Cluster storage_*
-. Click the 3-dots button (as shown below)
-. Click *_Delete storage_*.
-+
-{blank}
-+
-image::images/27-ai-clean-openshiftai.png[]
-
-
-{empty} +
-
 === Delete workspace in Dev Spaces 
+
+Open the Dev Spaces dashboard following the actions below: 
+
+//styling for keyboard keys
+pass:a[<style>{style-kbd}</style>]
+
+. Open the Command Pallette in VSCode using the following keyboard combination:
+- Mac: kbd:[&nbsp;⇧&nbsp; + ⌘ + P]
+- Linux: kbd:[Ctrl+Shift+P]
+- Windows: kbd:[Ctrl+Shift+P]
+. Click the button _Copy to clipboard_
+
+
+// [.kbd]
+// --
+// ⇧⌘P,
+// --
+
+// pass:[<b style="background-color=white;color=grey">Ctrl</b> + <kbd>C</kbd>]
+
+// kbd:[&nbsp;⇧&nbsp; + ⌘ + P]
 
 Finally, Switch to your _DevSpaces_ dashboard tab.
 
