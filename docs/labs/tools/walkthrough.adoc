@@ -48,7 +48,7 @@ PENDING TO UPDATE LINK AND TITLE
 
 {blank}
 
-The picture below illustrates the journey the lab will take you on, starting from a base concept and entering a prototyping loop, iterating and refining the concept. The lab shows you how to work in rapid cycles, adding and testing new elements, an UI, (LLM) tools, connectivity (APIs). When the prototype is validated and ready, the tooling will help you to effortlessly export, package, containerise and deploy the application on _OpenShift_.
+The picture below illustrates the journey the lab will take you on, starting from a base concept and entering a prototyping loop, iterating and refining the design. The lab shows you how to work in rapid cycles, adding and testing new elements, an UI, (LLM) tools, connectivity (APIs). When the prototype is validated and ready, the tooling will help you to effortlessly export, package, containerise and deploy the application on _OpenShift_.
 
 {blank}
 
@@ -307,7 +307,7 @@ At first, your `lab` directory is empty:
 
 --
 [.indent2]
-📁 llm-basics/camel/tools/lab +
+📁 llm-basics/camel/tools/*lab* +
 pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>] [empty]
 --
 
@@ -720,20 +720,16 @@ NOTE: The command will reset the lab at this particular stage.
 
 === Camel JBang is your weapon of choice
 
-You're in the prototyping phase, you're creating code that you are rapidly changing and experimenting with. This is the phase were you're exploring how far you can go building powerful functionality.
+You're in the phase of building a concept, you're creating code that you are rapidly changing and experimenting with. This is the phase where you're exploring how far you can go building powerful functionality.
 
 _Camel JBang_ was built with prototyping in mind. In this lab, you already enjoyed the sublime simplicity of running Camel routes without having to scaffold a project skeleton or worry about library dependencies.
 
-Think for a moment the abilities _Camel JBang_ empowers the developer with. To begin with, starting from an empty folder, you can:
+Think for a moment the abilities _Camel JBang_ empowers the developer with. For starters, beginning with an empty folder, you can:
 
-pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>]-> Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file in a flash, and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
+▶ Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file in a flash... +
+&nbsp;&nbsp;&nbsp; and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
 
-
-
-
-// For starters, from an empty folder, in a flash you can: +
-
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>]-> Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>]-> Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file in a flash, and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
 
 Think about it... +
 Can you say the same for other programming languages and frameworks?
@@ -768,7 +764,7 @@ After doing so, a couple of parameters are added to you `aplication.properties` 
 
 --
 [.indent2]
-📁 llm-basics/camel/tools/lab +
+📁 lab +
 // pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
 pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
 // pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] model.java +
@@ -805,6 +801,7 @@ How are you today?<br>
 
 You should get a response similar to:
 
+// - pass:[<pre><b>LLM:</b> I am doing well, thank you! How about you?<pre>]
 - *LLM:* I am doing well, thank you! How about you?
 
 {empty} +
@@ -1819,6 +1816,7 @@ Click `pass:[<mark style="background-color: dodgerblue; color: white">&nbsp;Next
 [time=1]
 [id="section-clean"]
 == Clean up your namespace
+{style-all}
 
 When you're done playing in the _Developer Sandbox_, we recommend deleting all the deployments and artifacts, to free up your namespace, and try out other tutorials or products in the future.
 
@@ -1832,52 +1830,36 @@ These are in summary the components to delete:
 
 === Delete deployed components
 
-If not there yet, switch to your _DevSpaces_ browser tab.
+The lab includes a convenient script to clean up your OpenShift namespace from all the components deployed during the tutorial.
 
-image::images/21-ai-at-devspaces.png[width=20%]
+From the terminal, execute:
 
-{blank}
-
-And from the terminal, execute:
-
-[source,console]
+[source,console,subs=]
 ----
-/projects/ai-basics/deploy/clean.sh
+clean<br>
 ----
-
 
 {empty} +
 
 === Delete workspace in Dev Spaces 
 
-Open the Dev Spaces dashboard following the actions below: 
+Finally, when you're done playing with the workspace, follow the guidance below to delete it entirely from the environment.
 
-//styling for keyboard keys
-pass:a[<style>{style-kbd}</style>]
+WARNING: This VSCode environment as well as its lab instructions will be deleted from your sandbox.
 
-. Open the Command Pallette in VSCode using the following keyboard combination:
-- Mac: kbd:[&nbsp;⇧&nbsp; + ⌘ + P]
-- Linux: kbd:[Ctrl+Shift+P]
-- Windows: kbd:[Ctrl+Shift+P]
-. Click the button _Copy to clipboard_
+First, stop your workspace by following the actions below: 
 
+. At the bottom-left of your screen, click the kbd:[pass:[<sub>&gt;</sub><sup>&lt;</sup>]] button.
+. Then at the top, select:
+- `Dev Spaces: Stop Workspace`
 
-// [.kbd]
-// --
-// ⇧⌘P,
-// --
-
-// pass:[<b style="background-color=white;color=grey">Ctrl</b> + <kbd>C</kbd>]
-
-// kbd:[&nbsp;⇧&nbsp; + ⌘ + P]
-
-Finally, Switch to your _DevSpaces_ dashboard tab.
-
-image::images/21-ai-at-devspaces.png[width=20%]
+image::images/27-open-dashboard.png[]
 
 {blank}
 
-And follow the steps indicated below:
+Stopping your workspace will make your browser switch to the Dev Spaces dashboard.
+
+From the dashboard, follow the steps indicated below:
 
 . Click *_Workspaces_*, from the left menu.
 . Tick the checkbox for `devsandbox-catalog-ai-labs`.
