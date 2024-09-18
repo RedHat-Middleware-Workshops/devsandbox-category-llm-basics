@@ -14,7 +14,12 @@
         - removeHeaders:
             pattern: '*'
         - toD:
-            uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places?httpMethod=GET&namePrefix=${variable.location}&limit=1&sort=-population"
+            uri: "http://geodb-free-service.wirefreethought.com/v1/geo/places"
+            parameters:
+              httpMethod: GET
+              namePrefix: ${variable.location}
+              limit: 1
+              sort: -population
         - unmarshal:
             json:
               library: Jackson
