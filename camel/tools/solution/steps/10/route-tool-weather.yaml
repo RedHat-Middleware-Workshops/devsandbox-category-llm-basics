@@ -4,7 +4,7 @@
       uri: langchain4j-tools:weather
       parameters:
         tags: all
-        description: get wheather forecast of cities around the world
+        description: get weather forecast of cities around the world
         parameter.location: string
       steps:
         - setVariable:

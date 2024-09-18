@@ -26,9 +26,11 @@
   border-radius:5px; \
 } \
 
-:style-preview: pre{background-color: black; color: white}
+:style-preview: pre {background-color: black; color: white}
 
-:style-all: pass:a[<style>{style-kbd}{style-preview}</style>]
+:style-indent: .indent2 {padding-left: 2rem;}
+
+:style-all: pass:a[<style>{style-kbd}{style-preview}{style-indent}</style>]
 
 // :btn-text: my text
 // :btn: pass:attributes[<code><mark style="background-color: dodgerblue; color: white">&nbsp;{btn-text}&nbsp;</mark>]
@@ -295,11 +297,11 @@ Review the instructions and try again.
 == Basic LLM interaction
 {style-all}
 
-++++
-<style>
-.indent2 {padding-left: 2rem;}
-</style>
-++++
+// ++++
+// <style>
+// .indent2 {padding-left: 2rem;}
+// </style>
+// ++++
 
 === Start the lab
 
@@ -726,6 +728,7 @@ _Camel JBang_ was built with prototyping in mind. In this lab, you already enjoy
 
 Think for a moment the abilities _Camel JBang_ empowers the developer with. For starters, beginning with an empty folder, you can:
 
+[.indent2]
 ▶ Create pass:[<b style="font-size: 20px">ONE</b>] single Camel file in a flash... +
 &nbsp;&nbsp;&nbsp; and run it on the spot, making code updates that _Camel JBang_ picks up and applies on the fly.
 
@@ -765,10 +768,7 @@ After doing so, a couple of parameters are added to you `aplication.properties` 
 --
 [.indent2]
 📁 lab +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
 pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] model.java +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] routes.yaml +
 pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
 --
 
@@ -1048,9 +1048,42 @@ NOTE: the JSON structure above has been pretty-printed for better readability.
 
 {empty} +
 
-### Visual representation of Tool calling
+### Hold on, what happened there?
 
-From your first tool test above you can deduce what's going on between Camel and the LLM. If you inspect carefully your terminal logs you'll identify all the exchanges between both parties.
+By carefully inspecting the logs in your terminal you will deduce what's going on between _Camel_ and the LLM. Try to identify all the exchanges that occurred between both parties.
+
+You'll see in the logs that _Camel_ passes on to the LLM the weather tool definition as follows:
+
+----
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "getWeatherForecastOfCitiesAroundTheWorld",
+        "description": "get weather forecast of cities around the world",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "location"
+          ]
+----
+
+{blank}
+
+What is impressive about LLMs (with tool support) is that they're able to parse tool definitions, as the one above shown, and understand which parameters have to be populated to invoke them.
+
+In your execution, the LLM understood the context of the question, extracted the city from the user's query (*_London_*), used it to populate the tool parameter `location` and then initiated a callback to  which _Camel_ responded with the temperature data.
+
+Isn't that incredible?
+
+{empty} +
+
+### Visual representation of Tool calling
 
 The sequence diagram below describes the interactions involved when the LLM uses a tool:
 
@@ -1363,23 +1396,10 @@ ff<br>
 
 After executing the fast-forward action, you'll find two new files, listed below:
 
-// {empty} +
-
-++++
-<style>
-.indent2 {padding-left: 2rem;}
-</style>
-++++
-
---
 [.indent2]
-📁 llm-basics/camel/tools/lab +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] *route-tool-guide.yaml* +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] *processors.java* +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
---
+📁 lab +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] *route-tool-guide.yaml* +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] *processors.java*
 
 {blank}
 
@@ -1503,17 +1523,11 @@ This step represents the final milestone in your path to implement the functiona
 
 Inspecting your `lab` folder you will observe all the _Camel_ routes are fully defined in the following YAML files:
 
---
 [.indent2]
-📁 llm-basics/camel/tools/lab +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>]  applications.properties +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] model.java +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-main.yaml* +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-tool-guide.yaml* +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-tool-weather.yaml* +
-// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
---
+📁 lab +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-main.yaml* +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-tool-guide.yaml* +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>!&nbsp;</i></b></mark>] *route-tool-weather.yaml*
 
 {empty} +
 
@@ -1640,7 +1654,7 @@ NOTE: _Camel JBang_ is continuously being improved and perfected. There are curr
 // {empty} +
 
 The lab includes an `xx` (export) script to accelerate the conversion from a _Camel JBang_ prototype into a _Camel Quarkus_ project. +
-Execute the command below to trigger the export (into Camel Quarkus):
+Execute the command below to trigger the export (into _Camel Quarkus_):
 
 [source, subs=]
 ----
@@ -1651,19 +1665,6 @@ NOTE: Feel free to open the script and inspect the transformation instructions i
 
 {blank}
 
-// The summary of actions performed by the script is the following:
-
-// - Executes the `camel export *` command (with added flags)
-// - Removes the `lazy=true` parameter from the `@BindToRegistry` annotation
-// +
-// NOTE: This is a workaround while waiting for the next release of Quarkus to be available.
-// +
-// - Add the `quarkus-openshift` dependency in the `pom.xml` file.
-// - Add an exclusion tag, in the _JavaFaker_ dependency, that creates a compilation conflict.
-// - Cleans the root from the Camel JBang sources (now packaged inside the Maven project).
-
-{blank}
-
 Executing the export script should result in a terminal output similar to:
 
 ----
@@ -1671,9 +1672,8 @@ Using Camel JBang to export into a Quarkus application...
 Generating fresh run data
 Exporting as Quarkus project to: .
 Export completed.
+[custom] Adding Snakeyaml dependency...
 [custom] Removing 'lazy=true' parameter...
-[custom] Adding Quarkus OpenShift dependency...
-[custom] Excluding (Snakeyaml) artifact (compilation conflict)...
 [custom] Cleaning root files and folders.
 all done.
 ----
@@ -1681,14 +1681,6 @@ all done.
 {blank}
 
 The table below shows the before and after. The export took the Camel JBang flat-based structure into a Maven-based structure:
-
-++++
-<style>
-.indent2 {padding-left: 2rem;}
-</style>
-++++
-
-// pass:[<b style="text-align: center"><b>Camel JBang</b>] 
 
 // [cols="25h,~,~"]
 // [cols="50h,30h,~"]
@@ -1699,24 +1691,24 @@ a|
 --
 {blank}
 
-📁 llm-basics/camel/tools/lab +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>] applications.properties +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] bindings.java +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] index.html +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-main.yaml +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-tool-guide.yaml +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-tool-weather.yaml +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>#&nbsp;</i></b></mark>] style.css
+📁 lab +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: grey"><b>&nbsp;⚙&nbsp;</b></mark>] applications.properties +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] bindings.java +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] index.html +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-main.yaml +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-tool-guide.yaml +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] route-tool-weather.yaml +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b><i>#&nbsp;</i></b></mark>] style.css
 --
 | 
 a|
 --
-📁 llm-basics/camel/tools/lab +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;📁&nbsp;</b></mark>] .mvn +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;📁&nbsp;</b></mark>] src +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;↟&nbsp;</b></mark>] mvnw +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: blue"><b>&nbsp;❖</b></mark>] mvnw.cmd +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b>&nbsp;↟&nbsp;</b></mark>] pom.xml +
+📁 lab +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;📁&nbsp;</b></mark>] .mvn +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;📁&nbsp;</b></mark>] src +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;↟&nbsp;</b></mark>] mvnw +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: blue"><b>&nbsp;❖</b></mark>] mvnw.cmd +
+pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;↟&nbsp;</b></mark>] pom.xml +
 
 {empty} +
 

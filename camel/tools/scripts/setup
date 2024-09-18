@@ -1,3 +1,6 @@
+#! /bin/bash
+# set -x
+
 CATALOG=https://raw.githubusercontent.com/KaotoIO/catalogs/4.8.0/catalogs/index.json
 CWCONFIG=/projects/.code-workspace
 LAB=/projects/llm-basics/camel/tools/lab
@@ -10,6 +13,9 @@ echo "$(jq '.settings += {"kaoto.catalog.url": "'"$CATALOG"'"}' $CWCONFIG)" > $C
 
 # Set Java 17
 export JAVA_HOME=$JAVA_HOME_17
+
+# Set Java 17
+echo "export JAVA_HOME=\$JAVA_HOME_17" >> ~/.bashrc
 
 if [ ! -d "$LAB" ]; then
   mkdir $LAB

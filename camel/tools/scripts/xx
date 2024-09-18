@@ -1,38 +1,39 @@
+#! /bin/bash
+# set -x
+
 echo "Using Camel JBang to export into a Quarkus application..."
 camel export * \
 --runtime=quarkus \
 --gav=org.demo:agent:1.0.0 \
---dep=io.quarkiverse.langchain4j:quarkus-langchain4j-core:0.17.2,io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.17.2 \
+--dep=io.quarkus:quarkus-openshift,io.quarkiverse.langchain4j:quarkus-langchain4j-core:0.17.2,io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.17.2 \
 --ignore-loading-error
 
 echo "Export completed."
-echo "[custom] Removing 'lazy=true' parameter..."
-sed -i 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
 
+# The 'snakeyaml' depencency conflicts with JavaFaker so we load it first
 # We look for a unique occurrence (to match start/end)
-echo "[custom] Adding Quarkus OpenShift dependency..."
+echo "[custom] Adding Snakeyaml dependency..."
 sed -i '/<\/dependencyManagement>/,/camel-quarkus-core/c\
     <\/dependencyManagement>\
     \
     <dependencies>\
         <dependency>\
-            <groupId>io.quarkus<\/groupId>\
-            <artifactId>quarkus-openshift<\/artifactId>\
+            <groupId>org.yaml<\/groupId>\
+            <artifactId>snakeyaml<\/artifactId>\
         <\/dependency>\
         <dependency>\
             <groupId>org.apache.camel.quarkus<\/groupId>\
             <artifactId>camel-quarkus-core<\/artifactId>' \
 pom.xml
 
-echo "[custom] Excluding (Snakeyaml) artifact (compilation conflict)..."
-sed -i 's/<version>1.0.2<\/version>/<version>1.0.2<\/version> \
-            <exclusions> \
-                <exclusion> \
-                    <groupId>org.yaml<\/groupId> \
-                    <artifactId>snakeyaml<\/artifactId> \
-                <\/exclusion> \
-            <\/exclusions>/g' \
-pom.xml
+# # SpringBoot
+# echo "Using Camel JBang to export into a SpringBoot application..."
+# camel export * \
+# --runtime=spring-boot \
+# --gav=org.demo:agent-sb:1.0.0
+
+echo "[custom] Removing 'lazy=true' parameter..."
+sed -i 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
 
 echo "[custom] Cleaning root files and folders."
 rm -r .camel* *.java *.yaml application.properties style.css index.html
