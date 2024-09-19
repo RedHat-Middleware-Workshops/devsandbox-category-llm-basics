@@ -5,8 +5,9 @@ CATALOG=https://raw.githubusercontent.com/KaotoIO/catalogs/4.8.0/catalogs/index.
 CWCONFIG=/projects/.code-workspace
 LAB=/projects/llm-basics/camel/tools/lab
 
+# Disabled as Kaoto's latest release comes with 4.8.0
 # Configure Kaoto's catalogue version
-echo "$(jq '.settings += {"kaoto.catalog.url": "'"$CATALOG"'"}' $CWCONFIG)" > $CWCONFIG
+# echo "$(jq '.settings += {"kaoto.catalog.url": "'"$CATALOG"'"}' $CWCONFIG)" > $CWCONFIG
 
 # Point Camel JBang to SNAPSHOT
 # grep -rl camel /home/user/.jbang/cache/urls | grep CamelJBang.java | xargs sed -i 's/version:4.*}/version:4.8.0-SNAPSHOT}/g'
