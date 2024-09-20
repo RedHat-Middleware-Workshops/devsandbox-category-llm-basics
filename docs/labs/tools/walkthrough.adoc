@@ -249,6 +249,13 @@ You can verify in various ways if you're LLM server is running. One way, for exa
 ----
 curl http://llm:8000/api/tags | jq<br>
 ----
+[NOTE]
+--
+You may initially get the following error while the server is starting up:
+----
+Failed to connect to llm port 8000: Connection refused
+----
+--
 
 {blank}
 
@@ -441,7 +448,7 @@ _Kaoto_ is a graphical UI that will help you to build _Camel_ routes using an in
 [TIP]
 .⏩ *Fast-Forward* 
 ====
-Only if you want to skip (automate) the _Kaoto_ creation process, execute in your terminal the command below:
+[.underline]#*Only*# if you want to skip (automate) the _Kaoto_ creation process, execute in your terminal the command below:
 
 . Run the fast-forward command:
 +
@@ -520,7 +527,7 @@ Follow the actions below illustrated:
 
 {blank}
 
-image::images/06-kaoto-open-routes.png[width=100%]
+image::images/06-kaoto-open-routes.png[width=80%]
 
 ======
 
@@ -835,7 +842,8 @@ Try for example:
 
 It should show you something similar to:
 
-----
+++++
+<pre style="background-color: white; color: black">
 Top Routes:
 
     Route Id: main
@@ -850,7 +858,8 @@ Top Routes:
     Last Time: 2s849ms
     Delta Time: 622ms
     Total Time: 13s708ms
-----
+</pre>
+++++
 
 {empty} +
 
@@ -954,7 +963,7 @@ Although this first version won't fetch real time data, it will help you validat
 [TIP]
 .⏩ *Fast-Forward* 
 ====
-To skip (fast-forward) this section, execute in your terminal the commands below:
+[.underline]#*Only*# if you want to skip (fast-forward) this section, execute in your terminal the commands below:
 
 [source, subs=]
 ----
@@ -966,13 +975,84 @@ ff<br>
 Then <<test-first-tool,click here to jump into the next section "*_Test the weather tool_*">>.
 ====
 
-PENDING INSTRUCTIONS TO CREATE FLOW
+{empty} +
+
+To build the tool using Kaoto (no fast-forward), follow the instructions below:
+
+. Create another _Camel_ source file.
++
+--
+Run the following command:
+
+[source, subs=]
+----
+camel init route-tool-weather.yaml<br>
+----
+--
++
+{empty} +
+
+. Open the _Camel_ definition with the _Kaoto Graphical Editor_.
++
+======
+
+. Right click on the source code file:
+- lab -> `**route-tool-weather.yaml**` 
++
+{blank}
+
+. From the options displayed, select:
+- Open with _Kaoto Graphical Editor for Camel_
++
+{blank}
+
+======
++
+{empty} +
 
 
-You're done. +
-You should end up with a flow similar to:
+. Configure the _LangChain4j Tools_ listener
++
+======
+Follow the actions below to replace the Timer starting component by the _LangChain4j Tools_ one:
 
-image::images/15-kaoto-tool-weather.png[width=40%, align=left]
+image::images/29-kaoto-from-tools.png[]
+
+Make sure you configure the following parameters as above illustrated:
+
+- *Tool Id:* `weather`
+- *Tags:* `all`
+- *Description:* `get weather forecast of cities around the world`
+- *Parameters:* Name: `location` Value: `string`
+======
++
+{empty} +
+
+. Configure the _setBody_ step
++
+======
+Copy and paste the JSON response containing the harcoded value `35 degrees celsius`:
+
+[source, subs=]
+----
+{
+	"weather":{
+	  "location":"${header.location}",
+	  "temperature": "35 degrees celsius"
+	}
+}
+----
+
+image::images/30-kaoto-setbody.png[width=60%]
+
+======
++
+{empty} +
+
+And that's it! +
+Your LLM tools look like the flow shown below:
+
+image::images/31-kaoto-full-route-weather-v1.png[width=40%, align=left]
 
 {blank}
 

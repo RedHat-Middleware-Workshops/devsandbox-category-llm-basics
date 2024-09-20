@@ -8,8 +8,8 @@
             ref: createChatMessage
         - to:
             description: call LLM
-            uri: langchain4j-chat:getInformation
+            uri: langchain4j-tools:myllm
             parameters:
-              chatOperation: CHAT_MULTIPLE_MESSAGES
+              tags: all
         - log:
             message: ${body}
