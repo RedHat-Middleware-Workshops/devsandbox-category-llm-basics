@@ -6,7 +6,7 @@
 
 :article-url: https://developers.redhat.com/articles/2024/07/22/try-openshift-ai-and-integrate-apache-camel
 
-:sp-article-url: https://developers.redhat.com/articles/2024/05/24/implement-ai-driven-edge-core-data-pipelines
+:ai-basics-article-url: https://developers.redhat.com/articles/2024/07/22/try-openshift-ai-and-integrate-apache-camel
 
 :eip-explorer-url: https://ibek.github.io/integration-explorer-web/#
 
@@ -54,7 +54,7 @@ The picture below illustrates the journey the lab will take you on, starting fro
 
 {blank}
 
-image::images/26-intro-concept-to-openshift.png[align="center", width=90%]
+image::images/26-intro-concept-to-openshift.png[align="center", width=70%]
 
 {blank}
 
@@ -505,7 +505,9 @@ You'll see your terminal logging in a loop the following output:
 
 NOTE: Your _VS Code_ environment has been provisioned with the _Kaoto Graphical Editor_ extension. It allows you to visualise and graphically edit _Camel_ definitions with point-n-click.
 
-Now you'll start making updates in the route and Camel will react to the changes, hot-reload the route, and you'll get to see in your terminal traces of your live updates.
+// Now you'll start making updates in the route and Camel will react to the changes, hot-reload the route, and you'll get to see in your terminal traces of your live updates.
+
+// As Because you're running _Camel JBang_ with `--dev`
 
 Follow the actions below illustrated:
 
@@ -533,8 +535,10 @@ image::images/06-kaoto-open-routes.png[width=80%]
 
 . Configure an HTTP listener
 +
+NOTE: As you apply the changes indicated below and because you're running with `--dev`, _Camel JBang_ will react and hot-reload the changes. At first you'll see errors thrown until you get the configuration right and _Camel JBang_ enters in a stable state.
++
 ======
-Follow the actions below to replace the Timer starting component by the Platform-HTTP one:
+Follow the actions below to replace the _Timer_ starting component by the _Platform-HTTP_ one:
 
 image::images/07-kaoto-from-http.png[]
 
@@ -808,8 +812,10 @@ How are you today?<br>
 
 You should get a response similar to:
 
+image::images/32-chat-ui-hello.png[width=40%]
+
 // - pass:[<pre><b>LLM:</b> I am doing well, thank you! How about you?<pre>]
-- *LLM:* I am doing well, thank you! How about you?
+// - *LLM:* I am doing well, thank you! How about you?
 
 {empty} +
 
@@ -840,7 +846,7 @@ Try for example:
 
 {blank}
 
-It should show you something similar to:
+When refreshing the page after a few LLM interactions, it should show something similar to:
 
 ++++
 <pre style="background-color: white; color: black">
@@ -1104,7 +1110,7 @@ Hi, please let me know the current temperature in London
 
 After a few seconds, you should obtain a response similar to:
 
-image::images/22-tool-weather-offline.png[width=50%, align=center]
+image::images/22-tool-weather-offline.png[width=40%, align=center]
 
 {blank}
 
@@ -1167,7 +1173,7 @@ Isn't that incredible?
 
 The sequence diagram below describes the interactions involved when the LLM uses a tool:
 
-image::images/23-seq-tool-calling.png[align="center", width=60%]
+image::images/23-seq-tool-calling.png[align="center", width=50%]
 
 {empty} +
 
@@ -1227,7 +1233,7 @@ The second API (GeoDB) allows you to convert the name of cities to their latitud
 
 The sequence diagram below describes the flow where the LLM calls the tool, live weather data is obtained, then formatted and delivered to the LLM:
 
-image::images/17-seq-weather-guide.png[align="center", width=60%]
+image::images/17-seq-weather-guide.png[align="center", width=40%]
 
 {blank}
 
@@ -1256,25 +1262,27 @@ image::images/16-kaoto-tool-weather-live.png[width=100%, align=center]
 
 // [TIP]
 // ====
-TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,http,https,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter,message-translator[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+TIP: Click link:{eip-explorer-url}/?q=langchain4j-tools,http,https[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter,message-translator[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
 // ====
 
 Feel free to explore each one of the activities and their configuration. You can also open the file in _VScode_ in its raw YAML format.
 
 There are two key actions interesting to highlight:
 
-. Setting a `coordinates` variable
+. Mapping the _Weather_ API's coordinate values 
 +
-The first _GeoDB_ call gives you back, in JSON format, the latitude and longitude. You use Camel's '_Simple_' language to define an expression that extracts the coordinates and formats them into query parameters to inject in the next API call.
+The first _GeoDB_ call gives you back, in JSON format, the latitude and longitude. You use Camel's '_Simple_' language to define expressions to extract and map the values into the _Weather_ API call.
 +
-The code extract below shows you hot it's defined in YAML: 
+The code extract below shows you how it's defined in YAML: 
 +
+[subs=]
 ----
-  - setVariable:
-      name: coordinates
-      simple:
-        expression: "latitude=${body[data][0][latitude]}&longitude=${body[data][0][longitude]}"
-
+  - toD:
+      uri: "https://api.open-meteo.com/v1/forecast"
+      parameters:
+        httpMethod: GET
+        latitude: <mark style="background-color: yellow; color: black">${body[data][0][latitude]}</mark>
+        longitude: <mark style="background-color: yellow; color: black">${body[data][0][longitude]}<mark>
 ----
 +
 {blank}
@@ -1346,9 +1354,7 @@ Hi, please let me know the current temperature in Paris
 
 You should get a response similar to:
 
-image::images/24-tool-weather-online.png[width=50%, align=center]
-
-// image::images/21-tool-guide-llm-response.png[width=50%, align=center]
+image::images/24-tool-weather-online.png[width=40%, align=center]
 
 {blank}
 
@@ -1455,7 +1461,7 @@ You'll need however to map the `location` parameter the LLM provides into a loca
 
 All in all, the recommendation tool implemented as a Camel route will follow the sequence of calls illustrated below:
 
-image::images/02-seq-tool-tour-guide.png[align="center", width=40%]
+image::images/02-seq-tool-tour-guide.png[align="center", width=30%]
 
 {empty} +
 
@@ -1532,7 +1538,7 @@ You should get a response similar to:
 
 // {empty} +
 
-image::images/21-tool-guide-llm-response.png[width=50%, align=center]
+image::images/21-tool-guide-llm-response.png[width=40%, align=center]
 
 {blank}
 
@@ -1635,7 +1641,7 @@ I am planning to fly to Paris, what is the weather forecast and please give me t
 
 You should get a response similar to:
 
-image::images/25-tool-all-response.png[width=50%, align=center]
+image::images/25-tool-all-response.png[width=40%, align=center]
 
 {blank}
 
@@ -1720,6 +1726,8 @@ step 10<br>
 
 NOTE: The command will reset the lab at this particular stage.
 ====
+
+{empty} +
 
 === Export action
 
@@ -1810,8 +1818,11 @@ Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,wind
 ./mvnw quarkus:dev<br>
 ----
 
+{blank}
+
 Maven will start downloading all of its dependencies and start the application.
 
+{empty} +
 
 === Deployment on OpenShift
 
@@ -1822,16 +1833,10 @@ Stop _Camel Quarkus_ with kbd:[Ctrl+c] and run the following command to deploy t
 ./mvnw package -Dquarkus.kubernetes.deploy=true<br>
 ----
 
+{blank}
+
 Maven will download some more dependencies and initiate the deployment process. By the end of the exection your terminal should show a build success, as follows:
 
-// ++++
-// <style>
-// pre{background-color: black; color: white}
-// </style>
-// ++++
-
-// [.bcolor]
-// [.listingblock]
 ----
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -1840,8 +1845,6 @@ Maven will download some more dependencies and initiate the deployment process. 
 [INFO] Finished at: 2024-09-17T18:27:00Z
 [INFO] ------------------------------------------------------------------------
 ----
-
-
 
 {empty} +
 
@@ -1867,20 +1870,13 @@ You can reset the chapter and repeat the instructions. Scroll to the top of the 
 
 {empty} +
 
-What you have learnt today with this tutorial is based on material created to build an AI based _Solution Pattern_. 
+For those thirsty of knowledge willing to learn more about other AI use cases we strongly recommend to try out another exciting tutorial.
 
-We call it:
+Follow the link below to visit the introductory article that will take you to the learning material:
 
-* link:{sp-article-url}[Edge to Core Data Pipelines for AI/ML,window="_blank", , id="rhd-source-article"]
+* link:{ai-basics-article-url}[​​Try OpenShift AI and integrate with Apache Camel,window="_blank", , id="rhd-source-article"]
 
 {empty} +
-
-To learn more about it, follow the link above to find an introduction to the solution pattern and a video demonstration.
-
-If you dive into the pattern, specially after completing this tutorial, you'll find yourself very familiar with its content. The solution pattern goes further ahead and takes the use case to another level showing how to automate the platform to constantly evolve to follow the needs of an organisation.
-
-image::images/31-ai-solution-pattern.png[align=center,width=70%]
-
 
 WARNING: Before you go, please make sure you clean your sandbox namespace to free up resources. +
 Click `pass:[<mark style="background-color: dodgerblue; color: white">&nbsp;Next&nbsp;</mark>]` for detailed instructions.
@@ -1893,7 +1889,7 @@ Click `pass:[<mark style="background-color: dodgerblue; color: white">&nbsp;Next
 
 When you're done playing in the _Developer Sandbox_, we recommend deleting all the deployments and artifacts, to free up your namespace, and try out other tutorials or products in the future.
 
-These are in summary the components to delete:
+In summary, these are the components to delete:
 
  - Deployed LLM server
  - Deployed Camel Quarkus application.
@@ -1918,7 +1914,7 @@ clean<br>
 
 Finally, when you're done playing with the workspace, follow the guidance below to delete it entirely from the environment.
 
-WARNING: This VSCode environment as well as its lab instructions will be deleted from your sandbox.
+WARNING: Your VSCode environment along with these lab instructions will be deleted from your sandbox.
 
 First, stop your workspace by following the actions below: 
 
