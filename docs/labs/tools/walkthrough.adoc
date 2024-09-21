@@ -1095,7 +1095,7 @@ TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,log[*Components*,window="
 +
 {blank}
 +
-Try again your query after setting a longer timeout with the command below:
+Fix it by setting a longer timeout (command below) and reloading your Chat UI tab. Then try again your query.
 +
 [source, subs=]
 ----
@@ -1356,7 +1356,7 @@ The extract below in YAML shows you how it is done:
 +
 {blank}
 +
-Try again your query after setting a longer timeout with the command below:
+Fix it by setting a longer timeout (command below) and reloading your Chat UI tab. Then try again your query.
 +
 [source, subs=]
 ----
@@ -1673,7 +1673,7 @@ pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><
 +
 {blank}
 +
-Try again your query after setting a longer timeout with the command below:
+Fix it by setting a longer timeout (command below) and reloading your Chat UI tab. Then try again your query.
 +
 [source, subs=]
 ----
@@ -1818,6 +1818,7 @@ Using Camel JBang to export into a Quarkus application...
 Generating fresh run data
 Exporting as Quarkus project to: .
 Export completed.
+[custom] Adding extra properties...
 [custom] Adding Snakeyaml dependency...
 [custom] Removing 'lazy=true' parameter...
 [custom] Cleaning root files and folders.
@@ -1932,7 +1933,7 @@ I am planning to fly to Rome, what is the weather forecast and please give me th
 +
 {blank}
 +
-Try again your query after setting a longer timeout with the command below:
+Fix it by setting a longer timeout (command below) and reloading your Chat UI tab. Then try again your query.
 +
 [source, subs=]
 ----

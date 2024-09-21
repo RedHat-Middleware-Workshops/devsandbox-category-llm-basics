@@ -45,7 +45,7 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/sh", "-c", "ollama pull sam4096/qwen2tools:0.5b"]
+                command: ["/bin/sh", "-c", "ollama pull qwen2.5:0.5b-instruct"]
       restartPolicy: Always
 
 
