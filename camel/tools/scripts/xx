@@ -10,6 +10,12 @@ camel export * \
 
 echo "Export completed."
 
+# LangChain4j in Quarkus requires setting the key
+# In the sandbox we need to bind to 0.0.0.0 to channel comms via 8080-tcp
+echo "[custom] Adding extra properties..."
+echo "quarkus.langchain4j.openai.api-key=EMPTY" >> src/main/resources/application.properties
+echo "%dev.quarkus.http.host=0.0.0.0" >> src/main/resources/application.properties
+
 # The 'snakeyaml' depencency conflicts with JavaFaker so we load it first
 # We look for a unique occurrence (to match start/end)
 echo "[custom] Adding Snakeyaml dependency..."

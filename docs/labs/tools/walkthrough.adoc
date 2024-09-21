@@ -1078,17 +1078,34 @@ TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,log[*Components*,window="
 
 ### Test the weather tool
 
-To test the tool, all you need to do is to talk to the LLM and ask the same question as in the earlier section, except expecting the LLM to callback the function (tool), implemented in _Camel_ as a route.
-
 [NOTE]
 --
-Be patient waiting for LLM responses due to:
-
+. Be patient waiting for LLM responses due to:
++
 * Low CPU power in the sandbox environment.
 * Increase in Camel/LLM exchanges resolving tool interactions. 
++
+{blank}
+
+. When the LLM takes a bit too long, your Chat UI will time out and display:
++
+=====
+* `*LLM:* Oops, something went wrong. Please try again.`
+=====
++
+{blank}
++
+Try again your query after setting a longer timeout with the command below:
++
+[source, subs=]
+----
+tt 8080-tcp<br>
+----
 --
 
 {blank}
+
+Proceed to test the tool. All you need to do is to talk to the LLM and ask the same question as in the earlier section, except expecting the LLM to callback the function (tool), implemented in _Camel_ as a route.
 
 Follow the steps below:
 
@@ -1322,18 +1339,34 @@ The extract below in YAML shows you how it is done:
 
 ### Give the weather tool a spin
 
-Talk to your LLM to try out the new code.
-
 [NOTE]
 --
-Be patient waiting for LLM responses due to:
-
+. Be patient waiting for LLM responses due to:
++
 * Low CPU power in the sandbox environment.
 * Increase in Camel/LLM exchanges resolving tool interactions. 
++
+{blank}
+
+. When the LLM takes a bit too long, your Chat UI will time out and display:
++
+=====
+* `*LLM:* Oops, something went wrong. Please try again.`
+=====
++
+{blank}
++
+Try again your query after setting a longer timeout with the command below:
++
+[source, subs=]
+----
+tt 8080-tcp<br>
+----
 --
 
 {blank}
 
+Talk to your LLM to try out the new code. +
 Follow the steps below:
 
 . Launch _Camel JBang_ as usual with:
@@ -1390,8 +1423,6 @@ NOTE: the extract above has been pretty-printed fore easy readability.
 {blank}
 
 The 100% accuracy obtained in the example above is actually unusual for such a small LLM.
-
-TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
 
 {empty} +
 
@@ -1625,7 +1656,32 @@ pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><
 
 === Run the tools
 
-Follow the steps below:
+[NOTE]
+--
+. Be patient waiting for LLM responses due to:
++
+* Low CPU power in the sandbox environment.
+* Increase in Camel/LLM exchanges resolving tool interactions. 
++
+{blank}
+
+. When the LLM takes a bit too long, your Chat UI will time out and display:
++
+=====
+* `*LLM:* Oops, something went wrong. Please try again.`
+=====
++
+{blank}
++
+Try again your query after setting a longer timeout with the command below:
++
+[source, subs=]
+----
+tt 8080-tcp<br>
+----
+--
+
+To see both tools in action follow the steps below:
 
 . Launch _Camel JBang_ with:
 +
@@ -1697,10 +1753,6 @@ a|
 
 
 NOTE: the extracts above have been pretty-printed fore easy readability.
-
-{blank}
-
-In this particular interaction the LLM took the liberty to improvise and went too far, resulting in a deviation from reality, something you would expect given the limitations of the tiny model you're running.
 
 {empty} +
 
@@ -1815,7 +1867,7 @@ pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&
 
 If all worked as planned, you should have a _Camel Quarkus_ project ready to roll.
 
-NOTE: You don't need to run the application locally, jump to the next section (Deployment) if you prefer save some time. But it's nice to run the application and check all is in its place.
+NOTE: You don't need to run the application locally, jump to the next section (Deployment) if you prefer save some time. But it's nice to run the application and check nothing is out of place.
 
 Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,window="_blank"] from your terminal with the following command:
 
@@ -1828,14 +1880,18 @@ Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,wind
 
 Maven will start downloading all of its dependencies and start the application.
 
+NOTE: *Ignore* the following notification when _Quarkus_ starts: +
+`A new process is now listening on port 5005 ...`
+
+{blank}
+
 ----
 __  ____  __  _____   ___  __ ____  ______ 
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-
 ...
-
+...
 2024-09-20 12:29:11,693 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 4.7.0 (camel-1) is starting
 2024-09-20 12:29:11,818 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Using 2 instances of same component class: org.apache.camel.component.http.HttpComponent with names: http, https
 2024-09-20 12:29:11,820 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup (total:3)
@@ -1847,6 +1903,42 @@ __  ____  __  _____   ___  __ ____  ______
 2024-09-20 12:29:11,942 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
 2024-09-20 12:29:11,943 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [camel-attachments, camel-bean, camel-core, camel-http, camel-jackson, camel-microprofile-health, camel-platform-http, camel-yaml-dsl, cdi, kubernetes, langchain4j, langchain4j-openai, qute, rest-client, rest-client-jackson, smallrye-context-propagation, smallrye-health, vertx]
 ----
+
+{blank}
+
+If you want to see your local _Quarkus_ application in action, follow the instructions below indicated.
+
+. Talk to the LLM using the _Chat UI_, or `chat` command, by issuing the following query:
++
+[source, subs=]
+----
+I am planning to fly to Rome, what is the weather forecast and please give me the phone number of a good local tour guide you recommend
+----
++
+[NOTE]
+--
+. Be patient waiting for LLM responses due to:
++
+* Low CPU power in the sandbox environment.
+* Increase in Camel/LLM exchanges resolving tool interactions. 
++
+{blank}
+
+. When the LLM takes a bit too long, your Chat UI will time out and display:
++
+=====
+* `*LLM:* Oops, something went wrong. Please try again.`
+=====
++
+{blank}
++
+Try again your query after setting a longer timeout with the command below:
++
+[source, subs=]
+----
+tt 8080-tcp<br>
+----
+--
 
 {empty} +
 
@@ -1870,6 +1962,16 @@ Maven will download some more dependencies and initiate the deployment process. 
 [INFO] Total time:  01:27 min
 [INFO] Finished at: 2024-09-17T18:27:00Z
 [INFO] ------------------------------------------------------------------------
+----
+
+{blank}
+
+To access the Chat UI, you'll need to create a Route to your Quarkus application's service. +
+Run the following command to create the Route:
+
+[source, subs=]
+----
+oc expose service agent<br>
 ----
 
 {empty} +

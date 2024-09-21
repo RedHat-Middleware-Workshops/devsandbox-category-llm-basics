@@ -32,7 +32,8 @@ public class bindings extends RouteBuilder {
 
         ChatLanguageModel model = OpenAiChatModel.builder()
             .apiKey("EMPTY")
-            .modelName("sam4096/qwen2tools:0.5b")
+            // .modelName("sam4096/qwen2tools:0.5b")
+            .modelName("qwen2.5:0.5b-instruct")
             .baseUrl("http://llm:8000/v1/")
             .temperature(0.0)
             .timeout(ofSeconds(180))
