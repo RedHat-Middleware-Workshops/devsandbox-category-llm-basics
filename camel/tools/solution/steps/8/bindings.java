@@ -63,18 +63,11 @@ public class bindings extends RouteBuilder {
                 String tools = """
                     You have access to a collection of tools.
 
-                    To use a tool, respond with a JSON object with the following structure:
+                    You can use multiple tools at the same time.
 
-                    "content": null,
-                    "tool_calls": [
-                    {
-                        "type": "function",
-                        "function": {
-                        "name": <name of the called tool>,
-                        "arguments": <parameters for the tool matching the above JSON schema>
-                        }
-                    }
-                    ]
+                    Complete your answer using data obtained from the tools.
+
+                    Use short answers.
                     """;
 
                 messages.add(new SystemMessage(systemMessage.formatted(tools)));

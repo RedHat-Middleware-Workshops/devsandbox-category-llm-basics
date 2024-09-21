@@ -249,13 +249,14 @@ You can verify in various ways if you're LLM server is running. One way, for exa
 ----
 curl http://llm:8000/api/tags | jq<br>
 ----
+
 [NOTE]
---
+====
 You may initially get the following error while the server is starting up:
 ----
 Failed to connect to llm port 8000: Connection refused
 ----
---
+====
 
 {blank}
 
@@ -265,11 +266,11 @@ Your server will be ready when you get a response with details of the model depl
 {
   "models": [
     {
-      "name": "sam4096/qwen2tools:0.5b",
-      "model": "sam4096/qwen2tools:0.5b",
-      "modified_at": "2024-09-10T17:05:29.965922378Z",
-      "size": 352165374,
-      "digest": "ff120c9ea730cd6b7f772ae9ff9127357bf8d8fb7625df601b81e79810a68083",
+      "name": "qwen2.5:0.5b-instruct",
+      "model": "qwen2.5:0.5b-instruct",
+      "modified_at": "2024-09-21T20:42:49.942753332Z",
+      "size": 397821319,
+      "digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
       "details": {
         "parent_model": "",
         "format": "gguf",
@@ -278,7 +279,7 @@ Your server will be ready when you get a response with details of the model depl
           "qwen2"
         ],
         "parameter_size": "494.03M",
-        "quantization_level": "Q4_0"
+        "quantization_level": "Q4_K_M"
       }
     }
   ]
@@ -303,12 +304,6 @@ Review the instructions and try again.
 [id="basic-llm-interaction"]
 == Basic LLM interaction
 {style-all}
-
-// ++++
-// <style>
-// .indent2 {padding-left: 2rem;}
-// </style>
-// ++++
 
 === Start the lab
 
@@ -664,12 +659,12 @@ The code is configured to instruct the LLM to ensure the user is informed about 
 
 ----
 String tools = """
-          When asked to provide real time data (information), respond with:
+    When asked to provide real time data (information), respond with:
 
-          - I'm sorry, I don't have access to real time information.
+    - I'm sorry, I don't have access to real time information.
 
-          Do not improvise answers for any real time related questions.
-          """;
+    Do not improvise answers for any real time related questions.
+    """;
 ----
 
 WARNING: Because our LLM is super small, its behaviour might divert from the above instruction and improvise a response that appears realistic. Responses that are incorrect or misleading, and are presented as facts are known as *hallucinations*.
@@ -947,7 +942,7 @@ In _Apache Camel_, the link:https://camel.apache.org/components/next/langchain4j
 
 {empty} +
 
-### First iteration of a Weather Tool
+=== First iteration of a Weather Tool
 
 The end goal is to use _Camel_ to enable the LLM the ability to obtain real time data. The LLM alone can't do it, unless assisted.
 
@@ -1076,10 +1071,10 @@ TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,log[*Components*,window="
 
 [[test-first-tool]] {empty} +
 
-### Test the weather tool
+=== Test the weather tool
 
 [NOTE]
---
+====
 . Be patient waiting for LLM responses due to:
 +
 * Low CPU power in the sandbox environment.
@@ -1101,7 +1096,7 @@ Fix it by setting a longer timeout (command below) and reloading your Chat UI ta
 ----
 tt 8080-tcp<br>
 ----
---
+====
 
 {blank}
 
@@ -1153,7 +1148,7 @@ NOTE: the JSON structure above has been pretty-printed for better readability.
 
 {empty} +
 
-### Hold on, what happened there?
+=== Hold on, what happened there?
 
 By carefully inspecting the logs in your terminal you will deduce what's going on between _Camel_ and the LLM. Try to identify all the exchanges that occurred between both parties.
 
@@ -1188,7 +1183,7 @@ Isn't that incredible?
 
 {empty} +
 
-### Visual representation of Tool calling
+=== Visual representation of Tool calling
 
 The sequence diagram below describes the interactions involved when the LLM uses a tool:
 
@@ -1197,8 +1192,25 @@ image::images/23-seq-tool-calling.png[align="center", width=50%]
 {empty} +
 
 
-{empty} +
+=== Tool prompt
 
+As an additional note, if you remember from earlier, the tool prompt was defined to instruct the LLM to inform users about real time data unavailability.
+
+For a better data exchange between _Camel_ and the LLM, the source file `bindings.java` was modified to enable a good tool interaction by updating the tool prompt as per the extract shown below:
+
+----
+String tools = """
+    You have access to a collection of tools.
+
+    You can use multiple tools at the same time.
+
+    Complete your answer using data obtained from the tools.
+
+    Use short answers.
+    """;
+----
+
+{empty} +
 
 [type=verification]
 Did you see the LLM calling the tool and answering as expected?
@@ -1232,7 +1244,7 @@ NOTE: The command will reset the lab at this particular stage.
 {empty} +
 
 
-### Live weather information
+=== Live weather information
 
 Hardcoding dummy responses, as done in the previous chapter, is helpful to validate the theory really works. Now, let's keep iterating the code and improve it by calling online services providing real time feeds.
 
@@ -1337,10 +1349,10 @@ The extract below in YAML shows you how it is done:
 
 
 
-### Give the weather tool a spin
+=== Give the weather tool a spin
 
 [NOTE]
---
+====
 . Be patient waiting for LLM responses due to:
 +
 * Low CPU power in the sandbox environment.
@@ -1362,7 +1374,7 @@ Fix it by setting a longer timeout (command below) and reloading your Chat UI ta
 ----
 tt 8080-tcp<br>
 ----
---
+====
 
 {blank}
 
@@ -1545,7 +1557,7 @@ The new file `processors.java` defines the _Camel Processor_ referenced by the `
 
 {empty} +
 
-### Try the new recommendation tool
+=== Try the new recommendation tool
 
 Give it a go, follow the steps below:
 
@@ -1657,7 +1669,7 @@ pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><
 === Run the tools
 
 [NOTE]
---
+====
 . Be patient waiting for LLM responses due to:
 +
 * Low CPU power in the sandbox environment.
@@ -1679,7 +1691,7 @@ Fix it by setting a longer timeout (command below) and reloading your Chat UI ta
 ----
 tt 8080-tcp<br>
 ----
---
+====
 
 To see both tools in action follow the steps below:
 
@@ -1874,17 +1886,12 @@ Run it in https://quarkus.io/guides/maven-tooling#dev-mode[development mode,wind
 
 [source, subs=]
 ----
-./mvnw quarkus:dev<br>
+./mvnw quarkus:dev -Ddebug=false<br>
 ----
 
 {blank}
 
 Maven will start downloading all of its dependencies and start the application.
-
-NOTE: *Ignore* the following notification when _Quarkus_ starts: +
-`A new process is now listening on port 5005 ...`
-
-{blank}
 
 ----
 __  ____  __  _____   ___  __ ____  ______ 
@@ -1917,7 +1924,7 @@ I am planning to fly to Rome, what is the weather forecast and please give me th
 ----
 +
 [NOTE]
---
+====
 . Be patient waiting for LLM responses due to:
 +
 * Low CPU power in the sandbox environment.
@@ -1939,7 +1946,7 @@ Fix it by setting a longer timeout (command below) and reloading your Chat UI ta
 ----
 tt 8080-tcp<br>
 ----
---
+====
 
 {empty} +
 
@@ -1974,6 +1981,26 @@ Run the following command to create the Route:
 ----
 oc expose service agent<br>
 ----
+
+[TIP]
+====
+This is a good moment to set a longer timeout in your route proxy to prevent errors on your Chat UI, execute:
+
+[source, subs=]
+----
+tt agent<br>
+----
+====
+
+You should be able to see your deployed application in your sandbox _Developer Console_.
+
+To open your Developer Console and access your Chat UI deployed on OpenShift, follow the actions illustrated below:
+
+image::images/33-deployed-chat-ui.png[]
+
+{blank}
+
+Chat with your LLM as you did in previous rounds to validate your application.
 
 {empty} +
 

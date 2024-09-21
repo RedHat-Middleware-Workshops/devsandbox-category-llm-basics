@@ -58,11 +58,13 @@ public class bindings extends RouteBuilder {
                     """;
 
                 String tools = """
-                    When asked to provide real time data (information), respond with:
+                    You have access to a collection of tools.
 
-                    - I'm sorry, I don't have access to real time information.
+                    You can use multiple tools at the same time.
 
-                    Do not improvise answers for any real time related questions.
+                    Complete your answer using data obtained from the tools.
+
+                    Use short answers.
                     """;
 
                 messages.add(new SystemMessage(systemMessage.formatted(tools)));
