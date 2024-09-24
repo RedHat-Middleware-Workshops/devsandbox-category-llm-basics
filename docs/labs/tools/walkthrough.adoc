@@ -330,9 +330,17 @@ At first, your `lab` directory is empty:
 
 --
 [.indent2]
-📁 llm-basics/camel/tools/*lab* +
+📁 llm-basics +
+&nbsp;&nbsp;📁 camel/tools +
+&nbsp;&nbsp;&nbsp;&nbsp;📁 *lab* +
 pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>] [empty]
 --
+
+// --
+// [.indent2]
+// 📁 llm-basics/camel/tools/*lab* +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: grey"></mark>] [empty]
+// --
 
 {blank}
 
@@ -525,13 +533,10 @@ NOTE: Your _VS Code_ environment has been provisioned with the _Kaoto Graphical 
 
 Follow the actions below illustrated:
 
-. Right click on the source code file:
+. Click on the file to open it with _Kaoto_:
 - lab -> `**route-main.camel.yaml**` 
 +
-{blank}
-
-. From the options displayed, select:
-- Open with _Kaoto Graphical Editor for Camel_
+TIP: When a file ends with `.camel.yaml` VSCode opens the file in the _Kaoto_ editor.
 +
 {blank}
 
@@ -1026,19 +1031,9 @@ camel init route-tool-weather.camel.yaml<br>
 
 . Open the _Camel_ definition with the _Kaoto Graphical Editor_.
 +
-======
-
-. Right click on the source code file:
+Click on the file to open it with _Kaoto_:
++
 - lab -> `**route-tool-weather.camel.yaml**` 
-+
-{blank}
-
-. From the options displayed, select:
-- Open with _Kaoto Graphical Editor for Camel_
-+
-{blank}
-
-======
 +
 {empty} +
 
@@ -1374,8 +1369,6 @@ The extract below in YAML shows you how it is done:
 ----
 
 {empty} +
-
-
 
 
 === Give the weather tool a spin
