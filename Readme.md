@@ -34,20 +34,26 @@ To launch this tutorial, you only need 2 steps:
 
 ### How to recover from failed workspace
 
-Sometimes the provisioning process goes wrong. Try following the steps below to delete the failed workspace and restart.
+Sometimes the provisioning process goes wrong. \
+Try following the steps below to delete the failed workspace and restart.
 
-1. Click on the `workspace` portion as illustrated below. \
+1. Click <span style="color:blue">Workspaces</span> at the top of the screen as illustrated below. \
    *Dev Spaces*'s dashboard will open.
   
-2. Find the <kbd>⋮</kbd> button in your failed workspace
+2. Find the <kbd>⋮</kbd> button (failed workspace).
 
-3. Select <kbd>Delete Workspace</kbd>
+3. Select <kbd>Delete Workspace</kbd>/
 
-4. In the confirmation panel, tick the box, and click <button style="background-color=red; color=white">Delete</button>
+4. In the confirmation panel, tick the box, and click <button style="background-color:red; color:white">Delete</button>
 
 ![](docs/labs/tools/images/35-recover-workspace.png)
 *Mouse actions in VS Code to delete failed workspace.*
 
+With your failed workspace gone you can retry provisioning your lab.
+Jump back to:
+ - [Get Started with the tutorial](#get-started-with-the-tutorial)
+
+<br/>
 
 ## Introduction
 
