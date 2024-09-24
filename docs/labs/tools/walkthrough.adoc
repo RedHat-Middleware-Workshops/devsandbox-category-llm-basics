@@ -8,7 +8,8 @@
 
 :ai-basics-article-url: https://developers.redhat.com/articles/2024/07/22/try-openshift-ai-and-integrate-apache-camel
 
-:eip-explorer-url: https://ibek.github.io/integration-explorer-web/#
+// :eip-explorer-url: https://ibek.github.io/integration-explorer-web/#
+:eip-explorer-url: https://camel.solutionpatterns.io/#
 
 // WORKS
 :style-kbd: kbd { \
@@ -125,7 +126,25 @@ It's recommended to understand the resource limitations of the sandbox.
 == Preparation steps
 {style-all}
 
+=== Fold unrelated content
+
+The workspace contains multiple labs (projects). +
+Make sure you fold unrelated content. You should just work on the following folder (project):
+
+- `llm-basics`
++
+{blank}
++
+image::images/34-folder-llm-basics.png[width=50%]
+
+{empty} +
+
+
 === Enable auto-save
+
+TIP: Ignore this step if auto-save is already enabled in your environment.
+
+// TIP: It may already be enabled for you, in that case ignore this action.
 
 . Toggle auto-save on (✓)
 +
@@ -583,10 +602,20 @@ image::images/10-kaoto-full-route.png[width=50%, align=left]
 
 [TIP]
 ====
-The _Enterprise Integration Explorer_ is a tool to deep dive into the components and patterns _Apache Camel_ implements.
 
-Click link:{eip-explorer-url}/?q=platform-http,langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=custom-logic[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+To learn more about the individual components in the route you just built, you can visit the pass:a[<i style="color: blue">Enterprise Integration Explorer</i>]. The site gathers information and examples about _Camel_ components and patterns.
+
+// To learn more about the individual components in the route you just built, you can click the links below from the pass:a[<i style="color: blue">Enterprise Integration Explorer</i>]. The site gathers information and examples about _Camel_ components and patterns.
+
+To list the ones relevant to your route, click link:{eip-explorer-url}/?q=platform-http,langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=custom-logic[*Patterns*,window="_blank"] to start exploring.
 ====
+
+// [TIP]
+// ====
+// The _Enterprise Integration Explorer_ is a tool to deep dive into the components and patterns _Apache Camel_ implements.
+
+// Click link:{eip-explorer-url}/?q=platform-http,langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=custom-logic[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
+// ====
 
 {empty} +
 
@@ -1216,7 +1245,7 @@ String tools = """
 Did you see the LLM calling the tool and answering as expected?
 
 [type=verificationSuccess]
-Excellent!
+Great progress!
 
 [type=verificationFail]
 Please review the steps of this chapter and try again.
@@ -2008,7 +2037,7 @@ Chat with your LLM as you did in previous rounds to validate your application.
 Did your Camel Quarkus application successfully deploy on OpenShift?
 
 [type=verificationSuccess]
-Very good!
+Bravo! You've done it! 
 
 [type=verificationFail]
 You can reset the chapter and repeat the instructions. Scroll to the top of the page and follow again the same instructions.
