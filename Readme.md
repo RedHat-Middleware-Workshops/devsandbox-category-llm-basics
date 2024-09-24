@@ -1,6 +1,3 @@
-> [!WARNING]  
-> This repository is under construction. Do not use, the content is unfinished and not ready.
-
 > [!NOTE]  
 > If this file is rendered in TEXT mode in VS Code, click the preview button. \
 > (upper-right corner, has a `📖+🔍` symbol)
@@ -51,7 +48,7 @@ Try following the steps below to delete the failed workspace and restart.
 
 After the actions above, retry provisioning your lab. \
 Jump back to:
- - [Get Started with the tutorial](#get-started-with-the-tutorial)
+ - [Get started with the tutorial](#get-started-with-the-tutorial)
 
 <br/>
 
