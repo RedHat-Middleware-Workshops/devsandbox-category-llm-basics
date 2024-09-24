@@ -42,14 +42,14 @@ Try following the steps below to delete the failed workspace and restart.
   
 2. Find the <kbd>⋮</kbd> button (failed workspace).
 
-3. Select <kbd>Delete Workspace</kbd>/
+3. Select <kbd>Delete Workspace</kbd>
 
-4. In the confirmation panel, tick the box, and click <span style="background-color:red; color:white">&nbsp;Delete&nbsp;</span>
+4. In the confirmation panel, **tick** the box, and click **Delete**
 
 ![](docs/labs/tools/images/35-recover-workspace.png)
 *Mouse actions in VS Code to delete failed workspace.*
 
-With your failed workspace gone you can retry provisioning your lab.
+After the actions above, retry provisioning your lab. \
 Jump back to:
  - [Get Started with the tutorial](#get-started-with-the-tutorial)
 
