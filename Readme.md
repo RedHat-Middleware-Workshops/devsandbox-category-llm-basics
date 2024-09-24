@@ -44,9 +44,7 @@ Try following the steps below to delete the failed workspace and restart.
 
 3. Select <kbd>Delete Workspace</kbd>/
 
-4. In the confirmation panel, tick the box, and click <button style="background-color:red; color:white">Delete</button>
-
-$\colorbox{green}{{\color{white}{This\ is\ a\ Big\ Title}}}$
+4. In the confirmation panel, tick the box, and click <span style="background-color:red; color:white">&nbsp;Delete&nbsp;</span>
 
 ![](docs/labs/tools/images/35-recover-workspace.png)
 *Mouse actions in VS Code to delete failed workspace.*
