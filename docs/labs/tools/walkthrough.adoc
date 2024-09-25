@@ -63,7 +63,7 @@ Above all, the lab intends to introduce you to the capabilities of _Apache Camel
 
 {empty} +
 
-[time=1]
+[time=2]
 [id="intro"]
 == Introduction
 
@@ -121,7 +121,7 @@ Enjoy the tutorial!
 It's recommended to understand the resource limitations of the sandbox.
 
 
-[time=1]
+[time=2]
 [id="setup"]
 == Preparation steps
 {style-all}
@@ -188,8 +188,15 @@ image::images/03-copy-actions.png[width=60%]
 
 . Click the button _Copy to clipboard_
 . Paste the command in the terminal:
-- on Linux: kbd:[Ctrl+Shift+v] and press kbd:[Enter] 
-- on Mac: kbd:[⌘+v] and press kbd:[Enter]
+- on Linux: kbd:[Ctrl+Shift+v]
+- on Mac: kbd:[⌘+v]
++
+. Try it with:
++
+[source, subs=]
+----
+echo "this is a copy/paste test"<br>
+----
 +
 --
 WARNING: It's been reported that these key-combos not always work. Your machine may not respond to the above descriptions. Please try other key or mouse click alternatives, for example, right-click, or middle-click.
@@ -197,25 +204,25 @@ WARNING: It's been reported that these key-combos not always work. Your machine 
 
 {blank}
 
-=== Setup the lab
+// === Setup the lab
 
-Copy and paste in your terminal the following command:
+// Copy and paste in your terminal the following command:
 
-[source, subs=]
-----
-source setup<br>
-----
+// [source, subs=]
+// ----
+// source setup<br>
+// ----
 
-{blank}
+// {blank}
 
-The command above:
+// The command above:
 
-- Creates a `lab` directory (your working directory)
-- Switches to your `lab` directory.
-+
-NOTE: You'll see the `lab` folder empty when you start the tutorial for the first time.
+// - Creates a `lab` directory (your working directory)
+// - Switches to your `lab` directory.
+// +
+// NOTE: You'll see the `lab` folder empty when you start the tutorial for the first time.
 
-{empty} +
+// {empty} +
 
 === Tips for a better learning
 
@@ -237,10 +244,18 @@ Is your terminal open and located in your `lab` directory?
 Review the instructions above and ensure you run the `setup` script.
 
 
-[time=2]
+[time=3]
 [id="deploy-llm"]
 == Deploy the LLM
 {style-all}
+
+// === IMPORTANT
+
+IMPORTANT: You need to run this chapter to deploy the LLM for the first time. Also, consider that if you take long rests between chapters, the sandbox may automatically scale your LLM pod down (shutdown) to save resources and energy. You will need to rerun this chapter to ensure your LLM is active when you return and resume your learning.
+
+{blank}
+
+=== Proceed to deploy
 
 Copy and paste in your terminal the following command:
 
@@ -319,7 +334,7 @@ Is your LLM server running?
 Review the instructions and try again.
 
 
-[time=5]
+[time=15]
 [id="basic-llm-interaction"]
 == Basic LLM interaction
 {style-all}
@@ -550,6 +565,7 @@ TIP: When a file ends with `.camel.yaml` VSCode opens the file in the _Kaoto_ ed
 
 image::images/06-kaoto-open-routes.png[width=80%]
 
+NOTE: If the file opens in text mode (YAML), the _Kaoto_ extension may be missing. Install it manually by opening the _Extensions_ panel (Mac kbd:[↑+⌘+x],  Linux kbd:[Ctrl+Shift+x]), filter with "Kaoto", click `install` and try to open the file again.
 ======
 
 . Configure an HTTP listener
@@ -743,7 +759,7 @@ You've completed the basic processing flow to connect Camel to the LLM.
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=3]
+[time=8]
 [id="html-serving"]
 == Add a Chat UI
 {style-all}
@@ -939,7 +955,7 @@ Excellent!
 Please review the steps of this chapter and try again. You can always use the commands `rw` (rewind) followed by `ff` (fast-forward) to reset the lab stage.
 
 
-[time=3]
+[time=15]
 [id="llm-tool-weather"]
 == Create first LLM tool (v1 offline)
 {style-all}
@@ -1034,6 +1050,8 @@ camel init route-tool-weather.camel.yaml<br>
 Click on the file to open it with _Kaoto_:
 +
 - lab -> `**route-tool-weather.camel.yaml**` 
++
+NOTE: If the file opens in text mode (YAML), the _Kaoto_ extension may be missing. Install it manually by opening the _Extensions_ panel (Mac kbd:[↑+⌘+x],  Linux kbd:[Ctrl+Shift+x]), filter with "Kaoto", click `install` and try to open the file again.
 +
 {empty} +
 
@@ -1246,7 +1264,7 @@ Great progress!
 Please review the steps of this chapter and try again.
 
 
-[time=3]
+[time=8]
 [id="llm-tool-weather-live"]
 == Finish first LLM tool (v2 online)
 {style-all}
@@ -1471,7 +1489,7 @@ Fabulous!
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=3]
+[time=8]
 [id="llm-tool-tour-guide"]
 == Create second LLM tool
 {style-all}
@@ -1551,12 +1569,12 @@ ff<br>
 
 {blank}
 
-After executing the fast-forward action, you'll find two new files, listed below:
+After executing the fast-forward action, you'll find a new file added to your collection:
 
 [.indent2]
 📁 lab +
 pass:[<mark style="padding-left: 1rem; background-color: white; color: purple"><b><i>&nbsp;!&nbsp;&nbsp;</i></b></mark>] *route-tool-guide.camel.yaml* +
-pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] *processors.java*
+// pass:[<mark style="padding-left: 1rem; background-color: white; color: red"><b>&nbsp;J&nbsp;</b></mark>] *processors.java*
 
 {blank}
 
@@ -1575,7 +1593,9 @@ TIP: Click link:{eip-explorer-url}/?q=langchain4j-tools,http,log[*Components*,wi
 
 {blank}
 
-The new file `processors.java` defines the _Camel Processor_ referenced by the `process` action you see in the _Kaoto_ diagram above. It includes the custom code, using the _JavaFaker_ library as explained earlier, to generate realistic, localised, contact information of a simulated tour guide the system recommends to the user.
+Also, `bindings.java` has been modified and now defines a new _Camel Processor_ referenced by the `process` action you see in the _Kaoto_ diagram above. It includes the custom code, using the _JavaFaker_ library as explained earlier, to generate realistic, localised, contact information of a simulated tour guide the system recommends to the user.
+
+// The new file `processors.java` defines the _Camel Processor_ referenced by the `process` action you see in the _Kaoto_ diagram above. It includes the custom code, using the _JavaFaker_ library as explained earlier, to generate realistic, localised, contact information of a simulated tour guide the system recommends to the user.
 
 {empty} +
 
@@ -1647,7 +1667,7 @@ Very well done!
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=3]
+[time=5]
 [id="llm-all-tools"]
 == Run the LLM using both tools
 {style-all}
@@ -1800,7 +1820,7 @@ Magnificent!
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=1]
+[time=15]
 [id="deploy-camel"]
 == From Concept to OpenShift
 {style-all}
