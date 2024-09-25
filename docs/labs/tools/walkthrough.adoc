@@ -334,7 +334,7 @@ Is your LLM server running?
 Review the instructions and try again.
 
 
-[time=15]
+[time=14]
 [id="basic-llm-interaction"]
 == Basic LLM interaction
 {style-all}
@@ -955,7 +955,7 @@ Excellent!
 Please review the steps of this chapter and try again. You can always use the commands `rw` (rewind) followed by `ff` (fast-forward) to reset the lab stage.
 
 
-[time=15]
+[time=14]
 [id="llm-tool-weather"]
 == Create first LLM tool (v1 offline)
 {style-all}
@@ -1820,7 +1820,7 @@ Magnificent!
 The LLM may have hallucinated. Please try again modifying slightly your request.
 
 
-[time=15]
+[time=14]
 [id="deploy-camel"]
 == From Concept to OpenShift
 {style-all}
