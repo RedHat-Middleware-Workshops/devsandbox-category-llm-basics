@@ -1,9 +1,13 @@
 #! /bin/bash
 # set -x
 
+# DEFINE SCRIPT PROJECT NAME
+PROJECT=llm-basics
+
+PATH_PROJECT=/projects/$PROJECT
 CATALOG=https://raw.githubusercontent.com/KaotoIO/catalogs/4.8.0/catalogs/index.json
 CWCONFIG=/projects/.code-workspace
-LAB=/projects/llm-basics/camel/tools/lab
+LAB=$PATH_PROJECT/camel/tools/lab
 
 # Disabled as Kaoto's latest release comes with 4.8.0
 # Configure Kaoto's catalogue version
@@ -15,11 +19,12 @@ LAB=/projects/llm-basics/camel/tools/lab
 # Set Java 17
 export JAVA_HOME=$JAVA_HOME_17
 
-# Set Java 17
-# echo "export JAVA_HOME=\$JAVA_HOME_17" >> ~/.bashrc
+# Only execute setup script if chosen workspace matches LLM project
+if [  $PWD == $PATH_PROJECT ]; then
 
-if [ ! -d "$LAB" ]; then
-  mkdir $LAB
+  if [ ! -d "$LAB" ]; then
+    mkdir $LAB
+  fi
+
+  cd $LAB
 fi
-
-cd $LAB
