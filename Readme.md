@@ -22,7 +22,7 @@ To launch this tutorial, you only need 2 steps:
 2. <sub>(In VS Code, open `Readme.md` in preview mode, if not showing automatically)</sub>
 
 
-    Once provisioned, from VS Code in DevSpaces, unfold the `ENDPOINTS` group in the left panel, and open the `Tutorial` documentation to get started, as per the actions in the picture below:
+    Once provisioned, from VS Code in DevSpaces, unfold the `ENDPOINTS` group in the left panel, open the `Tutorial` documentation and make sure you choose the `LLM tools` tile to get started, as per the actions in the picture below:
 
     ![](docs/labs/tools/images/00-open-tutorial.png)
     *Mouse actions in VS Code to open the tutorial.*
