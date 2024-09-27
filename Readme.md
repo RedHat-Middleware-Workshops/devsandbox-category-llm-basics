@@ -4,7 +4,7 @@
 
 # LLM Basics in the Developer Sandbox
 
-Build, deploy, test your own *AI/ML* model with *OpenShift AI*, and integrate with an *Apache Camel* application using *OpenShift Dev Spaces* in the *Developer Sandbox*.
+Gain familiarity with *LLM tools* by learning how to easily create them with *Apache Camel*. In this lab, you'll create an agent that uses live feeds to assist clients.
 
 ## Get started with the tutorial
 
@@ -58,4 +58,4 @@ This repository contains a collection of labs runnable in the _Developer Sandbox
 
 The following article in _Red Hat Developers_ guides readers on how to get started to enjoy the learning material in the _Developer Sandbox_.
 
-* [​​Try OpenShift AI and integrate with Apache Camel](https://developers.redhat.com/articles/2024/07/22/try-openshift-ai-and-integrate-apache-camel)
+* [Tutorial: Tool Up your LLM with Apache Camel on OpenShift](https://developers.redhat.com/articles/2024/09/26/tutorial-tool-your-llm-apache-camel-openshift)

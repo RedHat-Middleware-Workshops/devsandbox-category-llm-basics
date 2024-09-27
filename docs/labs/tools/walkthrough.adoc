@@ -4,11 +4,10 @@
 
 :experimental:
 
-:article-url: https://developers.redhat.com/articles/2024/07/22/try-openshift-ai-and-integrate-apache-camel
+:article-url: https://developers.redhat.com/articles/2024/09/26/tutorial-tool-your-llm-apache-camel-openshift
 
 :ai-basics-article-url: https://developers.redhat.com/articles/2024/07/22/try-openshift-ai-and-integrate-apache-camel
 
-// :eip-explorer-url: https://ibek.github.io/integration-explorer-web/#
 :eip-explorer-url: https://camel.solutionpatterns.io/#
 
 // WORKS
@@ -46,8 +45,7 @@ Gain familiarity with LLM tools by learning how to easily create them with Apach
 
 This hands-on lab is based on the following article in _Red Hat Developers_:
 
-* link:{article-url}[​​Try OpenShift AI and integrate with Apache Camel,window="_blank", , id="rhd-source-article"] +
-PENDING TO UPDATE LINK AND TITLE
+* link:{article-url}[​Tutorial: Tool Up your LLM with Apache Camel on OpenShift,window="_blank", , id="rhd-source-article"]
 
 {blank}
 
