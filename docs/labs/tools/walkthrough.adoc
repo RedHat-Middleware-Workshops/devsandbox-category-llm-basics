@@ -480,26 +480,34 @@ Your task in the following section is to create a _Camel_ route that enables use
 
 _Kaoto_ is a graphical UI that will help you to build _Camel_ routes using an intuitive user interface helping you to learn about _Camel_.
 
-[TIP]
-.⏩ *Fast-Forward* 
+Continue by choosing one of the following 2 (_A_ or _B_) options:
+
+A. ⏩ *Fast-Forward*
++
 ====
 [.underline]#*Only*# if you want to skip (automate) the _Kaoto_ creation process, execute in your terminal the command below:
 
 . Run the fast-forward command:
 +
+[IMPORTANT]
+=====
 [source, subs=]
 ----
 ff<br>
 ----
+=====
 +
 {blank}
 
 . Then <<talk-to-llm,click here to bypass the Kaoto instructions and jump to the next section "*_Talk to your LLM_*">>.
 ====
-
++
 {empty} +
 
-If you're happy to continue and learn how to use Kaoto, follow the instructions below:
+
+B. *Manual creation process with Kaoto*
++
+To build the tool using Kaoto (no fast-forward), follow the instructions below:
 
 . First, create the source file.
 +
@@ -577,7 +585,13 @@ image::images/07-kaoto-from-http.png[]
 
 Make sure you configure the `path` parameter with:
 
-- `/camel/chat`
+[IMPORTANT]
+====
+[source, subs=]
+----
+/camel/chat
+----
+====
 ======
 +
 {empty} +
@@ -591,7 +605,13 @@ image::images/08-kaoto-process.png[]
 
 Make sure you configure the `Ref` parameter with:
 
-- `createChatMessage`
+[IMPORTANT]
+====
+[source, subs=]
+----
+createChatMessage
+----
+====
 ======
 +
 {empty} +
@@ -606,8 +626,24 @@ image::images/09-kaoto-langchain.png[]
 
 Make sure you configure the parameters below as indicated:
 
-- **Chat Id**: `getInformation`
-- **Chat Operation**: `CHAT_MULTIPLE_MESSAGES`
+- `Chat Id`:
++
+[IMPORTANT]
+====
+[source, subs=]
+----
+getInformation
+----
+====
+- `Chat Operation`:
++
+[IMPORTANT]
+====
+[source, subs=]
+----
+CHAT_MULTIPLE_MESSAGES
+----
+====
 ======
 +
 {empty} +
@@ -801,11 +837,19 @@ _Camel JBang_ comes packed with a ton of functionality you can use: it's Develop
 
 One cool feature _Camel JBang_ has recently added to its repertoire is the ability to serve HTML content to equip your Camel process with web pages. 
 
-Let's benefit from the new feature to add a bit of dynamic HTML code to create an UI interface that allow users to talk to the LLM.
+You're going to enhance your prototype by adding a bit of dynamic HTML code to create an UI interface that allow users to talk to the LLM.
 
-The mechanism is simple (in _Camel JBang_'s fashion), you just add your HTML content along with the rest of source files.
+The mechanism is simple (in _Camel JBang_'s fashion), you just add your HTML content next to the rest of source files. You need some HTML code and some CSS to give it a stylish look. These are the source files to be added:
 
-Don't panic, you're not being asked to build an HTML interface, just fast-forward the lab and the HTML example will be added to your working folder:
+--
+[.indent2]
+📁 lab +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
+pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
+--
+
+The files above are currently missing in your `lab` folder. +
+Rather than coding the files yourself, use the _Fast-Forward_ mechanism to auto-generate the web's code. 
 
 [IMPORTANT]
 .⏩ *Fast-Forward* 
@@ -818,17 +862,42 @@ ff<br>
 ----
 ====
 
-After doing so, a couple of parameters are added to you `aplication.properties` (to activate the web server), and a couple of files (web page) are added to your lab working directory:
-//{empty} +
-
---
-[.indent2]
-📁 lab +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
-pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
---
+After doing so, a couple of parameters are added to you `aplication.properties` (to activate the web server), and the two source files are added to your lab working directory.
 
 {empty} +
+
+// === Create a Chat UI
+
+// One cool feature _Camel JBang_ has recently added to its repertoire is the ability to serve HTML content to equip your Camel process with web pages. 
+
+// Let's benefit from the new feature to add a bit of dynamic HTML code to create an UI interface that allow users to talk to the LLM.
+
+// The mechanism is simple (in _Camel JBang_'s fashion), you just add your HTML content along with the rest of source files.
+
+// Don't panic, you're not being asked to build an HTML interface, just fast-forward the lab and the HTML example will be added to your working folder:
+
+// [IMPORTANT]
+// .⏩ *Fast-Forward* 
+// ====
+// Execute in your terminal the command below:
+
+// [source, subs=]
+// ----
+// ff<br>
+// ----
+// ====
+
+// After doing so, a couple of parameters are added to you `aplication.properties` (to activate the web server), and a couple of files (web page) are added to your lab working directory:
+// //{empty} +
+
+// --
+// [.indent2]
+// 📁 lab +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red; font-family: Arial Narrow;"><b style="letter-spacing: 0px;"><></b></mark>] *index.html* +
+// pass:[<mark style="padding-left: 2rem; background-color: white; color: red"><b><i>&nbsp;#&nbsp;</i></b></mark>] *style.css*
+// --
+
+// {empty} +
 
 === Try the Chat UI
 
@@ -1011,23 +1080,31 @@ NOTE: In this first iteration the static value `35 degrees celsius` will be hard
 
 Although this first version won't fetch real time data, it will help you validate the mechanism by which the LLM retrieves the information and it will give you a better understanding on how _Camel_ and the LLM interact.
 
-[TIP]
-.⏩ *Fast-Forward* 
+Continue by choosing one of the following 2 (_A_ or _B_) options:
+
+A. ⏩ *Fast-Forward*
++
 ====
 [.underline]#*Only*# if you want to skip (fast-forward) this section, execute in your terminal the commands below:
 
+[IMPORTANT]
+=====
 [source, subs=]
 ----
 ff<br>
 ----
+=====
 
 {blank}
 
 Then <<test-first-tool,click here to jump into the next section "*_Test the weather tool_*">>.
 ====
-
++
 {empty} +
 
+
+B. *Manual creation process with Kaoto*
++
 To build the tool using Kaoto (no fast-forward), follow the instructions below:
 
 . Create another _Camel_ source file.
@@ -1099,16 +1176,11 @@ image::images/31-kaoto-full-route-weather-v1.png[width=40%, align=left]
 
 {blank}
 
-// [TIP]
-// ====
 TIP: Click link:{eip-explorer-url}/?q=langchain4j-chat,log[*Components*,window="_blank"] and link:{eip-explorer-url}/patterns?q=content-filter[*Patterns*,window="_blank"] to know more about the activities included in the process definition above.
-// ====
 
 {empty} +
 
 // we need to set the anchor before the title, otherwise it doesn't work
-
-
 [[test-first-tool]] {empty} +
 
 === Test the weather tool
