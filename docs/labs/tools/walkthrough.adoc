@@ -274,8 +274,27 @@ service/llm created
 
 {blank}
 
-Wait for the LLM Server to be available. +
-You can verify in various ways if you're LLM server is running. One way, for example, is calling the server's API. Try the `curl` command below:
+Wait for the LLM server to be available. +
+You can verify in various ways if you're LLM server is running. One way, for example, is watching your deployments. +
+Run the command below:
+
+[source, subs=]
+----
+watch oc get deployments<br>
+----
+
+{blank}
+
+After some time your LLM server will show ready and available, as per below:
+
+----
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+llm-server                  1/1     1            1           42s
+----
+
+{blank}
+
+When ready, call the server API. Try the `curl` command below:
 
 [source, subs=]
 ----
@@ -284,7 +303,7 @@ curl http://llm:8000/api/tags | jq<br>
 
 [NOTE]
 ====
-You may initially get the following error while the server is starting up:
+If not ready yet, you'll get the following error while the server is starting up:
 ----
 Failed to connect to llm port 8000: Connection refused
 ----
@@ -292,7 +311,7 @@ Failed to connect to llm port 8000: Connection refused
 
 {blank}
 
-Your server will be ready when you get a response with details of the model deployed.
+You should obtain a response with details of the model deployed.
 
 ----
 {
