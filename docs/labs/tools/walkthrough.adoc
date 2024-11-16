@@ -200,27 +200,17 @@ echo "this is a copy/paste test"<br>
 WARNING: It's been reported that these key-combos not always work. Your machine may not respond to the above descriptions. Please try other key or mouse click alternatives, for example, right-click, or middle-click.
 --
 
+. If the paste action fails and you see _DevSpaces_ showing the following notification:
++
+image::images/36-clipboard-notification.png[width=30%]
++
 {blank}
++
+Find in your web browser's settings where to enable clipboard permissions. The image below shows how to enable them using _Chrome_:
++
+image::images/37-clipboard-settings.png[width=100%]
 
-// === Setup the lab
-
-// Copy and paste in your terminal the following command:
-
-// [source, subs=]
-// ----
-// source setup<br>
-// ----
-
-// {blank}
-
-// The command above:
-
-// - Creates a `lab` directory (your working directory)
-// - Switches to your `lab` directory.
-// +
-// NOTE: You'll see the `lab` folder empty when you start the tutorial for the first time.
-
-// {empty} +
+{empty} +
 
 === Tips for a better learning
 
