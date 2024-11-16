@@ -59,3 +59,62 @@ This repository contains a collection of labs runnable in the _Developer Sandbox
 The following article in _Red Hat Developers_ guides readers on how to get started to enjoy the learning material in the _Developer Sandbox_.
 
 * [Tutorial: Tool Up your LLM with Apache Camel on OpenShift](https://developers.redhat.com/articles/2024/09/26/tutorial-tool-your-llm-apache-camel-openshift)
+
+<br/>
+
+## Running locally
+
+This tutorial is intended to run in the Developer Sandbox.
+
+However, if you're familiar with the content and you just want to run the solution locally, you can. \
+You'll need to make sure you meet the pre-requisites and follow the steps below.
+
+### Pre-requisites
+
+Your environment must have:
+- Java 17 installed
+- Camel Jbang installed
+- Connectivity to an LLM with Tools support
+
+### Run with Camel JBang
+
+1. Change to the directory:
+    ```bash
+    cd camel/tools/solution/local
+    ```
+
+    <br>
+
+1. Edit the `application.properties` file and configure the following setting:
+
+    - `llm.url`
+
+    <br>
+
+1. Run the application using Camel JBang with:
+    ```bash
+    camel run *
+    ```
+
+### Export and Deploy
+
+If you'd like to deploy on OpenShift, export the solution to a Camel Quarkus application using the following script:
+
+```bash
+../../scripts/xx
+```
+
+When the export complets, you can run locally your Camel Quarkus project with:
+
+```bash
+./mvnw quarkus:dev
+```
+
+If you'd like to deploy on OpenShift
+
+1. Configure the `llm.url` setting as necessary.
+1. Make sure your `oc` client points to your target namespace. 
+1. Run the command:
+    ```bash
+    ./mvnw package -Dquarkus.kubernetes.deploy=true
+    ```

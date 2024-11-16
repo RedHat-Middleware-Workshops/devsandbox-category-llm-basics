@@ -1,6 +1,12 @@
 #! /bin/bash
 # set -x
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed_options=( -i '' )
+else
+    sed_options=( -i )
+fi
+
 echo "Using Camel JBang to export into a Quarkus application..."
 camel export * \
 --runtime=quarkus \
@@ -19,7 +25,7 @@ echo "%dev.quarkus.http.host=0.0.0.0" >> src/main/resources/application.properti
 # The 'snakeyaml' depencency conflicts with JavaFaker so we load it first
 # We look for a unique occurrence (to match start/end)
 echo "[custom] Adding Snakeyaml dependency..."
-sed -i '/<\/dependencyManagement>/,/camel-quarkus-core/c\
+sed "${sed_options[@]}" '/<\/dependencyManagement>/,/camel-quarkus-core/c\
     <\/dependencyManagement>\
     \
     <dependencies>\
@@ -39,7 +45,7 @@ pom.xml
 # --gav=org.demo:agent-sb:1.0.0
 
 echo "[custom] Removing 'lazy=true' parameter..."
-sed -i 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
+sed "${sed_options[@]}" 's/(lazy=true)//g' src/main/java/org/demo/agent/bindings.java
 
 echo "[custom] Cleaning root files and folders."
 rm -r .camel* *.java *.yaml application.properties style.css index.html
