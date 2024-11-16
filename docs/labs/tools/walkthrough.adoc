@@ -1839,7 +1839,7 @@ camel run *<br>
 +
 [source, subs=]
 ----
-I am planning to fly to Paris, what is the weather forecast and please give me the phone number of a good local tour guide you recommend
+I am planning to fly to Paris, what is the weather forecast there and please give me the phone number of a good local tour guide you recommend
 ----
 +
 TIP: If in your test the LLM provided an AI hallucination, try again, or vary the query slightly and see if the result improves.
@@ -2051,7 +2051,7 @@ If you want to see your local _Quarkus_ application in action, follow the instru
 +
 [source, subs=]
 ----
-I am planning to fly to Rome, what is the weather forecast and please give me the phone number of a good local tour guide you recommend
+I am planning to fly to Rome, what is the weather forecast there and please give me the phone number of a good local tour guide you recommend
 ----
 +
 [NOTE]
