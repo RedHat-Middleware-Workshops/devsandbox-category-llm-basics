@@ -73,7 +73,7 @@ You'll need to make sure you meet the pre-requisites and follow the steps below.
 
 Your environment must have:
 - Java 17 installed
-- Camel Jbang installed
+- Camel JBang installed (tested with 4.8.1)
 - Connectivity to an LLM with Tools support
 
 ### Run with Camel JBang
